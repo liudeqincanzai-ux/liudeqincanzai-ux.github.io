@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>统一后台 · Toneby</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/admin.css">
+</head>
+<body>
+  <!-- 密码门 -->
+  <div id="gate" class="gate">
+    <div class="gate-box">
+      <h1>统一后台</h1>
+      <p class="gate-hint">官网编辑 + LUT 展示编辑</p>
+      <input id="gatePass" type="password" autocomplete="current-password" placeholder="管理密码">
+      <button id="gateBtn" type="button">进入</button>
+      <p id="gateErr" class="gate-err"></p>
+      <a class="bar-link" href="index.html">← 返回官网</a>
+    </div>
+  </div>
+
+  <div id="app" style="display:none">
+    <header class="edit-bar">
+      <span class="bar-title">统一后台</span>
+      <span class="bar-actions">
+        <span id="syncStatus" class="sync-status"></span>
+        <button id="btnWeb" type="button" class="tab active">官网编辑</button>
+        <button id="btnLut" type="button" class="tab">LUT 展示编辑</button>
+        <button id="btnSync" type="button" class="primary">保存并同步官网</button>
+      </span>
+    </header>
+
+    <!-- 官网编辑 -->
+    <div id="webPane" class="web-pane" style="display:none">
+      <div class="web-editor" id="webEditor"></div>
+    </div>
+
+    <!-- LUT 展示编辑（iframe 内嵌现有编辑器） -->
+    <div id="lutPane" style="display:none;flex:1;min-height:0">
+      <iframe id="lutFrame" src="https://liudeqincanzai-ux.github.io/toneby-lut-showcase/edit.html"
+              style="width:100%;height:100%;border:0"></iframe>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+  <script src="data.js"></script>
+  <script src="assets/admin.js"></script>
+</body>
+</html>

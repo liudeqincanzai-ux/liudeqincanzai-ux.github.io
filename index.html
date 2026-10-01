@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toneby</title>
+  <meta name="description" content="Toneby combines reference-image color matching, authentic 3D LUTs and a real-time LUT camera with 100% on-device processing. No uploads. No accounts.">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="wrap nav">
+  <a class="brand" href="./" id="navBrand"></a>
+  <nav class="nav-links mono" id="navLinks"></nav>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="wrap hero">
+  <div class="hero-grid">
+    <div class="hero-left">
+      <hr class="rule">
+      <p id="heroIntro"></p>
+      <div class="store-btns" id="heroBtns"></div>
+    </div>
+
+    <div class="hero-center">
+      <div class="shot-stack">
+        <img id="shotBack" src="" alt="" aria-hidden="true">
+        <div class="shot-frame">
+          <button class="shot-arrow prev" id="prevBtn" aria-label="Previous screenshot">‹</button>
+          <img id="shotImg" src="" alt="Toneby app screenshot">
+          <button class="shot-arrow next" id="nextBtn" aria-label="Next screenshot">›</button>
+        </div>
+      </div>
+      <div class="shot-caption" id="shotCaption"></div>
+    </div>
+
+    <div class="hero-right" id="heroGroups"></div>
+  </div>
+</section>
+
+<!-- ============ NUMBERS ============ -->
+<section class="numbers" id="features">
+  <div class="wrap" style="display:contents" id="numbersGrid"></div>
+</section>
+
+<!-- ============ FEATURES INTRO ============ -->
+<section class="wrap features-intro" id="modules">
+  <div class="tag" id="featTag"></div>
+  <h2 id="featTitle"></h2>
+  <p id="featDesc"></p>
+</section>
+
+<!-- ============ MODULES ============ -->
+<section class="wrap modules" id="modulesGrid"></section>
+
+<!-- ============ LUT GALLERY（LUT 展示整合进本页） ============ -->
+<section class="gallery-page" id="gallery">
+  <div class="wrap">
+    <div class="gp-head">
+      <h2>LUT Gallery</h2>
+      <div class="picker-wrap">
+        <select id="galleryPicker" aria-label="选择 LUT 分组"></select>
+        <span class="picker-arrow">▾</span>
+      </div>
+    </div>
+    <main id="galleryPosts"></main>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="faq" id="faq">
+  <div class="wrap">
+    <h2>Frequently Asked Questions</h2>
+    <div id="faqList"></div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="cta" id="download">
+  <div class="wrap">
+    <h2 id="ctaTitle"></h2>
+    <div class="store-btns" id="ctaBtns"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <span class="fbrand" id="footBrand"></span>
+    <nav class="foot-links" id="footLinks"></nav>
+    <span class="copy" id="footCopy"></span>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script src="assets/site.js"></script>
+</body>
+</html>

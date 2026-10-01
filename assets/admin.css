@@ -1,0 +1,99 @@
+/* 统一后台样式 */
+body { overflow: hidden; }
+
+.gate { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+.gate-box {
+  width: min(340px, 92vw); background: #1c1c1c; border: 1px solid #2c2c2c;
+  border-radius: 10px; padding: 30px 26px; text-align: center;
+}
+.gate-box h1 { font-size: 19px; color: #e8e8e8; margin-bottom: 6px; }
+.gate-hint { font-size: 13px; color: #8a8a8a; margin-bottom: 18px; }
+.gate-box input {
+  width: 100%; background: #161616; color: #e8e8e8; border: 1px solid #333;
+  border-radius: 6px; padding: 10px 12px; font-size: 14px; outline: none;
+  text-align: center; margin-bottom: 12px;
+}
+.gate-box input:focus { border-color: #4aa3a3; }
+.gate-box button {
+  width: 100%; background: #2a5c46; color: #fff; border: none; border-radius: 6px;
+  padding: 10px; font-size: 14px; cursor: pointer;
+}
+.gate-err { color: #d16a5a; font-size: 13px; min-height: 18px; margin: 8px 0 6px; }
+
+.edit-bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 10px 16px; background: #121212; border-bottom: 1px solid #262626;
+}
+.bar-title { font-size: 15px; font-weight: 600; color: #e8e8e8; }
+.bar-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.bar-actions button {
+  background: #2a2a2a; color: #c9c9c9; border: 1px solid #333; border-radius: 6px;
+  padding: 7px 14px; font-size: 13px; cursor: pointer;
+}
+.bar-actions button.tab.active { background: #4aa3a3; color: #fff; border-color: #4aa3a3; }
+.bar-actions button.primary { background: #2f7d54; color: #fff; border-color: #2f7d54; font-weight: 600; }
+.bar-actions button:disabled { opacity: .55; cursor: default; }
+.bar-actions button:hover:not(:disabled) { filter: brightness(1.15); }
+.sync-status { font-size: 12px; color: #9fd0b4; max-width: 250px; }
+.sync-status.err { color: #d16a5a; }
+
+#app { display: flex; flex-direction: column; height: 100vh; }
+#webPane { flex: 1; min-height: 0; overflow-y: auto; }
+.web-editor { max-width: 900px; margin: 0 auto; padding: 22px 24px 80px; }
+.web-editor h2 { font-size: 15px; color: #4aa3a3; margin: 26px 0 12px; border-bottom: 1px solid #262626; padding-bottom: 6px; }
+.web-editor h2:first-child { margin-top: 0; }
+
+.field { margin-bottom: 14px; }
+.field label { display: block; font-size: 12.5px; color: #9a9a9a; margin-bottom: 5px; }
+.field label .hint { color: #666; }
+.field input[type="text"], .field input[type="password"], .field textarea {
+  width: 100%; background: #1f1f1f; color: #e8e8e8; border: 1px solid #333;
+  border-radius: 6px; padding: 8px 10px; font-size: 13.5px; line-height: 1.5;
+  font-family: inherit; outline: none; resize: vertical;
+}
+.field input:focus, .field textarea:focus { border-color: #4aa3a3; }
+
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+
+.item-card {
+  background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 8px;
+  padding: 12px; margin-bottom: 12px;
+}
+.item-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.item-head .t { font-size: 12px; color: #888; }
+.item-head .ops button {
+  background: #2a2a2a; color: #c9c9c9; border: 1px solid #333; border-radius: 4px;
+  padding: 3px 8px; font-size: 11px; cursor: pointer; margin-left: 5px;
+}
+.item-head .ops button:hover { filter: brightness(1.2); }
+.item-head .ops button.danger { color: #d16a5a; }
+
+.img-pick { display: flex; gap: 10px; align-items: center; }
+.img-pick .thumb {
+  width: 84px; height: 57px; object-fit: cover; border-radius: 3px;
+  background: #111; border: 1px solid #333; flex-shrink: 0;
+}
+.img-pick .pickbtn {
+  background: #2a5c46; color: #fff; border: none; border-radius: 5px;
+  padding: 6px 12px; font-size: 12px; cursor: pointer;
+}
+.add-btn {
+  background: #22303a; color: #4aa3a3; border: 1px dashed #3a5a5a; border-radius: 6px;
+  width: 100%; padding: 9px; font-size: 12.5px; cursor: pointer; margin: 4px 0 14px;
+}
+.add-btn:hover { border-color: #4aa3a3; }
+.add-img-btn {
+  background: #2a5c46; color: #fff; border: none; border-radius: 5px;
+  padding: 7px 14px; font-size: 12px; cursor: pointer;
+}
+
+.toast {
+  position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%) translateY(20px);
+  background: #2a5c46; color: #fff; font-size: 13px; padding: 9px 18px;
+  border-radius: 8px; opacity: 0; pointer-events: none; transition: all .25s; z-index: 99;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+.bar-link { color: #4aa3a3; text-decoration: none; font-size: 13px; }
+.tab-note { font-size: 12px; color: #888; margin: 10px 0 20px; }
