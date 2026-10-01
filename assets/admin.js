@@ -209,6 +209,20 @@
     lutPane.style.display = "block"; webPane.style.display = "none";
   };
 
+  // 隐藏 iframe 内 LUT 编辑器自带的按钮组（统一由父页「保存并同步官网」保存全部）
+  var lutFrame = document.getElementById("lutFrame");
+  lutFrame.addEventListener("load", function(){ try { injectHide(lutFrame); } catch(e){} });
+  setInterval(function(){ try { injectHide(lutFrame); } catch(e){} }, 2000);
+  function injectHide(f){
+    var d = f.contentDocument;
+    if (!d || !d.getElementById) return;
+    if (d.getElementById("adminHideStyle")) return;
+    var st = d.createElement("style");
+    st.id = "adminHideStyle";
+    st.textContent = ".edit-bar .bar-actions { display:none !important; }";
+    (d.head || d.body).appendChild(st);
+  }
+
   // ---------- 官网编辑表单 ----------
   function h2(t) { var e = document.createElement("h2"); e.textContent = t; return e; }
 
@@ -427,6 +441,15 @@
   }
 
   document.getElementById("btnSync").onclick = function () {
+    try {
+      var lb = null, tries = 0;
+      (function clickLut(){
+        var f = document.getElementById("lutFrame");
+        try { lb = f.contentDocument.querySelector(".edit-bar .bar-actions button.primary"); } catch(e){}
+        if (lb) lb.click();
+        else if (tries++ < 20) setTimeout(clickLut, 500);
+      })();
+    } catch(e){}
     if (!getToken()) {
       setStatus("", false);
       showTokenModal(function () { document.getElementById("btnSync").click(); });
@@ -468,5 +491,9 @@
   // ---------- 启动 ----------
   function start() {
     renderWeb();
+    webPane.style.display = "block";
+    lutPane.style.display = "none";
+    btnWeb.classList.add("active");
+    btnLut.classList.remove("active");
   }
 })();
