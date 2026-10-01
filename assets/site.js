@@ -176,6 +176,7 @@
       var io = new IntersectionObserver(function (entries) {
         entries.forEach(function (en) {
           if (!en.isIntersecting) return;
+          en.target.classList.toggle("ghost-on", en.isIntersecting);
           var idx = parseInt(en.target.dataset.idx, 10);
           frameImgs.forEach(function (im, k) { im.className = k === idx ? "active" : ""; });
         });
@@ -367,3 +368,7 @@
   if (DATA.footer.termsLabel) { var p2 = el("a", "", DATA.footer.termsLabel); p2.href = DATA.footer.termsHref; fl2.appendChild(p2); }
   set("footCopy", DATA.footer.copy);
 })();
+
+window.__SITE_BOOTED = true;
+
+window.__SITE_BOOTED = true;
