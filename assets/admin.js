@@ -80,9 +80,9 @@
     var steps = document.createElement("p");
     steps.className = "gate-hint";
     steps.style.textAlign = "left";
-    steps.innerHTML = "官网数据保存在另一个仓库（toneby-website），你的令牌需要同时管它：<br>"
+    steps.innerHTML = "官网数据保存在主仓库（liudeqincanzai-ux.github.io），你的令牌需要先授权它：<br>"
       + "1. 打开 GitHub 令牌页，点进「Toneby LUT 编辑器 永久」<br>"
-      + "2. 在「存储库访问」里点更新，把 <b>toneby-website</b> 也加入选择<br>"
+      + "2. 在「存储库访问」里点更新，把 <b>liudeqincanzai-ux.github.io</b> 也加入选择<br>"
       + "3. 保存后回到这里，点「保存并同步官网」即可（令牌串不变）";
     box.appendChild(steps);
     var linkBtn = document.createElement("button");
@@ -429,7 +429,7 @@
     }, opts.headers || {});
     return fetch("https://api.github.com" + path, opts).then(function (res) {
       if (res.status === 401) throw new Error("Token 无效，请重新粘贴");
-      if (res.status === 403) throw new Error("令牌没有 toneby-website 仓库权限：请编辑「Toneby LUT 编辑器 永久」，在存储库访问中加入 toneby-website");
+      if (res.status === 403) throw new Error("令牌没有主仓库(liudeqincanzai-ux.github.io)权限：请编辑「Toneby LUT 编辑器 永久」，在存储库访问中加入 liudeqincanzai-ux.github.io");
       return res;
     });
   }
