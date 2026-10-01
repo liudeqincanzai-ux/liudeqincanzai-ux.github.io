@@ -3,8 +3,8 @@
   var DATA;
   try {
     var s = JSON.parse(localStorage.getItem("lut_web_edits_v1"));
-    DATA = (s && s.site) ? s.site : window.SITE_WEB;
-  } catch (e) { DATA = window.SITE_WEB; }
+    DATA = (s && s.site) ? s.site : SITE_WEB;
+  } catch (e) { DATA = SITE_WEB; }
   if (!DATA) return;
 
   var SHOWCASE_BASE = "/toneby-lut-showcase/";

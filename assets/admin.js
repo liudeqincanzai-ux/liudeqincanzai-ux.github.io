@@ -25,8 +25,8 @@
   var DATA;
   try {
     var s = JSON.parse(localStorage.getItem(SAVE_KEY));
-    DATA = (s && s.site) ? s.site : JSON.parse(JSON.stringify(window.SITE_WEB));
-  } catch (e) { DATA = JSON.parse(JSON.stringify(window.SITE_WEB)); }
+    DATA = (s && s.site) ? s.site : JSON.parse(JSON.stringify(SITE_WEB));
+  } catch (e) { DATA = JSON.parse(JSON.stringify(SITE_WEB)); }
   var pending = {}; // path -> File
 
   function saveQuiet() {
