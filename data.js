@@ -12,7 +12,7 @@ const SITE_WEB = {
   },
 
   nav: {
-    brand: "TONEBY",
+    brand: "TONEBY", logoSrc: "",
     downloadLabel: "DOWNLOAD",
     downloadHref: "#download",
     links: [
