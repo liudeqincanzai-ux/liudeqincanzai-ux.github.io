@@ -7,7 +7,7 @@ const SITE_WEB = {
     downloadHref: "#download",
     links: [
       { label: "FEATURES", href: "#features" },
-      { label: "LUT GALLERY", href: "https://liudeqincanzai-ux.github.io/toneby-lut-showcase/", ext: true },
+      { label: "LUT GALLERY", href: "#gallery" },
       { label: "FAQ", href: "#faq" }
     ]
   },

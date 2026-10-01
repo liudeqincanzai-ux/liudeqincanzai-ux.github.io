@@ -226,3 +226,7 @@ footer { background: #000; color: #fff; padding: 46px 0; }
 .photo-caption { margin-top: 14px; text-align: center; font-size: 14px; line-height: 1.7; color: #444; }
 .film-line, .note-line { display: block; }
 .credits { margin-top: 12px; font-family: var(--mono); font-size: 11px; color: var(--faint); text-align: center; line-height: 1.8; }
+
+/* 画廊内嵌展示限宽 + 轮播宽度保护 */
+#galleryPosts { max-width: 680px; margin: 0 auto; padding: 0 20px; }
+.shot-frame img { max-width: 62vw; }
