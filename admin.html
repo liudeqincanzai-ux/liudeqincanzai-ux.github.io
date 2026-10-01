@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>统一后台 · Toneby</title>
   <link rel="stylesheet" href="assets/style.css">
-  <link rel="stylesheet" href="assets/admin.css?v=13">
+  <link rel="stylesheet" href="assets/admin.v27.css">
 </head>
 <body>
   <div id="errBanner"></div>
@@ -34,7 +34,10 @@
 
     <!-- 官网编辑 -->
     <div id="webPane" class="web-pane" style="display:none">
-      <div class="web-editor" id="webEditor"></div>
+      <div class="web-flex">
+        <div class="web-editor" id="webEditor"></div>
+        <div class="web-preview" id="webPreview"><div class="pv-label">前台实时预览（编辑区滚动自动定位）</div><iframe id="previewFrame" src="/" title="前台预览"></iframe></div>
+      </div>
     </div>
 
     <!-- LUT 展示编辑（iframe 内嵌现有编辑器） -->
@@ -46,6 +49,6 @@
 
   <div id="toast" class="toast"></div>
   <script src="data.js?v=13"></script>
-  <script src="assets/admin.v26.js"></script>
+  <script src="assets/admin.v27.js"></script>
 </body>
 </html>
