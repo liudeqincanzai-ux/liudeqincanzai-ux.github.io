@@ -1,5 +1,7 @@
 // Toneby 官网渲染 + 卡片堆轮播（前1 + 左右灰各1，切换带动画）+ 内嵌 LUT Gallery
 (function () {
+  if (window.__SITE_ALREADY) return;
+  window.__SITE_ALREADY = true;
   function mergeDeep(base, over) {
     if (Array.isArray(base)) return (over !== undefined && Array.isArray(over)) ? over : JSON.parse(JSON.stringify(base));
     if (base !== null && typeof base === "object") {
@@ -40,7 +42,7 @@
   var brand = document.getElementById("navBrand");
   var logoHtml = DATA.nav.logoSrc ? ('<img class="logo-img" src="' + DATA.nav.logoSrc + '" alt="">') : '<span class="mark">T</span>';
   brand.innerHTML = logoHtml + DATA.nav.brand;
-  var nl = document.getElementById("navLinks");
+  var nl = document.getElementById("navLinks"); if (nl) nl.textContent = "";
   var dl = el("a", "btn-nav", DATA.nav.downloadLabel || "DOWNLOAD");
   dl.href = DATA.nav.downloadHref || "#download";
   nl.appendChild(dl);
@@ -141,7 +143,7 @@
   updateMeta();
 
   // ---------- numbers ----------
-  var ng = document.getElementById("numbersGrid");
+  var ng = document.getElementById("numbersGrid"); if (ng) ng.textContent = "";
   (DATA.numbers || []).forEach(function (n) {
     var c = el("div", "cell");
     if (n.no) c.appendChild(el("div", "big", n.no));
@@ -154,8 +156,8 @@
   set("featTag", DATA.intro2.tag);
   set("featTitle", DATA.intro2.title);
   // ---------- modules（左 sticky 手机帧 + 滚动换图） ----------
-  var modsFrame = document.getElementById("modsFrame");
-  var modsTexts = document.getElementById("modsTexts");
+  var modsFrame = document.getElementById("modsFrame"); if (modsFrame) modsFrame.textContent = "";
+  var modsTexts = document.getElementById("modsTexts"); if (modsTexts) modsTexts.textContent = "";
   if (modsFrame && modsTexts) {
     var frameImgs = [];
     (DATA.modules || []).forEach(function (m, i) {
@@ -188,7 +190,7 @@
   set("featDesc", DATA.intro2.desc);
 
   // ---------- modules ----------
-  var mg = document.getElementById("modulesGrid");
+  var mg = document.getElementById("modulesGrid"); if (mg) mg.textContent = "";
   (DATA.modules || []).forEach(function (m, i) {
     var d = el("div", "module" + (i % 2 === 1 ? " flip" : ""));
     var shot = el("div", "mod-shot");
@@ -333,6 +335,7 @@
       postsBox.appendChild(el("p", "lut-desc", "LUT 数据加载中，请稍后刷新。"));
       return;
     }
+    picker.textContent = "";
     groups.forEach(function (g, i) {
       var opt = el("option", "", g.name);
       opt.value = String(i);
@@ -350,7 +353,7 @@
 
   // ---------- faq ----------
   set("faqTitle", DATA.faqTitle || "Frequently Asked Questions");
-  var fl = document.getElementById("faqList");
+  var fl = document.getElementById("faqList"); if (fl) fl.textContent = "";
   (DATA.faq || []).forEach(function (f) {
     var d = el("details");
     d.appendChild(el("summary", "", f.q));
@@ -360,10 +363,10 @@
 
   // ---------- cta / footer ----------
   set("ctaTitle", DATA.cta.title);
-  var cb = document.getElementById("ctaBtns");
+  var cb = document.getElementById("ctaBtns"); if (cb) cb.textContent = "";
   cb.appendChild(storeBtn());
   set("footBrand", DATA.footer.brand);
-  var fl2 = document.getElementById("footLinks");
+  var fl2 = document.getElementById("footLinks"); if (fl2) fl2.textContent = "";
   if (DATA.footer.privacyLabel) { var p1 = el("a", "", DATA.footer.privacyLabel); p1.href = DATA.footer.privacyHref; fl2.appendChild(p1); }
   if (DATA.footer.termsLabel) { var p2 = el("a", "", DATA.footer.termsLabel); p2.href = DATA.footer.termsHref; fl2.appendChild(p2); }
   set("footCopy", DATA.footer.copy);
