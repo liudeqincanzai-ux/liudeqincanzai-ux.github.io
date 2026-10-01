@@ -183,7 +183,11 @@
     } catch (e) {}
     var sc = document.createElement("script");
     sc.src = SHOWCASE_BASE + "data.js";
-    sc.onload = function () { cb(window.GROUPS || []); };
+    sc.onload = function () {
+      var g = [];
+      try { g = (typeof GROUPS !== "undefined") ? GROUPS : (window.GROUPS || []); } catch (e) { g = []; }
+      cb(g || []);
+    };
     sc.onerror = function () { cb([]); };
     document.head.appendChild(sc);
   }
