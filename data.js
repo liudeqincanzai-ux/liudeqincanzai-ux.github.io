@@ -75,26 +75,6 @@ const SITE_WEB = {
         "src": "assets/shots/shot_05.jpg",
         "cap": "",
         "g": 0
-      },
-      {
-        "src": "assets/shots/shot_06.jpg",
-        "cap": "",
-        "g": 0
-      },
-      {
-        "src": "assets/shots/shot_07.jpg",
-        "cap": "",
-        "g": 2
-      },
-      {
-        "src": "assets/shots/shot_08.jpg",
-        "cap": "",
-        "g": 1
-      },
-      {
-        "src": "assets/shots/shot_09.jpg",
-        "cap": "",
-        "g": 1
       }
     ],
     "eyebrow": "OFFLINE-FIRST // LOCAL RENDERING ENGINE // EST. 2026",
