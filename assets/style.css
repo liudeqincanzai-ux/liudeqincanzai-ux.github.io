@@ -358,3 +358,13 @@ footer { background: #000; color: #fff; padding: 46px 0; }
   .shot-arrow.prev { left: -44px; }
   .shot-arrow.next { right: -44px; }
 }
+
+/* ===== 手机端 hero：轮播在上、文字按钮在下、右侧 01/02/03 隐藏 ===== */
+@media (max-width: 960px) {
+  .hero-mast { order: 0; }
+  .hero-center { order: 1; }
+  .hero-left { order: 2; text-align: center; }
+  .hero-left .rule { margin-left: auto; margin-right: auto; }
+  .store-btns { justify-content: center; }
+  .hero-right { display: none; }
+}
