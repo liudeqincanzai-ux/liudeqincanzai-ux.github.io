@@ -371,7 +371,8 @@
       (DATA.modules || []).forEach(function (m, i) {
         var card = document.createElement("div");
         card.className = "item-card";
-        card.appendChild(field("MODULE 编号", "如 MODULE01", m.mod, function (v) { m.mod = v; }));
+        card.appendChild(field("MODULE 编号", "如 MODULE01（清空则不显示）", m.mod, function (v) { m.mod = v; }));
+        card.appendChild(field("图注小字（FIG）", "如 FIG. 01 // 05（清空则不显示）", m.fig || "", function (v) { m.fig = v; }));
         card.appendChild(field("标题", "", m.title, function (v) { m.title = v; }));
         card.appendChild(field("描述", "", m.desc, function (v) { m.desc = v; }, 3));
         card.appendChild(imagePicker(m.src, function (p) { m.src = p; saveQuiet(); }));

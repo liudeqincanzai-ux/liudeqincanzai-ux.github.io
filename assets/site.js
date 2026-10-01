@@ -25,7 +25,7 @@
     if (text !== undefined) e.textContent = text;
     return e;
   }
-  function set(id, text) { var e = document.getElementById(id); if (e) e.textContent = text; }
+  function set(id, text) { var e = document.getElementById(id); if (!e) return; e.textContent = text; e.style.display = text ? "" : "none"; }
 
   function storeBtn() {
     var a = el("a", "store-btn");
@@ -144,9 +144,9 @@
   var ng = document.getElementById("numbersGrid");
   (DATA.numbers || []).forEach(function (n) {
     var c = el("div", "cell");
-    c.appendChild(el("div", "big", n.no));
-    c.appendChild(el("h3", "", n.title));
-    c.appendChild(el("p", "", n.desc));
+    if (n.no) c.appendChild(el("div", "big", n.no));
+    if (n.title) c.appendChild(el("h3", "", n.title));
+    if (n.desc) c.appendChild(el("p", "", n.desc));
     ng.appendChild(c);
   });
 
@@ -165,10 +165,10 @@
     mi.alt = m.title;
     shot.appendChild(mi);
     var t = el("div", "mod-txt");
-    t.appendChild(el("div", "fig", m.fig));
-    t.appendChild(el("div", "mod", m.mod));
-    t.appendChild(el("h3", "", m.title));
-    t.appendChild(el("p", "", m.desc));
+    if (m.fig) t.appendChild(el("div", "fig", m.fig));
+    if (m.mod) t.appendChild(el("div", "mod", m.mod));
+    if (m.title) t.appendChild(el("h3", "", m.title));
+    if (m.desc) t.appendChild(el("p", "", m.desc));
     if (i % 2 === 1) { d.appendChild(t); d.appendChild(shot); }
     else { d.appendChild(shot); d.appendChild(t); }
     mg.appendChild(d);
@@ -328,8 +328,7 @@
   cb.appendChild(storeBtn());
   set("footBrand", DATA.footer.brand);
   var fl2 = document.getElementById("footLinks");
-  var p1 = el("a", "", DATA.footer.privacyLabel); p1.href = DATA.footer.privacyHref;
-  var p2 = el("a", "", DATA.footer.termsLabel); p2.href = DATA.footer.termsHref;
-  fl2.appendChild(p1); fl2.appendChild(p2);
+  if (DATA.footer.privacyLabel) { var p1 = el("a", "", DATA.footer.privacyLabel); p1.href = DATA.footer.privacyHref; fl2.appendChild(p1); }
+  if (DATA.footer.termsLabel) { var p2 = el("a", "", DATA.footer.termsLabel); p2.href = DATA.footer.termsHref; fl2.appendChild(p2); }
   set("footCopy", DATA.footer.copy);
 })();
