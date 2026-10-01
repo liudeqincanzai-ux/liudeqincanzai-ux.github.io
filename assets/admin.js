@@ -348,7 +348,7 @@
     });
 
     safe("巨号数字三栏", function () {
-      root.appendChild(h2("巨号数字三栏"));
+      root.appendChild(h2("巨号数字三栏（01 / 02 / 03 那三块）"));
       (DATA.numbers || []).forEach(function (n, i) {
         var card = document.createElement("div");
         card.className = "item-card";
@@ -360,7 +360,7 @@
     });
 
     safe("功能标题区", function () {
-      root.appendChild(h2("功能标题区"));
+      root.appendChild(h2("功能标题区（SYSTEM // FEATURES 大标题那块）"));
       root.appendChild(field("小标", "", DATA.intro2.tag, function (v) { DATA.intro2.tag = v; }));
       root.appendChild(field("标题", "", DATA.intro2.title, function (v) { DATA.intro2.title = v; }));
       root.appendChild(field("描述", "", DATA.intro2.desc, function (v) { DATA.intro2.desc = v; }, 3));
