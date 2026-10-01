@@ -215,15 +215,19 @@
       var s = JSON.parse(localStorage.getItem("lut_site_edits_v1"));
       if (s && s.groups && s.groups.length) { cb(s.groups); return; }
     } catch (e) {}
-    var sc = document.createElement("script");
-    sc.src = SHOWCASE_BASE + "data.js";
-    sc.onload = function () {
-      var g = [];
-      try { g = (typeof GROUPS !== "undefined") ? GROUPS : (window.GROUPS || []); } catch (e) { g = []; }
-      cb(g || []);
-    };
-    sc.onerror = function () { cb([]); };
-    document.head.appendChild(sc);
+function tryShowcase(n) {
+      var sc = document.createElement("script");
+      sc.src = SHOWCASE_BASE + "data.js?r=" + (5 - n) + "-" + Date.now();
+      sc.onload = function () {
+        var g = [];
+        try { g = (typeof GROUPS !== "undefined") ? GROUPS : (window.GROUPS || []); } catch (e) { g = []; }
+        if ((g && g.length) || n <= 0) cb(g || []);
+        else setTimeout(function () { tryShowcase(n - 1); }, 900);
+      };
+      sc.onerror = function () { if (n > 0) setTimeout(function () { tryShowcase(n - 1); }, 900); else cb([]); };
+      document.head.appendChild(sc);
+    }
+    tryShowcase(3);
   }
   function loadAll(srcs) {
     return Promise.all(srcs.map(function (src) {
