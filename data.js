@@ -105,11 +105,11 @@ const SITE_WEB = {
   },
   "modules": [
     {
-      "fig": "FIG. 01 // 05",
+      "fig": "",
       "mod": "MODULE01",
-      "title": "Reference color workspace.",
+      "title": "Quickly connect to the camera with one touch.",
       "desc": "Pick any reference photo and one tap matches its tones onto your shot. A gallery-style home keeps your work focused — like a private exhibition.",
-      "src": "assets/shots/shot_02.jpg"
+      "src": "assets/shots/商店资讯图_01.jpg"
     },
     {
       "fig": "FIG. 02 // 05",
