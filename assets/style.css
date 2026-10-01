@@ -245,3 +245,12 @@ footer { background: #000; color: #fff; padding: 46px 0; }
 .c-right { transform:translate(36px,-14px) scale(.84); filter:grayscale(1); opacity:.5; z-index:2; }
 .c-hidden{ transform:translate(0,-30px) scale(.62); opacity:0; z-index:1; }
 .shot-cap { font-family:ui-monospace,Consolas,monospace; font-size:10px; color:#9a9a9a; letter-spacing:1.5px; text-align:center; margin-top:18px; }
+
+/* ---------- 品牌图标图片位 ---------- */
+.logo-img { width:26px; height:26px; object-fit:cover; border-radius:4px; display:inline-block; }
+
+/* ---------- 图片框自适应（按图片比例显示，不裁切不固定高） ---------- */
+.deck { height:auto; min-height:120px; }
+.deck .card { height:auto; }
+.deck .card img { height:auto; max-height:none; }
+.deck .c-front { position:relative; }

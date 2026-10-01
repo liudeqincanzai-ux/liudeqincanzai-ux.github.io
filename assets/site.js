@@ -29,7 +29,8 @@
 
   // ---------- 导航 ----------
   var brand = document.getElementById("navBrand");
-  brand.innerHTML = '<span class="mark">T</span>' + DATA.nav.brand;
+  var logoHtml = DATA.nav.logoSrc ? ('<img class="logo-img" src="' + DATA.nav.logoSrc + '" alt="">') : '<span class="mark">T</span>';
+  brand.innerHTML = logoHtml + DATA.nav.brand;
   var nl = document.getElementById("navLinks");
   var dl = el("a", "btn-nav", DATA.nav.downloadLabel || "DOWNLOAD");
   dl.href = DATA.nav.downloadHref || "#download";

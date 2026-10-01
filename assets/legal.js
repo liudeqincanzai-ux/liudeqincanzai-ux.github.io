@@ -14,7 +14,8 @@
 
   // 导航与页脚（与首页一致，均可被后台编辑）
   var brand = document.getElementById("navBrand");
-  brand.innerHTML = '<span class="mark">T</span>' + DATA.nav.brand;
+  var logoHtml = DATA.nav.logoSrc ? ('<img class="logo-img" src="' + DATA.nav.logoSrc + '" alt="">') : '<span class="mark">T</span>';
+  brand.innerHTML = logoHtml + DATA.nav.brand;
   var nl = document.getElementById("navLinks");
   var dl = document.createElement("a");
   dl.className = "btn-nav";

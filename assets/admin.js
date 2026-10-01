@@ -233,6 +233,13 @@
     root.appendChild(field("网站标识（左上角）", "", DATA.nav.brand, function (v) { DATA.nav.brand = v; }));
     root.appendChild(field("下载按钮文字", "", DATA.nav.downloadLabel, function (v) { DATA.nav.downloadLabel = v; }));
 
+    root.appendChild(field("网站标识（左上角）", "", DATA.nav.brand, function (v) { DATA.nav.brand = v; }));
+    root.appendChild(imagePicker(DATA.nav.logoSrc || "", function (p) { DATA.nav.logoSrc = p; saveQuiet(); toast("图标已更换 ✓"); }));
+    var logoClear = document.createElement("button");
+    logoClear.type = "button"; logoClear.className = "add-btn";
+    logoClear.textContent = "恢复默认黑色 T 图标";
+    logoClear.onclick = function () { DATA.nav.logoSrc = ""; saveQuiet(); renderWeb(); toast("已恢复默认图标"); };
+    root.appendChild(logoClear);
     root.appendChild(h2("HERO 主视觉"));
     root.appendChild(field("小标（等宽字）", "", DATA.hero.meta, function (v) { DATA.hero.meta = v; }));
     root.appendChild(field("大标题", "支持 <br> 换行", DATA.hero.title, function (v) { DATA.hero.title = v; }, 2));
