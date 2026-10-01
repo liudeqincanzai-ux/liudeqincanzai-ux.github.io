@@ -32,7 +32,7 @@ const SITE_WEB = {
   "hero": {
     "meta": "REFERENCE COLOR STUDIO // EST. 2026",
     "title": "TONEBY: FILM COLOR<br>GRADING CAMERA.",
-    "intro": "",
+    "intro": "Transform your phone into a reference-color film camera. Toneby matches the exact tones of any reference photo with authentic 3D LUTs, film grain and a real-time LUT camera — processed entirely on your device",
     "playUrl": "https://play.google.com/store/apps/details?id=com.ahs.referencetonematch",
     "playLabel": "GET IT ON",
     "playStore": "GOOGLE PLAY",
@@ -96,7 +96,10 @@ const SITE_WEB = {
         "cap": "",
         "g": 1
       }
-    ]
+    ],
+    "eyebrow": "OFFLINE-FIRST // LOCAL RENDERING ENGINE // EST. 2026",
+    "big": "TONEBY",
+    "sub": "REFERENCE COLOR STUDIO // EST. 2026"
   },
   "numbers": [
     {
