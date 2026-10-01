@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Toneby</title>
   <meta name="description" content="Toneby combines reference-image color matching, authentic 3D LUTs and a real-time LUT camera with 100% on-device processing. No uploads. No accounts.">
-  <link rel="stylesheet" href="assets/style.css?v=17">
+  <link rel="stylesheet" href="assets/style.v18.css">
 </head>
 <body>
 
@@ -115,7 +115,7 @@
     document.head.appendChild(s);
   }
   tryLoad("data.js?" + V, function () { return typeof SITE_WEB !== "undefined"; }, function () {
-    tryLoad("assets/site.js?" + V, function () { return !!window.__SITE_BOOTED; }, function () {}, 3);
+    tryLoad("assets/site.v18.js", function () { return !!window.__SITE_BOOTED; }, function () {}, 3);
   }, 3);
 })();
 </script>
