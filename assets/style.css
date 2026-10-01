@@ -254,3 +254,33 @@ footer { background: #000; color: #fff; padding: 46px 0; }
 .deck .card { height:auto; }
 .deck .card img { height:auto; max-height:none; }
 .deck .c-front { position:relative; }
+
+/* ===== 轮播上方大字标题区（modipix 同款） ===== */
+.hero-mast { text-align:center; padding:26px 0 8px; }
+.mast-eyebrow {
+  font-family:var(--mono); font-size:10.5px; letter-spacing:3px;
+  color:#9a9a9a; text-transform:uppercase; margin-bottom:6px;
+}
+.mast-big {
+  font-size:clamp(64px, 13vw, 150px); font-weight:800; letter-spacing:2px;
+  line-height:.95; color:var(--ink);
+}
+.mast-sub {
+  font-family:var(--mono); font-size:10.5px; letter-spacing:3px;
+  color:#b5b5b5; text-transform:uppercase; margin-top:10px;
+}
+
+/* ===== 轮播放大（modipix 尺寸） ===== */
+.deck, .deck .card { width:205px; }
+.deck .c-front  { transform:translate(0,0) scale(1); }
+.deck .c-left   { transform:translate(-54px,-18px) scale(.84); }
+.deck .c-right  { transform:translate(54px,-18px) scale(.84); }
+.deck .c-hidden { transform:translate(0,-40px) scale(.62); }
+@media (max-width: 640px) {
+  .deck, .deck .card { width:58vw; }
+  .deck .c-left   { transform:translate(-9vw,-3.5vw) scale(.84); }
+  .deck .c-right  { transform:translate(9vw,-3.5vw) scale(.84); }
+  .deck .c-hidden { transform:translate(0,-8vw) scale(.62); }
+}
+.hero-mast { grid-column: 1 / -1; }
+.hero-mast { grid-column: 1 / -1; }

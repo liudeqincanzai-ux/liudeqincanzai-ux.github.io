@@ -308,6 +308,10 @@
 
   set("galleryTitle", DATA.galleryTitle || "LUT Gallery");
 
+  set("heroEyebrow", DATA.hero.eyebrow || "");
+  set("heroBig", DATA.hero.big || "");
+  set("heroSub", DATA.hero.sub || "");
+
   // ---------- faq ----------
   set("faqTitle", DATA.faqTitle || "Frequently Asked Questions");
   var fl = document.getElementById("faqList");

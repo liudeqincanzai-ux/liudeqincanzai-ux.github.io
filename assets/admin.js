@@ -272,6 +272,9 @@
     safe("HERO 主视觉", function () {
       root.appendChild(h2("HERO 主视觉"));
       root.appendChild(field("小标（等宽字）", "", DATA.hero.meta, function (v) { DATA.hero.meta = v; }));
+      root.appendChild(field("顶部眉行小字", "轮播上方大字区最上面一行", DATA.hero.eyebrow || "", function (v) { DATA.hero.eyebrow = v; }));
+      root.appendChild(field("大字标题", "轮播上方巨型标题（建议 TONEBY）", DATA.hero.big || "", function (v) { DATA.hero.big = v; }));
+      root.appendChild(field("大字下方小字", "", DATA.hero.sub || "", function (v) { DATA.hero.sub = v; }));
       root.appendChild(field("大标题", "支持 <br> 换行", DATA.hero.title, function (v) { DATA.hero.title = v; }, 2));
       root.appendChild(field("介绍段落", "", DATA.hero.intro, function (v) { DATA.hero.intro = v; }, 4));
       var r2 = document.createElement("div"); r2.className = "row2";
