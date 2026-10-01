@@ -1,4 +1,4 @@
-// 统一后台：官网编辑（数据驱动 toneby-website）+ LUT 展示编辑（iframe 内嵌）
+// 统一后台：官网编辑（数据驱动主仓库）+ LUT 展示编辑（iframe 内嵌）
 (function () {
   var SAVE_KEY = "lut_web_edits_v1";
   var PASS_KEY = "lut_site_admin_pass";
