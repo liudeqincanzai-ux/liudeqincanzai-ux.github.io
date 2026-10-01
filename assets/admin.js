@@ -365,6 +365,16 @@
     root.appendChild(field("隐私政策页面文件", "一般不改", DATA.footer.privacyHref, function (v) { DATA.footer.privacyHref = v; }));
     root.appendChild(field("用户协议页面文件", "一般不改", DATA.footer.termsHref, function (v) { DATA.footer.termsHref = v; }));
 
+    root.appendChild(h2("站点与标题"));
+    root.appendChild(field("网站名称（浏览器标签标题）", "也会显示为网站名", DATA.siteTitle || "Toneby", function (v) { DATA.siteTitle = v; }));
+    root.appendChild(field("LUT 画廊区块标题", "", DATA.galleryTitle || "LUT Gallery", function (v) { DATA.galleryTitle = v; }));
+    root.appendChild(field("FAQ 区块标题", "", DATA.faqTitle || "Frequently Asked Questions", function (v) { DATA.faqTitle = v; }));
+    root.appendChild(h2("隐私政策页面内容"));
+    root.appendChild(field("页面标题", "", DATA.legal.privacyTitle, function (v) { DATA.legal.privacyTitle = v; }));
+    root.appendChild(field("页面内容（HTML）", "支持 <h3>/<p>/<strong> 等标签", DATA.legal.privacyContent, function (v) { DATA.legal.privacyContent = v; }, 12));
+    root.appendChild(h2("用户协议页面内容"));
+    root.appendChild(field("页面标题", "", DATA.legal.termsTitle, function (v) { DATA.legal.termsTitle = v; }));
+    root.appendChild(field("页面内容（HTML）", "支持 <h2>/<p>/<em> 等标签", DATA.legal.termsContent, function (v) { DATA.legal.termsContent = v; }, 12));
     root.appendChild(h2("GitHub Token"));
     root.appendChild(field("令牌", "官网同步与 LUT 同步共用；需同时有权访问两个仓库", "", function (v) {
       if (v && v.trim()) { setToken(v); toast("Token 已保存 ✓"); }

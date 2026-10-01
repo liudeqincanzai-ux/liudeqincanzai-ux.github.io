@@ -6,6 +6,7 @@
     DATA = (s && s.site) ? s.site : SITE_WEB;
   } catch (e) { DATA = SITE_WEB; }
   if (!DATA) return;
+  if (DATA.siteTitle) document.title = DATA.siteTitle;
 
   var SHOWCASE_BASE = "/toneby-lut-showcase/";
 
@@ -295,7 +296,10 @@
     renderGallery(0);
   });
 
+  set("galleryTitle", DATA.galleryTitle || "LUT Gallery");
+
   // ---------- faq ----------
+  set("faqTitle", DATA.faqTitle || "Frequently Asked Questions");
   var fl = document.getElementById("faqList");
   (DATA.faq || []).forEach(function (f) {
     var d = el("details");
