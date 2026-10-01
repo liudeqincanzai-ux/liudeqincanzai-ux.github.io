@@ -31,7 +31,7 @@
     var a = el("a", "store-btn");
     a.href = DATA.hero.playUrl || "#";
     a.target = "_blank"; a.rel = "noopener";
-    a.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 2.5v19l11-9.5L3 2.5z"/><path d="M14 12l4.5-3.9 2.6 1.5c.8.5.8 1.7 0 2.2l-2.6 1.5L14 12z" opacity=".8"/></svg>' +
+    a.innerHTML = '<svg width="18" height="18" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/></svg>' +
       '<span>' + (DATA.hero.playLabel || "GET IT ON") + '<small>' + (DATA.hero.playStore || "GOOGLE PLAY") + '</small></span>';
     return a;
   }
@@ -153,6 +153,36 @@
   // ---------- features intro ----------
   set("featTag", DATA.intro2.tag);
   set("featTitle", DATA.intro2.title);
+  // ---------- modules（左 sticky 手机帧 + 滚动换图） ----------
+  var modsFrame = document.getElementById("modsFrame");
+  var modsTexts = document.getElementById("modsTexts");
+  if (modsFrame && modsTexts) {
+    var frameImgs = [];
+    (DATA.modules || []).forEach(function (m, i) {
+      if (m.src) {
+        var im = el("img"); im.src = m.src; im.alt = m.title || ""; if (i === 0) im.className = "active";
+        modsFrame.appendChild(im); frameImgs.push(im);
+      }
+      var tb = el("div", "mod-block"); tb.dataset.idx = i;
+      if (m.src) { var mob = el("img", "mod-inline"); mob.src = m.src; mob.alt = ""; tb.appendChild(mob); }
+      if (m.fig) tb.appendChild(el("div", "fig", m.fig));
+      if (m.mod) tb.appendChild(el("div", "mod", m.mod));
+      if (m.title) tb.appendChild(el("h3", "", m.title));
+      if (m.desc) tb.appendChild(el("p", "", m.desc));
+      modsTexts.appendChild(tb);
+    });
+    if ("IntersectionObserver" in window && frameImgs.length) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (!en.isIntersecting) return;
+          var idx = parseInt(en.target.dataset.idx, 10);
+          frameImgs.forEach(function (im, k) { im.className = k === idx ? "active" : ""; });
+        });
+      }, { rootMargin: "-40% 0px -40% 0px" });
+      modsTexts.querySelectorAll(".mod-block").forEach(function (b) { io.observe(b); });
+    }
+  }
+
   set("featDesc", DATA.intro2.desc);
 
   // ---------- modules ----------

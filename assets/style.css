@@ -284,3 +284,77 @@ footer { background: #000; color: #fff; padding: 46px 0; }
 }
 .hero-mast { grid-column: 1 / -1; }
 .hero-mast { grid-column: 1 / -1; }
+
+/* ===== MODULES：左 sticky 手机帧 + 右文字滚动换图（modipix 同款） ===== */
+.mods-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; align-items: start; }
+.mods-sticky {
+  position: sticky; top: 80px; height: calc(100vh - 160px);
+  display: flex; align-items: center; justify-content: center;
+}
+.mods-frame {
+  position: relative; width: min(300px, 82%); aspect-ratio: 9 / 19;
+  background: #f0f0f0; border: 1px solid var(--line); border-radius: 16px;
+  overflow: hidden; box-shadow: 0 18px 44px rgba(0,0,0,.12);
+}
+.mods-frame img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; opacity: 0; transition: opacity .45s ease;
+}
+.mods-frame img.active { opacity: 1; }
+.mod-block { min-height: 80vh; display: flex; flex-direction: column; justify-content: center; padding: 30px 0; }
+.mod-inline { display: none; }
+@media (max-width: 900px) {
+  .mods-wrap { display: block; }
+  .mods-sticky { display: none; }
+  .mod-block { min-height: 0; padding: 36px 0; border-bottom: 1px solid var(--line); }
+  .mod-inline { display: block; width: 60%; max-width: 250px; margin: 0 0 18px; border: 1px solid var(--line); border-radius: 10px; }
+}
+
+/* ===== 导航与全站左右内边距加大（往里收） ===== */
+.wrap { padding: 0 44px; }
+@media (max-width: 640px) { .wrap { padding: 0 22px; } }
+
+/* ===== 轮播箭头外移 ===== */
+.shot-arrow.prev { left: -84px; }
+.shot-arrow.next { right: -84px; }
+@media (max-width: 900px) {
+  .shot-arrow.prev { left: -44px; }
+  .shot-arrow.next { right: -44px; }
+}
+
+/* ===== MODULES：左 sticky 手机帧 + 右文字滚动换图（modipix 同款） ===== */
+.mods-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; align-items: start; }
+.mods-sticky {
+  position: sticky; top: 80px; height: calc(100vh - 160px);
+  display: flex; align-items: center; justify-content: center;
+}
+.mods-frame {
+  position: relative; width: min(300px, 82%); aspect-ratio: 9 / 19;
+  background: #f0f0f0; border: 1px solid var(--line); border-radius: 16px;
+  overflow: hidden; box-shadow: 0 18px 44px rgba(0,0,0,.12);
+}
+.mods-frame img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; opacity: 0; transition: opacity .45s ease;
+}
+.mods-frame img.active { opacity: 1; }
+.mod-block { min-height: 80vh; display: flex; flex-direction: column; justify-content: center; padding: 30px 0; }
+.mod-inline { display: none; }
+@media (max-width: 900px) {
+  .mods-wrap { display: block; }
+  .mods-sticky { display: none; }
+  .mod-block { min-height: 0; padding: 36px 0; border-bottom: 1px solid var(--line); }
+  .mod-inline { display: block; width: 60%; max-width: 250px; margin: 0 0 18px; border: 1px solid var(--line); border-radius: 10px; }
+}
+
+/* ===== 导航与全站左右内边距加大（往里收） ===== */
+.wrap { padding: 0 44px; }
+@media (max-width: 640px) { .wrap { padding: 0 22px; } }
+
+/* ===== 轮播箭头外移 ===== */
+.shot-arrow.prev { left: -84px; }
+.shot-arrow.next { right: -84px; }
+@media (max-width: 900px) {
+  .shot-arrow.prev { left: -44px; }
+  .shot-arrow.next { right: -44px; }
+}
