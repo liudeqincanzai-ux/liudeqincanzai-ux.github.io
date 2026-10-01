@@ -6,7 +6,7 @@
   <link rel="icon" type="image/jpeg" href="assets/favicon.jpg">
   <title>Toneby</title>
   <meta name="description" content="Toneby combines reference-image color matching, authentic 3D LUTs and a real-time LUT camera with 100% on-device processing. No uploads. No accounts.">
-  <link rel="stylesheet" href="assets/style.v25.css">
+  <link rel="stylesheet" href="assets/style.v26.css">
 </head>
 <body>
 
@@ -16,7 +16,7 @@
 </header>
 
 <!-- ============ HERO ============ -->
-<section class="wrap hero">
+<section class="wrap hero" id="hero">
   <div class="hero-grid">
     <div class="hero-mast">
       <div class="mast-eyebrow" id="heroEyebrow"></div>
@@ -47,12 +47,12 @@
 </section>
 
 <!-- ============ NUMBERS ============ -->
-<section class="numbers" id="features">
+<section class="numbers" id="numbers">
   <div class="wrap" style="display:contents" id="numbersGrid"></div>
 </section>
 
 <!-- ============ FEATURES INTRO ============ -->
-<section class="wrap features-intro" id="modules">
+<section class="wrap features-intro" id="features">
   <div class="tag" id="featTag"></div>
   <h2 id="featTitle"></h2>
   <p id="featDesc"></p>
@@ -116,7 +116,7 @@
     document.head.appendChild(s);
   }
   tryLoad("data.js?" + V, function () { return typeof SITE_WEB !== "undefined"; }, function () {
-    tryLoad("assets/site.v20.js", function () { return !!window.__SITE_BOOTED; }, function () {}, 3);
+    tryLoad("assets/site.v26.js", function () { return !!window.__SITE_BOOTED; }, function () {}, 3);
   }, 3);
 })();
 </script>
