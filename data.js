@@ -52,27 +52,27 @@ const SITE_WEB = {
     ],
     "slides": [
       {
-        "src": "assets/shots/shot_01.jpg",
+        "src": "assets/shots/商店资讯图_01.jpg",
         "cap": "",
         "g": 0
       },
       {
-        "src": "assets/shots/shot_02.jpg",
+        "src": "assets/shots/商店资讯图_02.jpg",
         "cap": "",
         "g": 0
       },
       {
-        "src": "assets/shots/shot_03.jpg",
+        "src": "assets/shots/商店资讯图_03.jpg",
         "cap": "",
         "g": 0
       },
       {
-        "src": "assets/shots/shot_04.jpg",
+        "src": "assets/shots/商店资讯图_04.jpg",
         "cap": "",
         "g": 0
       },
       {
-        "src": "assets/shots/shot_05.jpg",
+        "src": "assets/shots/商店资讯图_05.jpg",
         "cap": "",
         "g": 0
       }
