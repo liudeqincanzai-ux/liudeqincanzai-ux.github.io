@@ -1,9 +1,18 @@
 // Toneby 官网渲染 + 卡片堆轮播（前1 + 左右灰各1，切换带动画）+ 内嵌 LUT Gallery
 (function () {
+  function mergeDeep(base, over) {
+    if (Array.isArray(base)) return (over !== undefined && Array.isArray(over)) ? over : JSON.parse(JSON.stringify(base));
+    if (base !== null && typeof base === "object") {
+      var out = (over !== null && typeof over === "object" && !Array.isArray(over)) ? over : {};
+      Object.keys(base).forEach(function (k) { out[k] = mergeDeep(base[k], out[k]); });
+      return out;
+    }
+    return (over === undefined) ? base : over;
+  }
   var DATA;
   try {
     var s = JSON.parse(localStorage.getItem("lut_web_edits_v1"));
-    DATA = (s && s.site) ? s.site : SITE_WEB;
+    DATA = mergeDeep(SITE_WEB, (s && s.site) ? s.site : null);
   } catch (e) { DATA = SITE_WEB; }
   if (!DATA) return;
   if (DATA.siteTitle) document.title = DATA.siteTitle;

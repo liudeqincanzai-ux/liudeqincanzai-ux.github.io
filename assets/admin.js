@@ -22,10 +22,19 @@
   }
 
   // ---------- 数据 ----------
+  function mergeDeep(base, over) {
+    if (Array.isArray(base)) return (over !== undefined && Array.isArray(over)) ? over : JSON.parse(JSON.stringify(base));
+    if (base !== null && typeof base === "object") {
+      var out = (over !== null && typeof over === "object" && !Array.isArray(over)) ? over : {};
+      Object.keys(base).forEach(function (k) { out[k] = mergeDeep(base[k], out[k]); });
+      return out;
+    }
+    return (over === undefined) ? base : over;
+  }
   var DATA;
   try {
     var s = JSON.parse(localStorage.getItem(SAVE_KEY));
-    DATA = (s && s.site) ? s.site : JSON.parse(JSON.stringify(SITE_WEB));
+    DATA = mergeDeep(JSON.parse(JSON.stringify(SITE_WEB)), (s && s.site) ? s.site : null);
   } catch (e) { DATA = JSON.parse(JSON.stringify(SITE_WEB)); }
   var pending = {}; // path -> File
 
@@ -233,7 +242,7 @@
     root.appendChild(field("网站标识（左上角）", "", DATA.nav.brand, function (v) { DATA.nav.brand = v; }));
     root.appendChild(field("下载按钮文字", "", DATA.nav.downloadLabel, function (v) { DATA.nav.downloadLabel = v; }));
 
-    root.appendChild(field("网站标识（左上角）", "", DATA.nav.brand, function (v) { DATA.nav.brand = v; }));
+    
     root.appendChild(imagePicker(DATA.nav.logoSrc || "", function (p) { DATA.nav.logoSrc = p; saveQuiet(); toast("图标已更换 ✓"); }));
     var logoClear = document.createElement("button");
     logoClear.type = "button"; logoClear.className = "add-btn";
