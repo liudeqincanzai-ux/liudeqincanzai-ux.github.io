@@ -378,3 +378,65 @@ footer { background: #000; color: #fff; padding: 46px 0; }
   .store-btns { justify-content: center; }
   .hero-right { display: none; }
 }
+
+/* ===== 顶部：空间加大 + 黑线 + 固定吸顶 ===== */
+header.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,.97);
+  border-bottom: 1px solid var(--ink);
+  padding-top: 26px; padding-bottom: 26px;
+}
+section[id] { scroll-margin-top: 110px; }
+
+/* ===== MODULE 文字块：modipix 同款大小对比 ===== */
+.mod-block { position: relative; }
+.mod-ghost {
+  position: absolute; top: 50%; left: -10px; transform: translateY(-50%);
+  font-size: clamp(140px, 16vw, 230px); font-weight: 800; line-height: 1;
+  color: #f0f0f0; z-index: 0; pointer-events: none; user-select: none;
+}
+.mod-block .fig, .mod-block .mod, .mod-block h3, .mod-block p { position: relative; z-index: 1; }
+.mod-block .fig { color: var(--faint); }
+.mod-block .mod {
+  font-family: var(--mono); font-size: 13px; letter-spacing: 2.5px;
+  color: var(--muted); text-transform: uppercase; margin-bottom: 6px;
+}
+.mod-block h3 {
+  font-size: clamp(28px, 3.4vw, 44px); font-weight: 800; line-height: 1.12;
+  letter-spacing: .5px; margin: 10px 0 24px; text-transform: uppercase;
+}
+.mod-block p {
+  border-left: 2px solid var(--ink); padding-left: 20px;
+  font-size: 16.5px; line-height: 1.75; color: #3d3d3d;
+}
+
+/* ===== 顶部：空间加大 + 黑线 + 固定吸顶 ===== */
+header.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,.97);
+  border-bottom: 1px solid var(--ink);
+  padding-top: 26px; padding-bottom: 26px;
+}
+section[id] { scroll-margin-top: 110px; }
+
+/* ===== MODULE 文字块：modipix 同款大小对比 ===== */
+.mod-block { position: relative; }
+.mod-ghost {
+  position: absolute; top: 50%; left: -10px; transform: translateY(-50%);
+  font-size: clamp(140px, 16vw, 230px); font-weight: 800; line-height: 1;
+  color: #f0f0f0; z-index: 0; pointer-events: none; user-select: none;
+}
+.mod-block .fig, .mod-block .mod, .mod-block h3, .mod-block p { position: relative; z-index: 1; }
+.mod-block .fig { color: var(--faint); }
+.mod-block .mod {
+  font-family: var(--mono); font-size: 13px; letter-spacing: 2.5px;
+  color: var(--muted); text-transform: uppercase; margin-bottom: 6px;
+}
+.mod-block h3 {
+  font-size: clamp(28px, 3.4vw, 44px); font-weight: 800; line-height: 1.12;
+  letter-spacing: .5px; margin: 10px 0 24px; text-transform: uppercase;
+}
+.mod-block p {
+  border-left: 2px solid var(--ink); padding-left: 20px;
+  font-size: 16.5px; line-height: 1.75; color: #3d3d3d;
+}

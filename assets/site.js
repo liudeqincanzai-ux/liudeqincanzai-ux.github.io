@@ -164,6 +164,7 @@
         modsFrame.appendChild(im); frameImgs.push(im);
       }
       var tb = el("div", "mod-block"); tb.dataset.idx = i;
+      tb.appendChild(el("div", "mod-ghost", ("0" + (i + 1)).slice(-2)));
       if (m.src) { var mob = el("img", "mod-inline"); mob.src = m.src; mob.alt = ""; tb.appendChild(mob); }
       if (m.fig) tb.appendChild(el("div", "fig", m.fig));
       if (m.mod) tb.appendChild(el("div", "mod", m.mod));
