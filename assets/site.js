@@ -1,4 +1,4 @@
-// Toneby 官网渲染 + 景深轮播 + 内嵌 LUT Gallery
+// Toneby 官网渲染 + 卡片堆轮播（前1 + 左右灰各1，切换带动画）+ 内嵌 LUT Gallery
 (function () {
   var DATA;
   try {
@@ -8,7 +8,6 @@
   if (!DATA) return;
 
   var SHOWCASE_BASE = "/toneby-lut-showcase/";
-  var IMG_V = "?v=1";
 
   function el(tag, cls, text) {
     var e = document.createElement(tag);
@@ -27,7 +26,7 @@
     return a;
   }
 
-  // ---------- 导航（点击平滑滚动，地址栏保持干净） ----------
+  // ---------- 导航 ----------
   var brand = document.getElementById("navBrand");
   brand.innerHTML = '<span class="mark">T</span>' + DATA.nav.brand;
   var nl = document.getElementById("navLinks");
@@ -37,7 +36,6 @@
   (DATA.nav.links || []).slice().reverse().forEach(function (l) {
     var a = el("a", l.hideM ? "hide-m" : "", l.label);
     a.href = l.href || "#";
-    if (l.ext) { a.target = "_blank"; a.rel = "noopener"; }
     a.addEventListener("click", function (e) {
       if (a.getAttribute("href").charAt(0) === "#") {
         e.preventDefault();
@@ -48,10 +46,62 @@
     nl.insertBefore(a, nl.firstChild);
   });
 
-  // ---------- hero ----------
+  // ---------- hero 文案 ----------
   set("heroIntro", DATA.hero.intro);
-  var hb = document.getElementById("heroBtns");
-  hb.appendChild(storeBtn());
+  document.getElementById("heroBtns").appendChild(storeBtn());
+
+  // ---------- 卡片堆轮播 ----------
+  var slides = (DATA.hero.slides || []).map(function (s) { return { src: s.src, cap: s.cap, g: s.g || 0 }; });
+  var N = slides.length;
+  function idx(i) { return ((i % N) + N) % N; }
+  function src(i) { return slides[idx(i)].src; }
+
+  var cur = 0;
+  var frontEl = document.getElementById("cardFront");
+  var leftEl  = document.getElementById("cardLeft");
+  var rightEl = document.getElementById("cardRight");
+  var hiddenEl= document.getElementById("cardHidden");
+  var cap = document.getElementById("shotCaption");
+  var btns = document.querySelectorAll("#heroGroups .grp");
+
+  function setPos(e, role) { e.className = "card c-" + role; }
+  function img(e, i) { e.querySelector("img").src = slides[idx(i)].src; }
+  function updateMeta() {
+    var c = slides[cur];
+    cap.textContent = c.cap;
+    for (var i = 0; i < btns.length; i++) btns[i].classList.toggle("active", i === c.g);
+  }
+  function next() {
+    if (N < 2) return;
+    var newCur = idx(cur + 1);
+    var nf = rightEl, nl = frontEl, nr = hiddenEl, nh = leftEl;
+    img(nf, newCur);
+    img(nr, newCur + 1);
+    setPos(nf, "front"); setPos(nl, "left"); setPos(nr, "right"); setPos(nh, "hidden");
+    frontEl = nf; leftEl = nl; rightEl = nr; hiddenEl = nh;
+    cur = newCur; updateMeta();
+  }
+  function prev() {
+    if (N < 2) return;
+    var newCur = idx(cur - 1);
+    var nf = leftEl, nr = frontEl, nl = hiddenEl, nh = rightEl;
+    img(nf, newCur);
+    img(nl, newCur - 1);
+    setPos(nf, "front"); setPos(nl, "left"); setPos(nr, "right"); setPos(nh, "hidden");
+    frontEl = nf; leftEl = nl; rightEl = nr; hiddenEl = nh;
+    cur = newCur; updateMeta();
+  }
+  document.getElementById("prevBtn").onclick = prev;
+  document.getElementById("nextBtn").onclick = next;
+  var deckEl = document.getElementById("deck");
+  var tx = null;
+  deckEl.addEventListener("touchstart", function (e) { tx = e.touches[0].clientX; }, { passive: true });
+  deckEl.addEventListener("touchend", function (e) {
+    if (tx === null) return;
+    var dx = e.changedTouches[0].clientX - tx;
+    if (Math.abs(dx) > 40) (dx < 0 ? next() : prev());
+    tx = null;
+  }, { passive: true });
 
   var groupsBox = document.getElementById("heroGroups");
   var groupBtns = [];
@@ -59,47 +109,25 @@
     var b = el("button", "grp" + (gi === 0 ? " active" : ""));
     b.innerHTML = '<span class="no">' + g.no + "</span>" + g.label;
     b.onclick = function () {
-      var idx = slides.findIndex(function (s) { return s.g === gi; });
-      show(idx >= 0 ? idx : 0);
+      var target = -1;
+      for (var j = 0; j < N; j++) { if (slides[j].g === gi) { target = j; break; } }
+      if (target < 0 || target === cur) return;
+      var step = (target > cur && target - cur <= N / 2) ? 1 : -1;
+      var t = setInterval(function () {
+        if (cur === target) { clearInterval(t); return; }
+        (step === 1) ? next() : prev();
+      }, 210);
     };
     groupBtns.push(b);
     groupsBox.appendChild(b);
   });
 
-  // ---------- 景深轮播 ----------
-  var slides = (DATA.hero.slides || []).map(function (s) {
-    return { src: s.src + IMG_V, cap: s.cap, g: s.g || 0 };
-  });
-  var cur = 0;
-  var img = document.getElementById("shotImg");
-  var back = document.getElementById("shotBack");
-  var cap = document.getElementById("shotCaption");
-
-  function render() {
-    var s = slides[cur];
-    img.src = s.src;
-    back.src = slides[(cur + 1) % slides.length].src;
-    cap.textContent = s.cap;
-    var g = s.g;
-    groupBtns.forEach(function (b, bi) { b.classList.toggle("active", bi === g); });
-  }
-  function show(i) {
-    cur = (i + slides.length) % slides.length;
-    img.style.opacity = 0;
-    setTimeout(render, 130);
-    setTimeout(function () { img.style.opacity = 1; }, 260);
-  }
-  document.getElementById("prevBtn").onclick = function () { show(cur - 1); };
-  document.getElementById("nextBtn").onclick = function () { show(cur + 1); };
-  var tx = null;
-  img.addEventListener("touchstart", function (e) { tx = e.touches[0].clientX; }, { passive: true });
-  img.addEventListener("touchend", function (e) {
-    if (tx === null) return;
-    var dx = e.changedTouches[0].clientX - tx;
-    if (Math.abs(dx) > 40) show(cur + (dx < 0 ? 1 : -1));
-    tx = null;
-  }, { passive: true });
-  render();
+  // 初始：front=0, right=1, hidden=2, left=最后一张
+  img(frontEl, cur);
+  img(rightEl, cur + 1);
+  img(hiddenEl, cur + 2);
+  img(leftEl, cur - 1);
+  updateMeta();
 
   // ---------- numbers ----------
   var ng = document.getElementById("numbersGrid");
@@ -122,7 +150,7 @@
     var d = el("div", "module" + (i % 2 === 1 ? " flip" : ""));
     var shot = el("div", "mod-shot");
     var mi = el("img");
-    mi.src = m.src + IMG_V;
+    mi.src = m.src;
     mi.alt = m.title;
     shot.appendChild(mi);
     var t = el("div", "mod-txt");

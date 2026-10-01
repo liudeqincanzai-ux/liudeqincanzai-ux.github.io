@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Toneby 官网样板 v2（供确认，未上线）</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#fff; color:#111; font-family:-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif; }
+.wrap { max-width:1100px; margin:0 auto; padding:0 28px; }
+
+.nav { display:flex; align-items:center; justify-content:space-between; padding:16px 0; border-bottom:1px solid #e2e2e2; }
+.brand { display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:2px; font-size:16px; }
+.brand .mark { width:20px; height:20px; background:#111; color:#fff; display:inline-flex; align-items:center; justify-content:center; font-size:12px; border-radius:2px; }
+.nav-links { display:flex; align-items:center; gap:24px; font-family:ui-monospace,Consolas,monospace; font-size:11.5px; letter-spacing:1.5px; }
+.nav-links a { color:#111; }
+.nav-links .btn-nav { background:#111; color:#fff; padding:8px 16px; border-radius:2px; }
+
+.hero { padding:40px 0 60px; }
+.hero-grid { display:grid; grid-template-columns:300px 1fr 190px; gap:36px; align-items:center; }
+.hero-left .rule { border:0; border-top:1px solid #111; margin:0 0 24px; }
+.hero-left p { font-size:14px; color:#333; line-height:1.7; margin-bottom:26px; }
+.store-btns { display:flex; gap:12px; }
+.store-btn { display:inline-flex; align-items:center; gap:9px; background:#111; color:#fff; padding:12px 18px; border-radius:2px; font-family:ui-monospace,Consolas,monospace; font-size:11px; letter-spacing:1.5px; }
+.store-btn small { display:block; font-size:8.5px; opacity:.75; letter-spacing:2px; }
+
+/* ===== 卡片堆：前 1（最大）+ 左右各 1 灰（更小）+ 1 张隐形待换 ===== */
+.deck { position:relative; width:135px; height:278px; margin:0 auto; }
+.card {
+  position:absolute; top:0; left:0; width:135px; height:278px;
+  border:1px solid #d9d9d9; border-radius:10px; background:#fff; overflow:hidden;
+  box-shadow:0 14px 34px rgba(0,0,0,.16);
+  transition:transform .4s cubic-bezier(.4,0,.2,1), opacity .4s ease, filter .4s ease;
+}
+.card img { width:100%; height:100%; object-fit:cover; display:block; }
+.c-front { transform:translate(0,0) scale(1); opacity:1; filter:none; z-index:3; }
+.c-left  { transform:translate(-36px,-14px) scale(.84); filter:grayscale(1); opacity:.5; z-index:2; }
+.c-right { transform:translate(36px,-14px) scale(.84); filter:grayscale(1); opacity:.5; z-index:2; }
+.c-hidden{ transform:translate(0,-30px) scale(.62); opacity:0; z-index:1; }
+
+.shot-arrow {
+  position:absolute; top:50%; transform:translateY(-50%);
+  background:none; border:none; cursor:pointer; font-size:26px; color:#111; line-height:1; padding:6px;
+}
+.shot-arrow.prev { left:-46px; }
+.shot-arrow.next { right:-46px; }
+.shot-cap { font-family:ui-monospace,Consolas,monospace; font-size:10px; color:#9a9a9a; letter-spacing:1.5px; text-align:center; margin-top:18px; }
+
+.hero-right { display:flex; flex-direction:column; gap:24px; }
+.grp { font-family:ui-monospace,Consolas,monospace; font-size:14px; letter-spacing:1px; color:#9a9a9a; background:none; border:none; cursor:pointer; text-align:right; padding:0; transition:color .15s; }
+.grp:hover { color:#111; }
+.grp.active { color:#111; font-weight:600; }
+.grp .no { color:#bbb; margin-right:8px; font-size:11px; }
+.grp.active .no { color:#111; }
+
+.numbers { border-top:1px solid #111; display:grid; grid-template-columns:1fr 1fr 1fr; }
+.numbers .cell { padding:36px 30px 54px; border-right:1px solid #e2e2e2; }
+.numbers .cell:last-child { border-right:none; }
+.numbers .big { font-size:96px; font-weight:800; letter-spacing:-5px; line-height:1; margin-bottom:14px; font-family:ui-monospace,Consolas,monospace; }
+.numbers h3 { font-size:17px; letter-spacing:1.5px; margin-bottom:10px; text-transform:uppercase; }
+.numbers p { font-size:13.5px; color:#666; }
+</style>
+</head>
+<body>
+
+<div class="wrap nav">
+  <a class="brand" href="#"><span class="mark">T</span>TONEBY</a>
+  <div class="nav-links">
+    <a href="#">FEATURES</a><a href="#">LUT GALLERY</a><a href="#">FAQ</a>
+    <a href="#" style="background:#111;color:#fff;padding:8px 16px;border-radius:2px;">DOWNLOAD</a>
+  </div>
+</div>
+
+<section class="wrap hero">
+  <div class="hero-grid">
+    <div class="hero-left">
+      <hr class="rule">
+      <p>Transform your phone into a reference-color film camera. Toneby matches the exact tones of any reference photo with authentic 3D LUTs, film grain and a real-time LUT camera — processed entirely on your device.</p>
+      <div class="store-btns">
+        <span class="store-btn"><small>GET IT ON</small>GOOGLE PLAY</span>
+      </div>
+    </div>
+
+    <div class="deck" id="deck">
+      <div class="card c-hidden" id="cardHidden"><img src="assets/shots/shot_03.jpg" alt=""></div>
+      <div class="card c-left"  id="cardLeft"><img src="assets/shots/shot_09.jpg" alt=""></div>
+      <div class="card c-right" id="cardRight"><img src="assets/shots/shot_02.jpg" alt=""></div>
+      <div class="card c-front" id="cardFront"><img src="assets/shots/shot_01.jpg" alt=""></div>
+      <button class="shot-arrow prev" id="prev">‹</button>
+      <button class="shot-arrow next" id="next">›</button>
+    </div>
+    <div class="shot-cap" id="cap" style="grid-column:2">01 / 09 — HOME</div>
+
+    <div class="hero-right" id="groups">
+      <button class="grp active"><span class="no">— 01</span>FILM COLOR ENGINE</button>
+      <button class="grp"><span class="no">— 02</span>LOCAL PRIVACY</button>
+      <button class="grp"><span class="no">— 03</span>LUT CAMERA &amp; MORE</button>
+    </div>
+  </div>
+</section>
+
+<section class="numbers">
+  <div class="cell"><div class="big">01</div><h3>Film Color Engine</h3><p>Match the exact tones of any reference photo. Authentic 3D LUTs, film grain, halation and bloom — rendered locally with GLSL precision.</p></div>
+  <div class="cell"><div class="big">02</div><h3>Privacy-First Architecture</h3><p>Every photo is processed 100% on your device. Zero uploads, zero accounts, zero tracking.</p></div>
+  <div class="cell"><div class="big">03</div><h3>LUT Camera &amp; More</h3><p>Shoot with real-time film LUTs, import your own .cube files, and finish with multi-ratio grid collages.</p></div>
+</section>
+
+<script>
+(function(){
+  var N = 9;
+  function idx(i){ return ((i % N) + N) % N; }
+  function src(i){ return "assets/shots/shot_0" + (idx(i)+1) + ".jpg"; }
+  var names = ["HOME","REFERENCE MATCH","ADJUSTMENT PANEL","FILM GRAIN & HSL","BEFORE / AFTER","EXPORT","COLLAGE","SETTINGS","EXIF CONTROL"];
+  var groupOf = [0,0,0,0,0,0,2,1,1];
+  function info(i){ return { t: "0" + (idx(i)+1) + " / 09 — " + names[idx(i)], g: groupOf[idx(i)] }; }
+
+  var cur = 0;
+  // 四张卡片元素：初始角色 front=0, right=1, hidden=2, left=8
+  var frontEl = document.getElementById("cardFront");
+  var leftEl  = document.getElementById("cardLeft");
+  var rightEl = document.getElementById("cardRight");
+  var hiddenEl= document.getElementById("cardHidden");
+  var cap = document.getElementById("cap");
+  var btns = document.querySelectorAll("#groups .grp");
+
+  function setPos(el, role){ el.className = "card c-" + role; }
+  function img(el, i){ el.querySelector("img").src = src(i); }
+
+  function updateMeta(){
+    var c = info(cur);
+    cap.textContent = c.t;
+    for (var i = 0; i < btns.length; i++) btns[i].classList.toggle("active", i === c.g);
+  }
+
+  function next(){
+    var newCur = idx(cur + 1);
+    var nf = rightEl, nl = frontEl, nr = hiddenEl, nh = leftEl;
+    img(nf, newCur);        // 原 right 已显示 src(cur+1)=src(newCur)，无需换
+    img(nr, newCur + 1);    // 隐形卡换图后从右侧淡入
+    setPos(nf, "front"); setPos(nl, "left"); setPos(nr, "right"); setPos(nh, "hidden");
+    frontEl = nf; leftEl = nl; rightEl = nr; hiddenEl = nh;
+    cur = newCur;
+    updateMeta();
+  }
+  function prev(){
+    var newCur = idx(cur - 1);
+    var nf = leftEl, nr = frontEl, nl = hiddenEl, nh = rightEl;
+    img(nf, newCur);        // 原 left 已显示 src(cur-1)=src(newCur)
+    img(nl, newCur - 1);    // 隐形卡换图后从左侧淡入
+    setPos(nf, "front"); setPos(nl, "left"); setPos(nr, "right"); setPos(nh, "hidden");
+    frontEl = nf; leftEl = nl; rightEl = nr; hiddenEl = nh;
+    cur = newCur;
+    updateMeta();
+  }
+  document.getElementById("next").onclick = next;
+  document.getElementById("prev").onclick = prev;
+  for (var i = 0; i < btns.length; i++) (function(i){
+    btns[i].onclick = function(){
+      var target = -1;
+      for (var j = 0; j < N; j++) { if (info(j).g === i) { target = j; break; } }
+      if (target < 0 || target === cur) return;
+      var step = (target > cur && target - cur <= N/2) ? 1 : -1;
+      var t = setInterval(function(){
+        if (cur === target) { clearInterval(t); return; }
+        (step === 1) ? next() : prev();
+      }, 200);
+    };
+  })(i);
+  updateMeta();
+})();
+</script>
+</body>
+</html>

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Toneby</title>
   <meta name="description" content="Toneby combines reference-image color matching, authentic 3D LUTs and a real-time LUT camera with 100% on-device processing. No uploads. No accounts.">
-  <link rel="stylesheet" href="assets/style.css?v=3">
+  <link rel="stylesheet" href="assets/style.css?v=4">
 </head>
 <body>
 
@@ -24,15 +24,15 @@
     </div>
 
     <div class="hero-center">
-      <div class="shot-stack">
-        <img id="shotBack" src="" alt="" aria-hidden="true">
-        <div class="shot-frame">
-          <button class="shot-arrow prev" id="prevBtn" aria-label="Previous screenshot">‹</button>
-          <img id="shotImg" src="" alt="Toneby app screenshot">
-          <button class="shot-arrow next" id="nextBtn" aria-label="Next screenshot">›</button>
-        </div>
+      <div class="deck" id="deck">
+        <div class="card c-hidden" id="cardHidden"><img src="" alt=""></div>
+        <div class="card c-left" id="cardLeft"><img src="" alt=""></div>
+        <div class="card c-right" id="cardRight"><img src="" alt=""></div>
+        <div class="card c-front" id="cardFront"><img src="" alt=""></div>
+        <button class="shot-arrow prev" id="prevBtn" aria-label="Previous screenshot">‹</button>
+        <button class="shot-arrow next" id="nextBtn" aria-label="Next screenshot">›</button>
       </div>
-      <div class="shot-caption" id="shotCaption"></div>
+      <div class="shot-cap" id="shotCaption" style="grid-column:2"></div>
     </div>
 
     <div class="hero-right" id="heroGroups"></div>
