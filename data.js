@@ -53,47 +53,47 @@ const SITE_WEB = {
     "slides": [
       {
         "src": "assets/shots/shot_01.jpg",
-        "cap": "01 / 09 — HOME",
+        "cap": "",
         "g": 0
       },
       {
         "src": "assets/shots/shot_02.jpg",
-        "cap": "02 / 09 — REFERENCE MATCH",
+        "cap": "",
         "g": 0
       },
       {
         "src": "assets/shots/shot_03.jpg",
-        "cap": "03 / 09 — ADJUSTMENT PANEL",
+        "cap": "",
         "g": 0
       },
       {
         "src": "assets/shots/shot_04.jpg",
-        "cap": "04 / 09 — FILM GRAIN & HSL",
+        "cap": "",
         "g": 0
       },
       {
         "src": "assets/shots/shot_05.jpg",
-        "cap": "05 / 09 — BEFORE / AFTER",
+        "cap": "",
         "g": 0
       },
       {
         "src": "assets/shots/shot_06.jpg",
-        "cap": "06 / 09 — EXPORT",
+        "cap": "",
         "g": 0
       },
       {
         "src": "assets/shots/shot_07.jpg",
-        "cap": "07 / 09 — COLLAGE",
+        "cap": "",
         "g": 2
       },
       {
         "src": "assets/shots/shot_08.jpg",
-        "cap": "08 / 09 — SETTINGS",
+        "cap": "",
         "g": 1
       },
       {
         "src": "assets/shots/shot_09.jpg",
-        "cap": "09 / 09 — EXIF CONTROL",
+        "cap": "",
         "g": 1
       }
     ]
