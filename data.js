@@ -3,28 +3,6 @@ const SITE_WEB = {
   "siteTitle": "Toneby",
   "galleryTitle": "LUT Gallery",
   "faqTitle": "Frequently Asked Questions",
-  "faqEyebrow": "FAQ // SUPPORT",
-  "faqDesc": "Find answers to common questions about Toneby’s color grading engine, privacy features, and custom presets support.",
-  "journalEyebrow": "JOURNAL // READS",
-  "journalTitle": "TONEBY JOURNAL",
-  "journalDesc": "Explore our latest articles, film simulation guides, and professional editing tutorials to master your photography workflow.",
-  "journal": [
-    {
-      "date": "2026.06.06",
-      "title": "HOW TO USE 3D LUT ON MOBILE & IMPORT .CUBE LUT ON PHONE",
-      "href": ""
-    },
-    {
-      "date": "2026.06.06",
-      "title": "HOW TO POST HIGH-QUALITY PHOTOS ON SOCIAL MEDIA WITHOUT QUALITY LOSS",
-      "href": ""
-    },
-    {
-      "date": "2026.06.06",
-      "title": "HOW TO ADD PROFESSIONAL EXIF DATA BORDERS TO YOUR PHOTOS",
-      "href": ""
-    }
-  ],
   "legal": {
     "privacyTitle": "Privacy Policy",
     "privacyContent": "<h1>Toneby 隐私政策 / Privacy Policy</h1>\n  <p><strong>生效日期 / Effective Date:</strong> August 7, 2026 / 2026年8月7日</p>\n\n  <hr>\n\n  <!-- ========== 中文 ========== -->\n  <h2>中文</h2>\n\n  <h3>1. 简介</h3>\n  <p>Toneby（以下简称\"本应用\"）是一款本地照片调色工具。我们非常重视您的隐私，本政策说明本应用如何处理您的信息。</p>\n\n  <h3>2. 我们收集哪些信息</h3>\n  <p>本应用的设计目标是<b>所有照片均在您的设备本地处理</b>：照片不会被上传到任何服务器，我们不会收集、存储或分享您的照片内容。</p>\n  <p>本应用不使用第三方广告 SDK，不收集设备标识符，不收集位置信息，不收集使用统计数据。</p>\n\n  <h3>3. 权限说明</h3>\n  <p><strong>相机权限：</strong>仅用于在应用内拍照取景，照片保存在您的设备上。</p>\n\n  <h3>4. 应用内购买</h3>\n  <p>应用内购买通过 Google Play 处理。付款信息由 Google 负责，本应用无法访问您的支付账号信息。</p>\n\n  <h3>5. 数据分享</h3>\n  <p>我们不会向任何第三方出售、出租或分享您的个人信息。</p>\n\n  <h3>6. 您的权利</h3>\n  <p>由于我们不收集任何个人信息，您无需申请删除数据。如需联系我们，请发送邮件至：<strong>liudeqincanzai@gmail.com</strong></p>\n\n  <h3>7. 政策更新</h3>\n  <p>本政策如有更新，将在本页面公布。</p>\n\n  <hr>\n\n  <!-- ========== English ========== -->\n  <h2>English</h2>\n\n  <h3>1. Introduction</h3>\n  <p>Toneby (\"the App\") is a local photo color grading tool. We take your privacy seriously. This policy explains how the App handles your information.</p>\n\n  <h3>2. What Data We Collect</h3>\n  <p>The App is designed to <strong>process all photos entirely on your device</strong>. Your photos are never uploaded to any server. We do not collect, store, or share your photo content.</p>\n  <p>We do not use third-party advertising SDKs. We do not collect device identifiers, location data, or usage analytics.</p>\n\n  <h3>3. Permissions</h3>\n  <p><strong>Camera:</strong> Used only for capturing photos within the App. Photos are saved locally on your device.</p>\n\n  <h3>4. In-App Purchases</h3>\n  <p>In-app purchases are processed through Google Play. Payment information is handled by Google and is not accessible to the App.</p>\n\n  <h3>5. Data Sharing</h3>\n  <p>We do not sell, rent, or share your personal information with any third party.</p>\n\n  <h3>6. Your Rights</h3>\n  <p>Since we do not collect any personal data, there is no data to delete. If you have any questions, please contact us at: <strong>liudeqincanzai@gmail.com</strong></p>\n\n  <h3>7. Changes to This Policy</h3>\n  <p>Any updates to this policy will be posted on this page.</p>",
@@ -76,7 +54,7 @@ const SITE_WEB = {
       {
         "src": "assets/shots/商店资讯图_01.jpg",
         "cap": "",
-        "g": 0
+        "g": 1
       },
       {
         "src": "assets/shots/商店资讯图_02.jpg",
@@ -86,7 +64,7 @@ const SITE_WEB = {
       {
         "src": "assets/shots/商店资讯图_03.jpg",
         "cap": "",
-        "g": 0
+        "g": 2
       },
       {
         "src": "assets/shots/商店资讯图_04.jpg",
@@ -96,7 +74,7 @@ const SITE_WEB = {
       {
         "src": "assets/shots/商店资讯图_05.jpg",
         "cap": "",
-        "g": 0
+        "g": 3
       }
     ],
     "eyebrow": "OFFLINE-FIRST // LOCAL RENDERING ENGINE // EST. 2026",
@@ -236,5 +214,27 @@ const SITE_WEB = {
     "journal",
     "faq",
     "cta"
+  ],
+  "faqEyebrow": "FAQ // SUPPORT",
+  "faqDesc": "Find answers to common questions about Toneby’s color grading engine, privacy features, and custom presets support.",
+  "journalEyebrow": "JOURNAL // READS",
+  "journalTitle": "TONEBY JOURNAL",
+  "journalDesc": "Explore our latest articles, film simulation guides, and professional editing tutorials to master your photography workflow.",
+  "journal": [
+    {
+      "date": "2026.06.06",
+      "title": "HOW TO USE 3D LUT ON MOBILE & IMPORT .CUBE LUT ON PHONE",
+      "href": ""
+    },
+    {
+      "date": "2026.06.06",
+      "title": "HOW TO POST HIGH-QUALITY PHOTOS ON SOCIAL MEDIA WITHOUT QUALITY LOSS",
+      "href": ""
+    },
+    {
+      "date": "2026.06.06",
+      "title": "HOW TO ADD PROFESSIONAL EXIF DATA BORDERS TO YOUR PHOTOS",
+      "href": ""
+    }
   ]
 };
