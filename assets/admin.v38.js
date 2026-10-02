@@ -1,0 +1,736 @@
+// 统一后台：官网编辑（数据驱动）+ LUT 展示编辑（iframe 内嵌）
+(function () {
+  var SAVE_KEY = "lut_web_edits_v1";
+  var PASS_KEY = "lut_site_admin_pass";
+  var TOKEN_KEY = "lut_gh_token";
+  var REPO = "liudeqincanzai-ux/liudeqincanzai-ux.github.io";
+
+  // 全局错误显示条（任何脚本报错都直接显示在页面上，便于定位）
+  window.onerror = function (msg, src, line) {
+    var b = document.getElementById("errBanner");
+    if (!b) return;
+    b.style.display = "block";
+    b.textContent = "脚本错误: " + msg + " @" + (src || "").split("/").pop() + ":" + line;
+  };
+
+  var gateEl = document.getElementById("gate");
+  var appEl = document.getElementById("app");
+
+  function getPassword() {
+    try { return localStorage.getItem(PASS_KEY) || "toneby"; } catch (e) { return "toneby"; }
+  }
+  function getToken() {
+    try { return (localStorage.getItem(TOKEN_KEY) || "").trim(); } catch (e) { return ""; }
+  }
+  function setToken(t) {
+    try {
+      if (t && t.trim()) localStorage.setItem(TOKEN_KEY, t.trim());
+      else localStorage.removeItem(TOKEN_KEY);
+    } catch (e) {}
+  }
+
+  // ---------- 数据（深合并：旧保存数据缺的新字段用默认补齐） ----------
+  function mergeDeep(base, over) {
+    if (Array.isArray(base)) return (over !== undefined && Array.isArray(over)) ? over : JSON.parse(JSON.stringify(base));
+    if (base !== null && typeof base === "object") {
+      var out = (over !== null && typeof over === "object" && !Array.isArray(over)) ? over : {};
+      Object.keys(base).forEach(function (k) { out[k] = mergeDeep(base[k], out[k]); });
+      return out;
+    }
+    return (over === undefined) ? base : over;
+  }
+  var DATA;
+  var pending = {}; // path -> File（等待同步上传的官网图片）
+  var objUrls = {};
+  try {
+    var s = JSON.parse(localStorage.getItem(SAVE_KEY));
+    DATA = mergeDeep(JSON.parse(JSON.stringify(SITE_WEB)), (s && s.site) ? s.site : null);
+  } catch (e) { DATA = JSON.parse(JSON.stringify(SITE_WEB)); }
+  function saveQuiet() {
+    try { localStorage.setItem(SAVE_KEY, JSON.stringify({ site: DATA })); } catch (e) {}
+  }
+
+  // ---------- 密码门 ----------
+  var passInput = document.getElementById("gatePass");
+  var gateErr = document.getElementById("gateErr");
+  function enter() {
+    if (passInput.value === getPassword()) {
+      try { sessionStorage.setItem("lut_admin_unlocked", "1"); } catch (e) {}
+      gateEl.style.display = "none";
+      appEl.style.display = "flex";
+      start();
+    } else {
+      gateErr.textContent = "密码不对，再试一次";
+      passInput.value = "";
+    }
+  }
+  document.getElementById("gateBtn").onclick = enter;
+  passInput.addEventListener("keydown", function (e) { if (e.key === "Enter") enter(); });
+  try {
+    if (sessionStorage.getItem("lut_admin_unlocked") === "1") {
+      gateEl.style.display = "none";
+      appEl.style.display = "flex";
+      start();
+    } else { passInput.focus(); }
+  } catch (e) { try { passInput.focus(); } catch (e2) {} }
+
+  // ---------- 首次连接 GitHub 弹窗 ----------
+  function showTokenModal(afterSave) {
+    var overlay = document.createElement("div");
+    overlay.className = "gate";
+    overlay.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100;";
+    var box = document.createElement("div");
+    box.className = "gate-box";
+    box.style.textAlign = "left";
+    var h = document.createElement("h1");
+    h.textContent = "连接 GitHub（官网同步用）";
+    box.appendChild(h);
+    var steps = document.createElement("p");
+    steps.className = "gate-hint";
+    steps.style.textAlign = "left";
+    steps.innerHTML = "官网数据保存在主仓库（liudeqincanzai-ux.github.io），你的令牌需要先授权它：<br>"
+      + "1. 打开 GitHub 令牌页，点进「Toneby LUT 编辑器 永久」<br>"
+      + "2. 找到「存储库访问」，点「更新」，把 <b>liudeqincanzai-ux.github.io</b> 也加入勾选<br>"
+      + "3. 拉到底点 Update 保存（令牌串不变）";
+    box.appendChild(steps);
+    var linkBtn = document.createElement("button");
+    linkBtn.type = "button";
+    linkBtn.style.cssText = "width:100%;margin-bottom:12px;";
+    linkBtn.textContent = "① 打开我的令牌列表";
+    linkBtn.onclick = function () {
+      window.open("https://github.com/settings/personal-access-tokens", "_blank");
+    };
+    box.appendChild(linkBtn);
+    var input = document.createElement("input");
+    input.type = "password";
+    input.placeholder = "（可选）重新粘贴令牌串";
+    box.appendChild(input);
+    var errP = document.createElement("p");
+    errP.className = "gate-err";
+    box.appendChild(errP);
+    var saveBtn = document.createElement("button");
+    saveBtn.type = "button";
+    saveBtn.textContent = "② 已更新，保存并同步官网";
+    saveBtn.onclick = function () {
+      if (input.value.trim()) setToken(input.value);
+      overlay.remove();
+      afterSave();
+    };
+    box.appendChild(saveBtn);
+    var later = document.createElement("a");
+    later.className = "bar-link";
+    later.href = "#";
+    later.style.cssText = "display:block;margin-top:10px;";
+    later.textContent = "稍后再连（内容仍自动保存在本机）";
+    later.onclick = function (e) { e.preventDefault(); overlay.remove(); };
+    box.appendChild(later);
+    overlay.appendChild(box);
+    document.body.appendChild(overlay);
+  }
+
+  // ---------- 工具 ----------
+  var toastEl = document.getElementById("toast");
+  function toast(msg) {
+    toastEl.textContent = msg;
+    toastEl.classList.add("show");
+    clearTimeout(toast._t);
+    toast._t = setTimeout(function () { toastEl.classList.remove("show"); }, 2000);
+  }
+
+  function field(label, hint, value, onChange, rows) {
+    var wrap = document.createElement("div");
+    wrap.className = "field";
+    var lab = document.createElement("label");
+    lab.textContent = label;
+    if (hint) {
+      var h = document.createElement("span");
+      h.className = "hint";
+      h.textContent = "（" + hint + "）";
+      lab.appendChild(h);
+    }
+    var input = document.createElement(rows ? "textarea" : "input");
+    if (rows) input.rows = rows; else input.type = "text";
+    input.value = value || "";
+    input.oninput = function () { onChange(input.value); };
+    wrap.appendChild(lab);
+    wrap.appendChild(input);
+    return wrap;
+  }
+
+  function shrinkImage(file, cb) {
+    var url = URL.createObjectURL(file);
+    var im = new Image();
+    im.onload = function () {
+      URL.revokeObjectURL(url);
+      var scale = Math.min(1, 1600 / Math.max(im.naturalWidth, im.naturalHeight));
+      if (scale >= 1 && file.size < 500 * 1024) { cb(file); return; }
+      var c = document.createElement("canvas");
+      c.width = Math.round(im.naturalWidth * scale);
+      c.height = Math.round(im.naturalHeight * scale);
+      c.getContext("2d").drawImage(im, 0, 0, c.width, c.height);
+      c.toBlob(function (blob) {
+        if (!blob) { cb(file); return; }
+        var outName = file.name.replace(/\.(png|webp|jpeg|jpg)$/i, ".jpg");
+        cb(new File([blob], outName, { type: "image/jpeg" }));
+      }, "image/jpeg", 0.82);
+    };
+    im.onerror = function () { URL.revokeObjectURL(url); cb(file); };
+    im.src = url;
+  }
+
+  var objUrls = {};
+  function imagePicker(currentSrc, onPick) {
+    var wrap = document.createElement("div");
+    wrap.className = "img-pick";
+    var img = document.createElement("img");
+    img.className = "thumb";
+    img.style.cssText = "width:84px;height:57px;object-fit:cover;border-radius:3px;background:#111;border:1px solid #333;";
+    img.src = objUrls[currentSrc] || currentSrc || "";
+    wrap.appendChild(img);
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "pickbtn";
+    btn.textContent = "更换图片";
+    var fi = document.createElement("input");
+    fi.type = "file"; fi.accept = "image/*"; fi.style.display = "none";
+    fi.onchange = function () {
+      var f = fi.files && fi.files[0];
+      if (!f) return;
+      shrinkImage(f, function (out) {
+        var path = "assets/shots/" + out.name;
+        objUrls[path] = URL.createObjectURL(out);
+        pending[path] = out;
+        img.src = objUrls[path];
+        onPick(path);
+        toast("图片已更换 ✓ 同步时上传");
+      });
+      fi.value = "";
+    };
+    btn.onclick = function () { fi.click(); };
+    wrap.appendChild(btn);
+    wrap.appendChild(fi);
+    return wrap;
+  }
+
+  // ---------- 标签页 ----------
+  var btnWeb = document.getElementById("btnWeb");
+  var btnLut = document.getElementById("btnLut");
+  var webPane = document.getElementById("webPane");
+  var lutPane = document.getElementById("lutPane");
+  var lutFrame = document.getElementById("lutFrame");
+  btnWeb.onclick = function () {
+    btnWeb.classList.add("active"); btnLut.classList.remove("active");
+    webPane.style.display = "block"; lutPane.style.display = "none"; var wp = document.getElementById("webPreview"); if (wp) wp.style.display = "block"; var wp = document.getElementById("webPreview"); if (wp) wp.style.display = "block"; var wp = document.getElementById("webPreview"); if (wp) wp.style.display = "block"; var wp = document.getElementById("webPreview"); if (wp) wp.style.display = "block";
+  };
+  btnLut.onclick = function () {
+    btnLut.classList.add("active"); btnWeb.classList.remove("active");
+    lutPane.style.display = "block"; webPane.style.display = "none"; var wp = document.getElementById("webPreview"); if (wp) wp.style.display = "none"; var wp = document.getElementById("webPreview"); if (wp) wp.style.display = "none"; var wp = document.getElementById("webPreview"); if (wp) wp.style.display = "none"; var wp = document.getElementById("webPreview"); if (wp) wp.style.display = "none";
+  };
+
+  // ---------- 前台实时预览联动 previewLink ----------
+  var SEC_MAP = { "品牌与导航": "hero", "HERO 主视觉": "hero", "轮播截图": "hero", "右侧分组标签": "hero",
+    "巨号数字三栏": "numbers", "功能标题区": "features", "MODULE 功能模块": "modules",
+    "图片对比板块": "compare", "LUT Gallery 预览": "gallery", "JOURNAL 文章板块": "journal", "FAQ 常见问题": "faq", "CTA 与页脚": "download" };
+  var pvFrame = document.getElementById("previewFrame");
+  function tagSections() {
+    try {
+      var hs = document.querySelectorAll("#webEditor h2");
+      Array.prototype.forEach.call(hs, function (h2el) {
+        var txt = h2el.textContent;
+        for (var name in SEC_MAP) {
+          if (txt.indexOf(name) === 0) { h2el.dataset.target = SEC_MAP[name]; h2el.classList.add("sec-h"); break; }
+        }
+      });
+    } catch (e) {}
+    reorderEditorBlocks();
+  }
+  var pvTimer = null;
+  function pvLink() {
+    clearTimeout(pvTimer);
+    pvTimer = setTimeout(function () {
+      try {
+        var ed = document.getElementById("webEditor");
+        var hs = document.querySelectorAll("#webEditor h2.sec-h");
+        if (!hs.length) return;
+        var cur = null;
+        Array.prototype.forEach.call(hs, function (h2el) { h2el.classList.remove("active"); });
+        var line = ed.scrollTop + 100;
+        Array.prototype.forEach.call(hs, function (h2el) { if (h2el.offsetTop <= line) cur = h2el; });
+        if (!cur && hs.length) cur = hs[0];
+        if (!cur) return;
+        cur.classList.add("active");
+        try { var dB = pvFrame.contentDocument; var bEl = dB && dB.getElementById("adminTag"); if (bEl) bEl.textContent = "正在编辑：" + cur.textContent; } catch (e2) {}
+        var tgt = cur.dataset.target;
+        var d = pvFrame.contentDocument;
+        if (!tgt || !d) return;
+        var sec = d.getElementById(tgt);
+        if (!sec) return;
+        Array.prototype.forEach.call(d.querySelectorAll(".admin-hl"), function (x) { x.classList.remove("admin-hl"); });
+        sec.classList.add("admin-hl");
+        sec.scrollIntoView({ behavior: "smooth", block: "start" });
+      } catch (e) {}
+    }, 250);
+  }
+  ["webEditor", "webPane"].forEach(function (id) {
+    var n = document.getElementById(id);
+    if (n) n.addEventListener("scroll", pvLink);
+  });
+  pvFrame.addEventListener("load", function () {
+    try {
+      var d = pvFrame.contentDocument;
+      if (d && !d.getElementById("adminHlStyle")) {
+        var stl = d.createElement("style");
+        stl.id = "adminHlStyle";
+        stl.textContent = ".admin-hl{outline:3px dashed #f95c48 !important;outline-offset:6px;background:rgba(249,92,72,.05)}",
+        (d.head || d.body).appendChild(stl);
+        (d.head || d.body).appendChild(stl);
+      }
+    } catch (e) {}
+    pvLink();
+  });
+  function reorderEditorBlocks() {
+    try {
+      var root2 = document.getElementById("webEditor");
+      var NAMES = ["品牌与导航", "HERO 主视觉", "轮播截图", "右侧分组标签", "巨号数字三栏", "功能标题区", "MODULE 功能模块", "图片对比板块", "LUT Gallery 预览", "JOURNAL 文章板块", "FAQ 常见问题", "CTA 与页脚", "板块排序", "站点与标题", "隐私政策页面内容", "用户协议页面内容", "GitHub Token"];
+      function nameOf(h2el) { for (var i2 = 0; i2 < NAMES.length; i2++) { if (h2el.textContent.indexOf(NAMES[i2]) === 0) return NAMES[i2]; } return null; }
+      var kids = Array.prototype.slice.call(root2.children);
+      var groups = {};
+      var cur = null;
+      kids.forEach(function (k) {
+        var n = (k.tagName === "H2") ? nameOf(k) : null;
+        if (n) { cur = n; if (!groups[n]) groups[n] = []; groups[n].push(k); }
+        else if (cur) { groups[cur].push(k); }
+      });
+      var seq = ["品牌与导航"];
+      var m = { hero: ["HERO 主视觉", "轮播截图", "右侧分组标签"], numbers: ["巨号数字三栏"], features: ["功能标题区"], modules: ["MODULE 功能模块"], compare: ["图片对比板块"], gallery: ["LUT Gallery 预览"], journal: ["JOURNAL 文章板块"], faq: ["FAQ 常见问题"], cta: ["CTA 与页脚"] };
+      (DATA.sections || []).forEach(function (id) { (m[id] || []).forEach(function (n) { if (groups[n]) seq.push(n); }); });
+      ["板块排序", "站点与标题", "隐私政策页面内容", "用户协议页面内容", "GitHub Token"].forEach(function (n) { if (groups[n]) seq.push(n); });
+      seq.forEach(function (n) { (groups[n] || []).forEach(function (k) { root2.appendChild(k); }); });
+    } catch (e) {}
+  }
+  document.getElementById("webEditor").addEventListener("focusin", function (e) {
+    try {
+      var ed = document.getElementById("webEditor");
+      var best = null;
+      Array.prototype.forEach.call(ed.querySelectorAll("h2.sec-h"), function (h2el) { if (h2el.offsetTop <= e.target.offsetTop) best = h2el; });
+      if (best) ed.scrollTop = best.offsetTop - 60;
+    } catch (err) {}
+  });
+  // 隐藏 iframe 内 LUT 编辑器自带的按钮组（统一由父页「保存并同步官网」保存全部）
+  function injectHide() {
+    try {
+      var d = lutFrame.contentDocument;
+      if (!d || !d.getElementById) return;
+      if (d.getElementById("adminHideStyle")) return;
+      var st = d.createElement("style");
+      st.id = "adminHideStyle";
+      st.textContent = ".edit-bar .bar-actions { display:none !important; }";
+      (d.head || d.body).appendChild(st);
+    } catch (e) {}
+  }
+  lutFrame.addEventListener("load", injectHide);
+  setInterval(injectHide, 2000);
+
+  // ---------- 官网编辑表单（分区容错：单区出错不影响其余） ----------
+  function h2(t) { var e = document.createElement("h2"); e.textContent = t; return e; }
+
+  function renderWeb() {
+    var root = document.getElementById("webEditor");
+    root.textContent = "";
+    function safe(name, fn) {
+      try { fn(); } catch (e) {
+        var eb = document.createElement("div");
+        eb.style.cssText = "background:#3a1515;color:#ff9c9c;border:1px solid #a33;border-radius:6px;padding:10px;margin:10px 0;font-size:12px";
+        eb.textContent = "「" + name + "」编辑区加载失败：" + e.message;
+        root.appendChild(eb);
+      }
+    }
+
+    safe("品牌与导航", function () {
+      root.appendChild(h2("品牌与导航"));
+      root.appendChild(field("网站标识（左上角）", "", DATA.nav.brand, function (v) { DATA.nav.brand = v; }));
+      root.appendChild(imagePicker(DATA.nav.logoSrc || "", function (p) { DATA.nav.logoSrc = p; saveQuiet(); toast("图标已更换 ✓"); }));
+      var logoClear = document.createElement("button");
+      logoClear.type = "button"; logoClear.className = "add-btn";
+      logoClear.textContent = "恢复默认黑色 T 图标";
+      logoClear.onclick = function () { DATA.nav.logoSrc = ""; saveQuiet(); renderWeb(); toast("已恢复默认图标"); };
+      root.appendChild(logoClear);
+      root.appendChild(field("下载按钮文字", "", DATA.nav.downloadLabel, function (v) { DATA.nav.downloadLabel = v; }));
+    });
+
+    safe("HERO 主视觉", function () {
+      root.appendChild(h2("HERO 主视觉"));
+      root.appendChild(field("小标（等宽字）", "", DATA.hero.meta, function (v) { DATA.hero.meta = v; }));
+      root.appendChild(field("顶部眉行小字", "轮播上方大字区最上面一行", DATA.hero.eyebrow || "", function (v) { DATA.hero.eyebrow = v; }));
+      root.appendChild(field("大字标题", "轮播上方巨型标题（建议 TONEBY）", DATA.hero.big || "", function (v) { DATA.hero.big = v; }));
+      root.appendChild(field("大字下方小字", "", DATA.hero.sub || "", function (v) { DATA.hero.sub = v; }));
+      root.appendChild(field("大标题", "支持 <br> 换行", DATA.hero.title, function (v) { DATA.hero.title = v; }, 2));
+      root.appendChild(field("介绍段落", "", DATA.hero.intro, function (v) { DATA.hero.intro = v; }, 4));
+      var r2 = document.createElement("div"); r2.className = "row2";
+      r2.appendChild(field("下载按钮小字", "", DATA.hero.playLabel, function (v) { DATA.hero.playLabel = v; }));
+      r2.appendChild(field("下载按钮商店名", "", DATA.hero.playStore, function (v) { DATA.hero.playStore = v; }));
+      root.appendChild(r2);
+      root.appendChild(field("Google Play 链接", "上架后填正式链接", DATA.hero.playUrl, function (v) { DATA.hero.playUrl = v; }));
+    });
+
+    safe("轮播截图", function () {
+      root.appendChild(h2("轮播截图（第一张显示在最前，后层自动灰化）"));
+      (DATA.hero.slides || []).forEach(function (s, i) {
+        var card = document.createElement("div");
+        card.className = "item-card";
+        var head = document.createElement("div");
+        head.className = "item-head";
+        head.appendChild(Object.assign(document.createElement("span"), { className: "t", textContent: "截图 " + (i + 1) }));
+        var ops = document.createElement("span");
+        ops.className = "ops";
+        [["↑", function () { if (i > 0) { var t = DATA.hero.slides[i - 1]; DATA.hero.slides[i - 1] = DATA.hero.slides[i]; DATA.hero.slides[i] = t; saveQuiet(); renderWeb(); } }],
+         ["↓", function () { if (i < DATA.hero.slides.length - 1) { var t = DATA.hero.slides[i + 1]; DATA.hero.slides[i + 1] = DATA.hero.slides[i]; DATA.hero.slides[i] = t; saveQuiet(); renderWeb(); } }],
+         ["删除", function () { DATA.hero.slides.splice(i, 1); saveQuiet(); renderWeb(); }, 1]
+        ].forEach(function (d) {
+          var b = document.createElement("button");
+          b.textContent = d[0];
+          if (d[2]) b.className = "danger";
+          b.onclick = d[1];
+          ops.appendChild(b);
+        });
+        head.appendChild(ops);
+        card.appendChild(head);
+        card.appendChild(imagePicker(s.src, function (p) { s.src = p; saveQuiet(); }));
+        card.appendChild(field("下方标注文字", "", s.cap, function (v) { s.cap = v; }));
+        card.appendChild(field("所属分组 (0/1/2)", "0=胶片彩色引擎 1=本地隐私 2=LUT相机及更多", String(s.g), function (v) { s.g = parseInt(v) || 0; }));
+        root.appendChild(card);
+      });
+      var addShot = document.createElement("button");
+      addShot.className = "add-img-btn";
+      addShot.textContent = "＋ 添加轮播截图（可多选，自动压缩）";
+      var shotInput = document.createElement("input");
+      shotInput.type = "file"; shotInput.accept = "image/*"; shotInput.multiple = true; shotInput.style.display = "none";
+      shotInput.onchange = function () {
+        var files = Array.prototype.slice.call(shotInput.files || []);
+        var left = files.length;
+        if (!left) return;
+        files.forEach(function (f) {
+          shrinkImage(f, function (out) {
+            var path = "assets/shots/" + out.name;
+            objUrls[path] = URL.createObjectURL(out);
+            pending[path] = out;
+            DATA.hero.slides.push({ src: path, cap: "", g: 0 });
+            saveQuiet(); renderWeb();
+            left--;
+            if (left === 0) toast("截图已添加 ✓ 同步时上传");
+          });
+        });
+        shotInput.value = "";
+      };
+      addShot.onclick = function () { shotInput.click(); };
+      root.appendChild(addShot);
+    });
+
+    safe("右侧分组标签", function () {
+      root.appendChild(h2("右侧分组标签（3 组）"));
+      (DATA.hero.groups || []).forEach(function (g, i) {
+        var r = document.createElement("div"); r.className = "row2";
+        r.appendChild(field("编号 " + (i + 1), "如 — 01", g.no, function (v) { g.no = v; }));
+        r.appendChild(field("标签文字 " + (i + 1), "", g.label, function (v) { g.label = v; }));
+        root.appendChild(r);
+      });
+    });
+
+    safe("巨号数字三栏", function () {
+      root.appendChild(h2("巨号数字三栏（01 / 02 / 03 那三块）"));
+      (DATA.numbers || []).forEach(function (n, i) {
+        var card = document.createElement("div");
+        card.className = "item-card";
+        card.appendChild(field("编号 " + (i + 1), "如 01", n.no, function (v) { n.no = v; }));
+        card.appendChild(field("标题 " + (i + 1), "", n.title, function (v) { n.title = v; }));
+        card.appendChild(field("描述 " + (i + 1), "", n.desc, function (v) { n.desc = v; }, 2));
+        root.appendChild(card);
+      });
+    });
+
+    safe("功能标题区", function () {
+      root.appendChild(h2("功能标题区（SYSTEM // FEATURES 大标题那块）"));
+      root.appendChild(field("小标", "", DATA.intro2.tag, function (v) { DATA.intro2.tag = v; }));
+      root.appendChild(field("标题", "", DATA.intro2.title, function (v) { DATA.intro2.title = v; }));
+      root.appendChild(field("描述", "", DATA.intro2.desc, function (v) { DATA.intro2.desc = v; }, 3));
+    });
+
+    safe("MODULE 功能模块", function () {
+      root.appendChild(h2("MODULE 功能模块（5 个）"));
+      (DATA.modules || []).forEach(function (m, i) {
+        var card = document.createElement("div");
+        card.className = "item-card";
+        card.appendChild(field("MODULE 编号", "如 MODULE01（清空则不显示）", m.mod, function (v) { m.mod = v; }));
+        card.appendChild(field("图注小字（FIG）", "如 FIG. 01 // 05（清空则不显示）", m.fig || "", function (v) { m.fig = v; }));
+        card.appendChild(field("标题", "", m.title, function (v) { m.title = v; }));
+        card.appendChild(field("描述", "", m.desc, function (v) { m.desc = v; }, 3));
+        card.appendChild(imagePicker(m.src, function (p) { m.src = p; saveQuiet(); }));
+        root.appendChild(card);
+      });
+    });
+
+
+
+    safe("JOURNAL 文章板块", function () {
+      if (!DATA.journal) DATA.journal = [];
+      root.appendChild(h2("JOURNAL 文章板块（问答板块上方）"));
+      root.appendChild(field("眉行小字", "左上角等宽小字", DATA.journalEyebrow || "", function (v) { DATA.journalEyebrow = v; }));
+      root.appendChild(field("大字标题", "左侧巨型标题", DATA.journalTitle || "", function (v) { DATA.journalTitle = v; }));
+      root.appendChild(field("描述", "大标题下的小字", DATA.journalDesc || "", function (v) { DATA.journalDesc = v; }, 3));
+      (DATA.journal || []).forEach(function (j, i) {
+        var card = document.createElement("div");
+        card.className = "item-card";
+        var head = document.createElement("div");
+        head.className = "item-head";
+        head.appendChild(Object.assign(document.createElement("span"), { className: "t", textContent: "文章 " + (i + 1) }));
+        var ops = document.createElement("span");
+        ops.className = "ops";
+        [["↑", function () { if (i > 0) { var t = DATA.journal[i - 1]; DATA.journal[i - 1] = DATA.journal[i]; DATA.journal[i] = t; saveQuiet(); renderWeb(); } }],
+         ["↓", function () { if (i < DATA.journal.length - 1) { var t = DATA.journal[i + 1]; DATA.journal[i + 1] = DATA.journal[i]; DATA.journal[i] = t; saveQuiet(); renderWeb(); } }],
+         ["删除", function () { DATA.journal.splice(i, 1); saveQuiet(); renderWeb(); }, 1]
+        ].forEach(function (d) {
+          var b = document.createElement("button");
+          b.textContent = d[0];
+          if (d[2]) b.className = "danger";
+          b.onclick = d[1];
+          ops.appendChild(b);
+        });
+        head.appendChild(ops);
+        card.appendChild(head);
+        card.appendChild(field("日期", "如 2026.06.06（可空）", j.date || "", function (v) { j.date = v; }));
+        card.appendChild(field("标题", "列表里的大字标题", j.title || "", function (v) { j.title = v; }, 2));
+        card.appendChild(field("链接", "可空=不可点击；#faq 为站内锚点，https:// 为外链", j.href || "", function (v) { j.href = v; }));
+        root.appendChild(card);
+      });
+      var addJ = document.createElement("button");
+      addJ.className = "add-btn";
+      addJ.textContent = "＋ 添加一篇文章";
+      addJ.onclick = function () { DATA.journal.push({ date: "2026.06.06", title: "NEW ARTICLE TITLE", href: "" }); saveQuiet(); renderWeb(); };
+      root.appendChild(addJ);
+    });
+
+    safe("FAQ 常见问题", function () {
+      root.appendChild(h2("FAQ 常见问题"));
+      root.appendChild(field("眉行小字", "FAQ 板块左上角", DATA.faqEyebrow || "", function (v) { DATA.faqEyebrow = v; }));
+      root.appendChild(field("板块描述", "左侧大标题下的小字", DATA.faqDesc || "", function (v) { DATA.faqDesc = v; }, 3));
+      (DATA.faq || []).forEach(function (f, i) {
+        var card = document.createElement("div");
+        card.className = "item-card";
+        var head = document.createElement("div");
+        head.className = "item-head";
+        head.appendChild(Object.assign(document.createElement("span"), { className: "t", textContent: "问题 " + (i + 1) }));
+        var ops = document.createElement("span");
+        ops.className = "ops";
+        var del = document.createElement("button");
+        del.className = "danger";
+        del.textContent = "删除";
+        del.onclick = function () { DATA.faq.splice(i, 1); saveQuiet(); renderWeb(); };
+        ops.appendChild(del);
+        head.appendChild(ops);
+        card.appendChild(head);
+        card.appendChild(field("问题", "", f.q, function (v) { f.q = v; }));
+        card.appendChild(field("回答", "", f.a, function (v) { f.a = v; }, 3));
+        root.appendChild(card);
+      });
+      var addFaq = document.createElement("button");
+      addFaq.className = "add-btn";
+      addFaq.textContent = "＋ 添加一条 FAQ";
+      addFaq.onclick = function () { DATA.faq.push({ q: "新问题？", a: "回答内容" }); saveQuiet(); renderWeb(); };
+      root.appendChild(addFaq);
+    });
+
+    safe("CTA 与页脚", function () {
+      root.appendChild(h2("CTA 与页脚"));
+      root.appendChild(field("CTA 标语", "", DATA.cta.title, function (v) { DATA.cta.title = v; }));
+      root.appendChild(field("页脚品牌名", "", DATA.footer.brand, function (v) { DATA.footer.brand = v; }));
+      var r3 = document.createElement("div"); r3.className = "row2";
+      r3.appendChild(field("隐私政策链接文字", "", DATA.footer.privacyLabel, function (v) { DATA.footer.privacyLabel = v; }));
+      r3.appendChild(field("用户协议链接文字", "", DATA.footer.termsLabel, function (v) { DATA.footer.termsLabel = v; }));
+      root.appendChild(r3);
+      root.appendChild(field("版权行", "", DATA.footer.copy, function (v) { DATA.footer.copy = v; }));
+    });
+
+    safe("站点与标题", function () {
+      root.appendChild(h2("站点与标题"));
+      root.appendChild(field("网站名称（浏览器标签标题）", "也会显示为网站名", DATA.siteTitle || "Toneby", function (v) { DATA.siteTitle = v; }));
+      root.appendChild(field("LUT 画廊区块标题", "", DATA.galleryTitle || "LUT Gallery", function (v) { DATA.galleryTitle = v; }));
+      root.appendChild(field("FAQ 区块标题", "", DATA.faqTitle || "Frequently Asked Questions", function (v) { DATA.faqTitle = v; }));
+    });
+
+    safe("隐私政策页面内容", function () {
+      if (!DATA.legal) DATA.legal = {};
+      root.appendChild(h2("隐私政策页面内容"));
+      root.appendChild(field("页面标题", "", DATA.legal.privacyTitle, function (v) { DATA.legal.privacyTitle = v; }));
+      root.appendChild(field("页面内容（HTML）", "支持 <h3>/<p>/<strong> 等标签", DATA.legal.privacyContent, function (v) { DATA.legal.privacyContent = v; }, 12));
+    });
+
+    safe("用户协议页面内容", function () {
+      if (!DATA.legal) DATA.legal = {};
+      root.appendChild(h2("用户协议页面内容"));
+      root.appendChild(field("页面标题", "", DATA.legal.termsTitle, function (v) { DATA.legal.termsTitle = v; }));
+      root.appendChild(field("页面内容（HTML）", "支持 <h2>/<p>/<em> 等标签", DATA.legal.termsContent, function (v) { DATA.legal.termsContent = v; }, 12));
+    });
+
+    safe("GitHub Token", function () {
+      safe("图片对比板块（竖线拖动对比两图）", function () {
+      root.appendChild(h2("图片对比板块"));
+      (DATA.compare || []).forEach(function (c, i) {
+        var card = document.createElement("div");
+        card.className = "item-card";
+        card.appendChild(h2("对比板块 " + (i + 1)));
+        card.appendChild(field("左侧图（对比前）路径", "如 assets/shots/xx.jpg", c.before || "", function (v) { c.before = v; }));
+        card.appendChild(imagePicker(c.before || "", function (p) { c.before = p; saveQuiet(); }));
+        card.appendChild(field("右侧图（对比后）路径", "如 assets/shots/yy.jpg", c.after || "", function (v) { c.after = v; }));
+        card.appendChild(imagePicker(c.after || "", function (p) { c.after = p; saveQuiet(); }));
+        card.appendChild(field("说明文字（可空）", "", c.caption || "", function (v) { c.caption = v; }));
+        var del = document.createElement("button");
+        del.type = "button"; del.className = "add-btn";
+        del.textContent = "删除此对比板块";
+        del.onclick = function () { DATA.compare.splice(i, 1); saveQuiet(); renderWeb(); };
+        card.appendChild(del);
+        root.appendChild(card);
+      });
+      var addB = document.createElement("button");
+      addB.type = "button"; addB.className = "add-btn";
+      addB.textContent = "＋ 添加对比板块";
+      addB.onclick = function () { DATA.compare.push({ before: "", after: "", caption: "" }); saveQuiet(); renderWeb(); };
+      root.appendChild(addB);
+    });
+    safe("板块排序", function () {
+      root.appendChild(h2("板块排序（上移/下移后保存同步即生效）"));
+      if (!DATA.sections) DATA.sections = [];
+      if (DATA.sections.indexOf("journal") < 0) {
+        var jf = DATA.sections.indexOf("faq");
+        DATA.sections.splice(jf < 0 ? DATA.sections.length : jf, 0, "journal");
+        saveQuiet();
+      }
+      var names = { hero: "首屏轮播", numbers: "巨号数字", features: "功能标题", modules: "图片展示", compare: "图片对比", gallery: "LUT 画廊", journal: "文章板块", faq: "常见问题", cta: "下载号召" };
+      (DATA.sections || []).forEach(function (id, i) {
+        var row = document.createElement("div");
+        row.className = "item-card";
+        var t = document.createElement("div");
+        t.style.cssText = "padding:6px 0;font-weight:700";
+        t.textContent = (i + 1) + ". " + (names[id] || id);
+        row.appendChild(t);
+        var up = document.createElement("button");
+        up.type = "button"; up.className = "add-btn"; up.textContent = "↑ 上移";
+        up.disabled = i === 0;
+        up.onclick = function () { var arr = DATA.sections; var tmp = arr[i - 1]; arr[i - 1] = arr[i]; arr[i] = tmp; saveQuiet(); renderWeb(); };
+        var dn = document.createElement("button");
+        dn.type = "button"; dn.className = "add-btn"; dn.textContent = "↓ 下移";
+        dn.style.marginLeft = "10px";
+        dn.disabled = i === DATA.sections.length - 1;
+        dn.onclick = function () { var arr = DATA.sections; var tmp = arr[i + 1]; arr[i + 1] = arr[i]; arr[i] = tmp; saveQuiet(); renderWeb(); };
+        row.appendChild(up); row.appendChild(dn);
+        root.appendChild(row);
+      });
+    });
+    root.appendChild(h2("GitHub Token"));
+      root.appendChild(field("令牌", "官网同步与 LUT 同步共用；需同时有权访问两个仓库", "", function (v) {
+        if (v && v.trim()) { setToken(v); toast("Token 已保存 ✓"); }
+      }));
+    });
+    tagSections();
+  }
+
+  // ---------- 同步 ----------
+  function buildDataJs() {
+    return "// 由统一后台同步生成\nconst SITE_WEB = " + JSON.stringify(DATA, null, 2) + ";\n";
+  }
+  function toB64(bytes) {
+    var bin = "", CHUNK = 0x8000;
+    for (var i = 0; i < bytes.length; i += CHUNK)
+      bin += String.fromCharCode.apply(null, bytes.subarray(i, i + CHUNK));
+    return btoa(bin);
+  }
+  function ghApi(path, opts) {
+    opts = opts || {};
+    opts.headers = Object.assign({
+      "Authorization": "Bearer " + getToken(),
+      "Accept": "application/vnd.github+json"
+    }, opts.headers || {});
+    return fetch("https://api.github.com" + path, opts).then(function (res) {
+      if (res.status === 401) throw new Error("Token 无效，请重新粘贴");
+      if (res.status === 403) throw new Error("令牌没有主仓库(liudeqincanzai-ux.github.io)权限：请编辑「Toneby LUT 编辑器 永久」，在存储库访问中加入 liudeqincanzai-ux.github.io");
+      return res;
+    });
+  }
+  function ghPutFile(path, b64, message) {
+    return ghApi("/repos/" + REPO + "/contents/" + encodeURI(path))
+      .then(function (r) { return r.json(); })
+      .then(function (info) { return info.sha; })
+      .catch(function (e) {
+        if (e.message.indexOf("令牌") >= 0 || e.message.indexOf("Token") >= 0) throw e;
+        return null;
+      })
+      .then(function (sha) {
+        return ghApi("/repos/" + REPO + "/contents/" + encodeURI(path), {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: message, content: b64, sha: sha || undefined })
+        });
+      });
+  }
+  var statusEl = document.getElementById("syncStatus");
+  var btnSync = document.getElementById("btnSync");
+  function setStatus(msg, isErr) {
+    statusEl.textContent = msg;
+    statusEl.className = "sync-status" + (isErr ? " err" : "");
+  }
+
+  document.getElementById("btnSync").onclick = function () {
+    if (!getToken()) {
+      showTokenModal(function () { document.getElementById("btnSync").click(); });
+      return;
+    }
+    saveQuiet();
+    btnSync.disabled = true;
+    // ① LUT 展示：程序化点击 iframe 内的同步按钮（数据+图片同步到 showcase 仓库）
+    var tries = 0;
+    (function clickLut() {
+      var b = null;
+      try { b = lutFrame.contentDocument.querySelector(".edit-bar .bar-actions button.primary"); } catch (e) {}
+      if (b) b.click();
+      else if (tries++ < 20) setTimeout(clickLut, 500);
+    })();
+    // ② 官网：data.js + 新图片同步到主仓库
+    var textEnc = new TextEncoder().encode(buildDataJs());
+    var jobs = [["data.js", Promise.resolve(toB64(textEnc))]];
+    Object.keys(pending).forEach(function (p) {
+      jobs.push([p, pending[p].arrayBuffer().then(function (buf) { return toB64(new Uint8Array(buf)); })]);
+    });
+    var done = 0, failed = 0;
+    setStatus("同步中 0/" + jobs.length + " …");
+    jobs.reduce(function (chain, job) {
+      return chain.then(function () {
+        return job[1].then(function (b64) {
+          return ghPutFile(job[0], b64, "官网更新: " + job[0]);
+        }).then(function () {
+          done++;
+          setStatus("同步中 " + done + "/" + jobs.length + " …");
+          delete pending[job[0]];
+        }).catch(function (e) {
+          failed++;
+          setStatus("「" + job[0] + "」失败：" + e.message, true);
+        });
+      });
+    }, Promise.resolve()).then(function () {
+      btnSync.disabled = false;
+      if (failed === 0) {
+        setStatus("✓ 已同步到 GitHub，网站约 1 分钟内更新");
+        toast("同步成功 ✓");
+      } else {
+        setStatus("部分失败（" + failed + " 个），可重试", true);
+      }
+    });
+  };
+
+  // ---------- 启动 ----------
+  function start() {
+    renderWeb();
+    webPane.style.display = "block";
+    lutPane.style.display = "none";
+    btnWeb.classList.add("active");
+    btnLut.classList.remove("active");
+  }
+})();

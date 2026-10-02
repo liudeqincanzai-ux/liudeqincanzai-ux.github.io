@@ -6,7 +6,7 @@
   <link rel="icon" type="image/jpeg" href="assets/favicon.jpg">
   <title>Toneby</title>
   <meta name="description" content="Toneby combines reference-image color matching, authentic 3D LUTs and a real-time LUT camera with 100% on-device processing. No uploads. No accounts.">
-  <link rel="stylesheet" href="assets/style.v37.css">
+  <link rel="stylesheet" href="assets/style.v38.css">
 </head>
 <body>
 
@@ -81,6 +81,18 @@
   </div>
 </section>
 
+<!-- ============ JOURNAL ============ -->
+<section class="journal" id="journal">
+  <div class="wrap journal-grid">
+    <div class="journal-left">
+      <div class="journal-eyebrow" id="journalEyebrow"></div>
+      <h2 class="journal-big" id="journalTitle"></h2>
+      <p class="journal-desc" id="journalDesc"></p>
+    </div>
+    <div id="journalList"></div>
+  </div>
+</section>
+
 <!-- ============ FAQ ============ -->
 <section class="faq" id="faq">
   <div class="wrap faq-grid">
@@ -121,7 +133,7 @@
     document.head.appendChild(s);
   }
   tryLoad("data.js?" + V + "&ts=" + Date.now(), function () { return typeof SITE_WEB !== "undefined"; }, function () {
-    tryLoad("assets/site.v37.js?ts=" + Date.now(), function () { return !!window.__SITE_BOOTED; }, function () {}, 3);
+    tryLoad("assets/site.v38.js?ts=" + Date.now(), function () { return !!window.__SITE_BOOTED; }, function () {}, 3);
   }, 3);
 })();
 </script>
