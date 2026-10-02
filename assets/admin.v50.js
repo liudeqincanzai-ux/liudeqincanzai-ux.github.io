@@ -639,8 +639,11 @@
   // ---------- 自动翻译（MyMemory 免费 API；句级缓存；同步时生成日语/简体中文） ----------
   var TR_SKIP = { src:1, href:1, url:1, logoSrc:1, playUrl:1, downloadHref:1, privacyHref:1, termsHref:1,
     sections:1, no:1, cap:1, date:1, brand:1, siteTitle:1, privacyContent:1, termsContent:1,
-    privacyTitle:1, termsTitle:1, uiFontScale:1, autoTranslate:1, translations:1, g:1 };
+    privacyTitle:1, termsTitle:1, uiFontScale:1, autoTranslate:1, translations:1, g:1,
+    /* 图片/资源路径与链接键，绝不能翻译（v57 修复） */
+    before:1, after:1, linkUrl:1, img:1, images:1, shots:1, slides:1, poster:1, thumb:1, icon:1, iconSrc:1 };
   var TR_TEXT = /^[A-Za-z]/;
+  function trFixBrand(t) { return String(t).replace(/トーンビー/g, "TONEBY"); }
   var trCache = {};
   try { trCache = JSON.parse(localStorage.getItem("tr_cache_v1")) || {}; } catch (e) { trCache = {}; }
   function trSaveCache() { try { localStorage.setItem("tr_cache_v1", JSON.stringify(trCache)); } catch (e) {} }
@@ -651,7 +654,7 @@
       var v = obj[k], p = path.concat(k);
       if (Array.isArray(v)) { v.forEach(function (item, i) { collectTexts(item, p.concat(i), out); }); return; }
       if (v && typeof v === "object") { collectTexts(v, p, out); return; }
-      if (typeof v === "string" && TR_TEXT.test(v.trim())) out.push({ path: p, text: v });
+      if (typeof v === "string" && TR_TEXT.test(v.trim()) && !/^toneby[™\s.!]*$/i.test(v.trim())) out.push({ path: p, text: v });
     });
   }
   function getPath(obj, path) { var cur = obj; for (var i = 0; i < path.length; i++) cur = cur[path[i]]; return cur; }
@@ -700,7 +703,7 @@
         });
         return p.then(function (t) {
           done++;
-          if (t) setPath(DATA.translations[lang], job.path, t); else fail++;
+          if (t) setPath(DATA.translations[lang], job.path, trFixBrand(t)); else fail++;
           if (done % 5 === 0 || done >= total) setStatus("翻译中 " + done + "/" + total + " …");
         });
       })).then(worker);

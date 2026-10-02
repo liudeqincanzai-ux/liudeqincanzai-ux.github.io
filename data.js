@@ -272,7 +272,6 @@ const SITE_WEB = {
         }
       ],
       "eyebrow": "オフラインファースト // ローカル レンダリング エンジン // EST. 2026年",
-      "big": "トーンビー",
       "sub": "リファレンスカラースタジオ // EST. 2026年"
     },
     "numbers": [
@@ -348,8 +347,7 @@ const SITE_WEB = {
           "sub": "グレースケール"
         }
       ],
-      "linkLabel": "フル LUT ギャラリーを開く →",
-      "linkUrl": "https://liudeqincanzai-ux.github.io/toneby-lut-showcase/"
+      "linkLabel": "フル LUT ギャラリーを開く →"
     },
     "faq": [
       {
@@ -376,16 +374,10 @@ const SITE_WEB = {
       "privacyLabel": "プライバシーポリシー",
       "termsLabel": "利用規約"
     },
-    "compare": [
-      {
-        "before": "アセット/ショット/4 (1).jpg",
-        "after": "アセット/ショット/4 (2).jpg"
-      }
-    ],
     "faqEyebrow": "よくある質問 // サポート",
     "faqDesc": "Toneby のカラー グレーディング エンジン、プライバシー機能、カスタム プリセットのサポートに関するよくある質問への回答を見つけます。",
     "journalEyebrow": "ジャーナル // 読書",
-    "journalTitle": "トーンビージャーナル",
+    "journalTitle": "TONEBYジャーナル",
     "journalDesc": "最新の記事、フィルム シミュレーション ガイド、プロフェッショナルな編集チュートリアルを参照して、写真ワークフローをマスターしてください。",
     "journal": [
       {
@@ -434,7 +426,6 @@ const SITE_WEB = {
         }
       ],
       "eyebrow": "离线优先 // 本地渲染引擎 // EST。 2026年",
-      "big": "通比",
       "sub": "参考色彩工作室 // EST。 2026年"
     },
     "numbers": [
@@ -510,8 +501,7 @@ const SITE_WEB = {
           "sub": "灰度"
         }
       ],
-      "linkLabel": "打开完整的 LUT 画廊 →",
-      "linkUrl": "https://liudeqincanzai-ux.github.io/toneby-lut-showcase/"
+      "linkLabel": "打开完整的 LUT 画廊 →"
     },
     "faq": [
       {
@@ -538,12 +528,6 @@ const SITE_WEB = {
       "privacyLabel": "隐私政策",
       "termsLabel": "服务条款"
     },
-    "compare": [
-      {
-        "before": "资产/镜头/4 (1).jpg",
-        "after": "资产/镜头/4 (2).jpg"
-      }
-    ],
     "faqEyebrow": "常见问题解答 // 支持",
     "faqDesc": "查找有关 Toneby 颜色分级引擎、隐私功能和自定义预设支持的常见问题的答案。",
     "journalEyebrow": "日记//阅读",
