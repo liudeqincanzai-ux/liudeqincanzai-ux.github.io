@@ -443,7 +443,7 @@ function tryShowcase(n) {
 })();
 
   // ---------- 滚动动画系统（追赶入场 + 离屏变灰） ----------
-  if (!reduceMotion) {
+  if (!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches)) {
     var revealEls = [];
     ["numbersGrid", "galleryPosts", "faqList"].forEach(function (id2) {
       var n2 = document.getElementById(id2);
