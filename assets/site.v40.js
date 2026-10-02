@@ -281,27 +281,42 @@ function tryShowcase(n) {
       var maxDev = 0, rowsAll = [];
       for (var p = 0; p < groupItems.length; p++) {
         var r = dpSplit(groupItems[p], W, H);
-        if (r.dev > maxDev) maxDev = r.dev;
+        /* 只惩罚比 H 矮的行（无法放大填满）；比 H 高的行会被收窄居中，轻微惩罚即可 */
+        var dev = 0;
+        r.rows.forEach(function (row) {
+          var sum = row.reduce(function (a, b) { return a + b.ar; }, 0);
+          var h = (W - GAP * (row.length - 1)) / sum;
+          if (h < H) dev += (H - h) * (H - h) * row.length;
+          else dev += 0.12 * (h - H) * (h - H) * row.length;
+        });
+        dev = Math.sqrt(dev);
+        if (dev > maxDev) maxDev = dev;
         rowsAll.push(r.rows);
       }
       var score = maxDev + 0.05 * Math.abs(H - preferH);
-      if (!best || score < best.score) best = { score: score, rowsAll: rowsAll };
+      if (!best || score < best.score) best = { score: score, H: H, rowsAll: rowsAll };
     }
     return best;
   }
-  function renderRows(container, rows, W) {
+  function renderRows(container, rows, W, H) {
     container.textContent = "";
     rows.forEach(function (row) {
+      var sum = row.reduce(function (a, b) { return a + b.ar; }, 0);
+      var natural = (W - GAP * (row.length - 1) - 2 * row.length) / sum + 2; /* 补偿 1px 边框，行内零裁切 */
+      var h = Math.min(natural, H);
       if (row.length === 1) {
         var solo = el("img", "photo-single");
         solo.src = row[0].src; solo.alt = "";
+        if (h < natural) { solo.style.height = h + "px"; solo.style.width = "auto"; solo.style.margin = "0 auto"; }
         container.appendChild(solo);
         return;
       }
-      var sum = row.reduce(function (a, b) { return a + b.ar; }, 0);
-      var h = (W - GAP * (row.length - 1) - 2 * row.length) / sum + 2; /* 补偿 1px 边框，行内零裁切 */
       var rowEl = el("div", "photo-row");
       rowEl.style.height = h + "px";
+      if (h < natural) { /* 收窄居中：该行按统一行高缩窄，不再撑满整行 */
+        rowEl.style.width = (sum * h + GAP * (row.length - 1) + 2 * row.length) + "px";
+        rowEl.style.margin = "0 auto";
+      }
       row.forEach(function (im) {
         var g = el("img");
         g.src = im.src;
@@ -339,7 +354,7 @@ function tryShowcase(n) {
     var gi = groupBlocks.map(function (b) { return b.items; });
     var best = computeGroupRows(gi, W, W < 480 ? 110 : 150);
     if (!best) return;
-    groupBlocks.forEach(function (b, i2) { renderRows(b.wrap, best.rowsAll[i2], W); });
+    groupBlocks.forEach(function (b, i2) { renderRows(b.wrap, best.rowsAll[i2], W, best.H); });
   }
   var picker = document.getElementById("galleryPicker");
   var postsBox = document.getElementById("galleryPosts");
