@@ -52,33 +52,28 @@ const SITE_WEB = {
     ],
     "slides": [
       {
-        "src": "assets/shots/商店资讯图_01.jpg",
+        "src": "assets/shots/画板 3.jpg",
         "cap": "",
         "g": 1
       },
       {
-        "src": "assets/shots/商店资讯图_02.jpg",
-        "cap": "",
-        "g": 0
-      },
-      {
-        "src": "assets/shots/商店资讯图_03.jpg",
+        "src": "assets/shots/画板 1.jpg",
         "cap": "",
         "g": 2
       },
       {
-        "src": "assets/shots/商店资讯图_04.jpg",
+        "src": "assets/shots/画板 2.jpg",
         "cap": "",
-        "g": 0
+        "g": 2
       },
       {
-        "src": "assets/shots/商店资讯图_05.jpg",
+        "src": "assets/shots/画板 4.jpg",
         "cap": "",
         "g": 3
       }
     ],
     "eyebrow": "OFFLINE-FIRST // LOCAL RENDERING ENGINE // EST. 2026",
-    "big": "TONEBY™",
+    "big": "TONEBY",
     "sub": "REFERENCE COLOR STUDIO // EST. 2026"
   },
   "numbers": [
