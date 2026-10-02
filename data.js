@@ -233,6 +233,7 @@ const SITE_WEB = {
     }
   ],
   "uiFontScale": {
-    "hero": 1.05
+    "hero": 1.05,
+    "features": 1.4
   }
 };
