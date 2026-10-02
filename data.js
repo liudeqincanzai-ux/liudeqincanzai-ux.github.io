@@ -199,8 +199,8 @@ const SITE_WEB = {
   },
   "compare": [
     {
-      "before": "assets/shots/原图.jpg",
-      "after": "assets/shots/全部.jpg",
+      "before": "assets/shots/4 (1).jpg",
+      "after": "assets/shots/4 (2).jpg",
       "caption": ""
     }
   ],
