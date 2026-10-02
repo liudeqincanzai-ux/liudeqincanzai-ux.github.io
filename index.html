@@ -6,7 +6,7 @@
   <link rel="icon" type="image/jpeg" href="assets/favicon.jpg">
   <title>Toneby</title>
   <meta name="description" content="Toneby combines reference-image color matching, authentic 3D LUTs and a real-time LUT camera with 100% on-device processing. No uploads. No accounts.">
-  <link rel="stylesheet" href="assets/style.v34.css">
+  <link rel="stylesheet" href="assets/style.v36.css">
 </head>
 <body>
 
@@ -83,8 +83,12 @@
 
 <!-- ============ FAQ ============ -->
 <section class="faq" id="faq">
-  <div class="wrap">
-    <h2 id="faqTitle"></h2>
+  <div class="wrap faq-grid">
+    <div class="faq-left">
+      <div class="faq-eyebrow" id="faqEyebrow"></div>
+      <h2 class="faq-big" id="faqTitle"></h2>
+      <p class="faq-desc" id="faqDesc"></p>
+    </div>
     <div id="faqList"></div>
   </div>
 </section>
@@ -117,7 +121,7 @@
     document.head.appendChild(s);
   }
   tryLoad("data.js?" + V + "&ts=" + Date.now(), function () { return typeof SITE_WEB !== "undefined"; }, function () {
-    tryLoad("assets/site.v34.js?ts=" + Date.now(), function () { return !!window.__SITE_BOOTED; }, function () {}, 3);
+    tryLoad("assets/site.v36.js?ts=" + Date.now(), function () { return !!window.__SITE_BOOTED; }, function () {}, 3);
   }, 3);
 })();
 </script>
