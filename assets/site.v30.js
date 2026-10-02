@@ -1,7 +1,6 @@
 // Toneby 官网渲染 + 卡片堆轮播（前1 + 左右灰各1，切换带动画）+ 内嵌 LUT Gallery
 (function () {
-  if (window.__SITE_ALREADY) return;
-  window.__SITE_ALREADY = true;
+  
   function mergeDeep(base, over) {
     if (Array.isArray(base)) return (over !== undefined && Array.isArray(over)) ? over : JSON.parse(JSON.stringify(base));
     if (base !== null && typeof base === "object") {
