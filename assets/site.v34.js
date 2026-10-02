@@ -1,6 +1,7 @@
 // Toneby 官网渲染 + 卡片堆轮播（前1 + 左右灰各1，切换带动画）+ 内嵌 LUT Gallery
 (function () {
-  
+  if (window.__SITE_ALREADY) return;
+  window.__SITE_ALREADY = true;
   function mergeDeep(base, over) {
     if (Array.isArray(base)) return (over !== undefined && Array.isArray(over)) ? over : JSON.parse(JSON.stringify(base));
     if (base !== null && typeof base === "object") {
@@ -104,13 +105,14 @@
     cur = newCur; updateMeta(); kick("right");
   }
   var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var kickDeck = document.getElementById("deck");
   function kick(dir) {
-    if (reduceMotion || !deckEl) return;
-    deckEl.classList.remove("kick-left", "kick-right");
-    void deckEl.offsetWidth;
-    deckEl.classList.add(dir === "left" ? "kick-left" : "kick-right");
+    if (reduceMotion || !kickDeck) return;
+    kickDeck.classList.remove("kick-left", "kick-right");
+    void kickDeck.offsetWidth;
+    kickDeck.classList.add(dir === "left" ? "kick-left" : "kick-right");
   }
-  deckEl.addEventListener("animationend", function () { deckEl.classList.remove("kick-left", "kick-right"); });
+  if (kickDeck) kickDeck.addEventListener("animationend", function () { kickDeck.classList.remove("kick-left", "kick-right"); });
   document.getElementById("prevBtn").onclick = prev;
   document.getElementById("nextBtn").onclick = next;
   var deckEl = document.getElementById("deck");
