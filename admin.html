@@ -6,6 +6,7 @@
   <title>统一后台 · Toneby</title>
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="assets/admin.v28.css">
+  <link rel="stylesheet" href="assets/admin.v46.css">
 </head>
 <body>
   <div id="errBanner"></div>
@@ -32,12 +33,38 @@
       </span>
     </header>
 
-    <!-- 官网编辑 -->
-    <div id="webPane" class="web-pane" style="display:none">
-      <div class="web-flex">
-        <div class="web-editor" id="webEditor"></div>
-        <div class="web-preview" id="webPreview"><div class="pv-label">前台实时预览（编辑区滚动自动定位）</div><iframe id="previewFrame" src="/" title="前台预览"></iframe></div>
-      </div>
+    <!-- 官网编辑：左侧板块列表 + 中间预览 + 右侧编辑抽屉 -->
+    <div id="webPane" class="edit-shell" style="display:none">
+      <aside class="side">
+        <div class="side-title">页面板块</div>
+        <ul id="secList" class="sec-list"></ul>
+        <button id="addSec" type="button" class="add-sec">＋ 添加板块</button>
+        <div id="addMenu" class="add-menu" style="display:none"></div>
+        <div class="side-foot">
+          <button id="btnSettings" type="button" class="side-item">⚙ 站点与法务设置</button>
+        </div>
+      </aside>
+      <main class="pv-area">
+        <div class="pv-toolbar">
+          <span class="pv-hint">点击预览中的板块即可编辑 · 预览内点击不会跳转</span>
+          <span class="dev-toggle">
+            <button id="devDesktop" type="button" class="dev-btn active">电脑端</button>
+            <button id="devMobile" type="button" class="dev-btn">手机端</button>
+          </span>
+        </div>
+        <div class="pv-center" id="pvCenter" data-mode="desktop">
+          <div class="pv-frame" id="pvFrameBox">
+            <iframe id="previewFrame" src="/" title="前台预览"></iframe>
+          </div>
+        </div>
+      </main>
+      <aside class="drawer" id="drawer">
+        <div class="drawer-head">
+          <span id="drawerTitle">编辑板块</span>
+          <button id="drawerClose" type="button" aria-label="关闭">×</button>
+        </div>
+        <div class="drawer-body" id="drawerBody"></div>
+      </aside>
     </div>
 
     <!-- LUT 展示编辑（iframe 内嵌现有编辑器） -->
@@ -48,7 +75,7 @@
   </div>
 
   <div id="toast" class="toast"></div>
-  <script src="data.js?v=38"></script>
-  <script src="assets/admin.v38.js"></script>
+  <script src="data.js?v=46"></script>
+  <script src="assets/admin.v46.js"></script>
 </body>
 </html>
