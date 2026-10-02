@@ -231,5 +231,8 @@ const SITE_WEB = {
       "title": "HOW TO ADD PROFESSIONAL EXIF DATA BORDERS TO YOUR PHOTOS",
       "href": ""
     }
-  ]
+  ],
+  "uiFontScale": {
+    "hero": 1.05
+  }
 };
