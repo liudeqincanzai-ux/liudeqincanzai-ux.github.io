@@ -1,7 +1,16 @@
 // Toneby 官网渲染 + 卡片堆轮播（前1 + 左右灰各1，切换带动画）+ 内嵌 LUT Gallery
 (function () {
   function mergeDeep(base, over) {
-    if (Array.isArray(base)) return (over !== undefined && Array.isArray(over)) ? over : JSON.parse(JSON.stringify(base));
+    if (Array.isArray(base)) {
+      /* v59b：数组逐下标递归合并——整体替换会把未翻译的路径键（src 等）全部丢掉 */
+      if (!over || !Array.isArray(over)) return JSON.parse(JSON.stringify(base));
+      var arr = JSON.parse(JSON.stringify(base));
+      over.forEach(function (item, i) {
+        if (i < arr.length) arr[i] = mergeDeep(arr[i], item);
+        else arr[i] = item;
+      });
+      return arr;
+    }
     if (base !== null && typeof base === "object") {
       var out = (over !== null && typeof over === "object" && !Array.isArray(over)) ? over : {};
       Object.keys(base).forEach(function (k) { out[k] = mergeDeep(base[k], out[k]); });
