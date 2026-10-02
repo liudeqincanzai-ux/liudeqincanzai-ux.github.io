@@ -6,17 +6,17 @@
   <link rel="icon" type="image/jpeg" href="assets/favicon.jpg">
   <title>Toneby</title>
   <meta name="description" content="Toneby combines reference-image color matching, authentic 3D LUTs and a real-time LUT camera with 100% on-device processing. No uploads. No accounts.">
-  <link rel="stylesheet" href="assets/style.v54.css">
+  <link rel="stylesheet" href="assets/style.v55.css">
 </head>
 <body>
 
-<header class="wrap nav">
+<header class="wrap nav" data-sec="hero">
   <a class="brand" href="./" id="navBrand"></a>
   <nav class="nav-links mono" id="navLinks"></nav>
 </header>
 
 <!-- ============ HERO ============ -->
-<section class="wrap hero" id="hero">
+<section class="wrap hero" id="hero" data-sec="hero">
   <div class="hero-grid">
     <div class="hero-mast">
       <div class="mast-eyebrow" id="heroEyebrow"></div>
@@ -47,19 +47,19 @@
 </section>
 
 <!-- ============ NUMBERS ============ -->
-<section class="numbers" id="numbers">
+<section class="numbers" id="numbers" data-sec="numbers">
   <div class="wrap" style="display:contents" id="numbersGrid"></div>
 </section>
 
 <!-- ============ FEATURES INTRO ============ -->
-<section class="wrap features-intro" id="features">
+<section class="wrap features-intro" id="features" data-sec="features">
   <div class="tag" id="featTag"></div>
   <h2 id="featTitle"></h2>
   <p id="featDesc"></p>
 </section>
 
 <!-- ============ MODULES ============ -->
-<section class="wrap modules" id="modules">
+<section class="wrap modules" id="modules" data-sec="modules">
   <div class="mods-wrap">
     <div class="mods-sticky"><div class="mods-frame" id="modsFrame"></div></div>
     <div class="mods-texts" id="modsTexts"></div>
@@ -67,7 +67,7 @@
 </section>
 
 <!-- ============ LUT GALLERY（LUT 展示整合进本页） ============ -->
-<section class="gallery-page" id="gallery">
+<section class="gallery-page" id="gallery" data-sec="gallery">
   <div class="wrap">
     <div class="gp-head">
       <h2 id="galleryTitle"></h2>
@@ -82,7 +82,7 @@
 </section>
 
 <!-- ============ JOURNAL ============ -->
-<section class="journal" id="journal">
+<section class="journal" id="journal" data-sec="journal">
   <div class="wrap journal-grid">
     <div class="journal-left">
       <div class="journal-eyebrow" id="journalEyebrow"></div>
@@ -94,7 +94,7 @@
 </section>
 
 <!-- ============ FAQ ============ -->
-<section class="faq" id="faq">
+<section class="faq" id="faq" data-sec="faq">
   <div class="wrap faq-grid">
     <div class="faq-left">
       <div class="faq-eyebrow" id="faqEyebrow"></div>
@@ -106,7 +106,7 @@
 </section>
 
 <!-- ============ CTA ============ -->
-<section class="cta" id="download">
+<section class="cta" id="download" data-sec="cta">
   <div class="wrap">
     <h2 id="ctaTitle"></h2>
     <div class="store-btns" id="ctaBtns"></div>
@@ -133,7 +133,7 @@
     document.head.appendChild(s);
   }
   tryLoad("data.js?" + V + "&ts=" + Date.now(), function () { return typeof SITE_WEB !== "undefined"; }, function () {
-    tryLoad("assets/site.v54.js?ts=" + Date.now(), function () { return !!window.__SITE_BOOTED; }, function () {}, 3);
+    tryLoad("assets/site.v55.js?ts=" + Date.now(), function () { return !!window.__SITE_BOOTED; }, function () {}, 3);
   }, 3);
 })();
 </script>
