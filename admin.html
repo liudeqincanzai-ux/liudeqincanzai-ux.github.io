@@ -75,7 +75,20 @@
   </div>
 
   <div id="toast" class="toast"></div>
-  <script src="data.js?v=47"></script>
-  <script src="assets/admin.v47.js"></script>
+  <script>
+  /* 内联引导：已解锁时刷新页面立即显示编辑界面（不依赖外部 JS 的加载与执行时序） */
+  (function () {
+    function __admShow() {
+      var a = document.getElementById("app");
+      var w = document.getElementById("webPane");
+      if (a) { a.style.display = "flex"; a.style.flexDirection = "column"; }
+      if (w) w.style.display = "flex";
+    }
+    window.__admShow = __admShow;
+    try { if (sessionStorage.getItem("lut_admin_unlocked") === "1") __admShow(); } catch (e) {}
+  })();
+  </script>
+  <script src="data.js?v=48"></script>
+  <script src="assets/admin.v48.js"></script>
 </body>
 </html>
