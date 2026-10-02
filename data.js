@@ -531,7 +531,7 @@ const SITE_WEB = {
     "faqEyebrow": "常见问题解答 // 支持",
     "faqDesc": "查找有关 Toneby 颜色分级引擎、隐私功能和自定义预设支持的常见问题的答案。",
     "journalEyebrow": "日记//阅读",
-    "journalTitle": "通比日记",
+    "journalTitle": "TONEBY日记",
     "journalDesc": "探索我们的最新文章、胶片模拟指南和专业编辑教程，以掌握您的摄影工作流程。",
     "journal": [
       {

@@ -643,7 +643,7 @@
     /* 图片/资源路径与链接键，绝不能翻译（v57 修复） */
     before:1, after:1, linkUrl:1, img:1, images:1, shots:1, slides:1, poster:1, thumb:1, icon:1, iconSrc:1 };
   var TR_TEXT = /^[A-Za-z]/;
-  function trFixBrand(t) { return String(t).replace(/トーンビー/g, "TONEBY"); }
+  function trFixBrand(t) { return String(t).replace(/トーンビー/g, "TONEBY").replace(/通比/g, "TONEBY"); }
   var trCache = {};
   try { trCache = JSON.parse(localStorage.getItem("tr_cache_v1")) || {}; } catch (e) { trCache = {}; }
   function trSaveCache() { try { localStorage.setItem("tr_cache_v1", JSON.stringify(trCache)); } catch (e) {} }
