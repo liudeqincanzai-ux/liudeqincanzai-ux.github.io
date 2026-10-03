@@ -207,9 +207,9 @@ const SITE_WEB = {
     "numbers",
     "features",
     "modules",
+    "journal",
     "compare",
     "gallery",
-    "journal",
     "faq",
     "cta"
   ],
@@ -223,7 +223,7 @@ const SITE_WEB = {
       "date": "2026.06.06",
       "title": "HOW TO USE 3D LUT ON MOBILE & IMPORT .CUBE LUT ON PHONE",
       "href": "",
-      "content": "<h3>但是如果看见收到了放开了凯文乐福你看狼快乐</h3><img src=\"assets/shots/art-1791015090409-571.jpg\">",
+      "content": "<h3>目前已经支持的机型：</h3><p>OM-D E-M1、OM-D E-M1 Mark II、OM-D E-M1 Mark III、OM-D E-M1X、OM-D E-M5、OM-D E-M5 Mark II、OM-D E-M5 Mark III、OM-D E-M10、OM-D E-M10 Mark II、OM-D E-M10 Mark III、OM-D E-M10 Mark IIIs、OM-D E-M10 Mark IV、PEN-F、PEN E-P1、PEN E-P2、PEN E-P3、PEN E-PL1、PEN E-PL2、PEN E-PL3、PEN E-PM1、PEN E-PM2、PEN E-P5、PEN E-PL5、PEN E-PL6、PEN E-PL7、PEN E-PL8、PEN E-PL9、PEN E-PL10、PEN E-P7、Tough TG-2、Tough TG-3、Tough TG-4、Tough TG-5、Tough TG-6、Stylus Tough TG-870、Stylus Tough TG-880、Stylus 1、Stylus 1s、Stylus SH-1、Stylus SH-2、Stylus SH-3、Stylus Tough TG-860、Stylus XZ-2、OM-1、OM-1 Mark II、OM-5、OM-5 Mark II、Tough TG-7、OM-3；</p><div><br></div><h3>链接使用教程：</h3><div><br></div>",
       "content_ja": "",
       "content_zh": ""
     },
