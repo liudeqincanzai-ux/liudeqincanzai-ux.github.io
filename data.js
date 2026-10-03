@@ -222,7 +222,10 @@ const SITE_WEB = {
     {
       "date": "2026.06.06",
       "title": "HOW TO USE 3D LUT ON MOBILE & IMPORT .CUBE LUT ON PHONE",
-      "href": ""
+      "href": "",
+      "content": "",
+      "content_ja": "",
+      "content_zh": ""
     },
     {
       "date": "2026.06.06",
