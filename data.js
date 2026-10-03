@@ -170,15 +170,15 @@ const SITE_WEB = {
     },
     {
       "q": "Can I import my own .cube LUT files?",
-      "a": "Yes. Import standard .cube LUT files and use them in the LUT camera and the reference-color workspace, alongside the built-in film-style collection."
+      "a": "Yes. Import standard .cube LUT files and use them in the Fni cam and Tone·OI, alongside the built-in film-style collection."
     },
     {
       "q": "What is included in Pro?",
-      "a": "Pro unlocks the full advanced toolkit — including premium LUT packs and pro grading tools. One-time purchase through Google Play billing."
+      "a": "The Pro version unlocks the full advanced toolkit—including permanent camera connections, all premium LUT packs, the ability to create your own custom LUT style presets, and professional color grading tools. Pay once through Google Play."
     },
     {
       "q": "Which devices are supported?",
-      "a": "Toneby runs on Android 10 and above and is optimized for the latest Android versions, including full support for edge-to-edge and dark mode."
+      "a": "Toneby runs on Android 10 and above, and it's optimized for the latest Android versions. It also supports direct connection with Olympus and Om system cameras."
     }
   ],
   "cta": {
@@ -214,7 +214,7 @@ const SITE_WEB = {
     "cta"
   ],
   "faqEyebrow": "FAQ // SUPPORT",
-  "faqDesc": "Find answers to common questions about Toneby’s color grading engine, privacy features, and custom presets support.",
+  "faqDesc": "Answer common questions about Toneby's Pro features, color grading engine, privacy features, and support for custom presets.",
   "journalEyebrow": "JOURNAL // READS",
   "journalTitle": "TONEBY JOURNAL",
   "journalDesc": "Explore our latest content, film simulation guides, and pro editing tutorials to get a handle on your photography workflow.",
@@ -223,7 +223,7 @@ const SITE_WEB = {
       "date": "2026.06.06",
       "title": "HOW TO USE 3D LUT ON MOBILE & IMPORT .CUBE LUT ON PHONE",
       "href": "",
-      "content": "但是如果看见收到了放开了凯文乐福你看狼快乐<img src=\"assets/shots/art-1791015090409-571.jpg\">",
+      "content": "<h3>但是如果看见收到了放开了凯文乐福你看狼快乐</h3><img src=\"assets/shots/art-1791015090409-571.jpg\">",
       "content_ja": "",
       "content_zh": ""
     },
@@ -357,20 +357,20 @@ const SITE_WEB = {
       },
       "faq": [
         {
-          "q": "私の写真はサーバーにアップロードされますか?",
-          "a": "いいえ。すべての写真はデバイス上で 100% ローカルに処理されます。 Toneby にはアカウント、クラウド アップロード、追跡はありません。画像が携帯電話から離れることはありません。"
+          "q": "私の写真はサーバーにアップロードされてるの？",
+          "a": "いいえ。すべての写真はデバイス上で100％ローカルに処理されます。Tonebyにはアカウントも、クラウドアップロードも、追跡もありません——あなたの画像は決して電話を離れません。"
         },
         {
           "q": "自分の .cube LUT ファイルをインポートできますか?",
-          "a": "はい。標準の .cube LUT ファイルをインポートし、内蔵のフィルム スタイル コレクションとともに LUT カメラと基準カラー ワークスペースで使用します。"
+          "a": "うん。標準の .cube LUT ファイルをインポートして、Fni カメラや Tone·OI で使えるよ。内蔵のフィルム風コレクションと一緒にね。"
         },
         {
           "q": "プロには何が含まれますか?",
-          "a": "Pro では、プレミアム LUT パックやプロ グレーディング ツールを含む高度なツールキットのロックが解除されます。 Google Play 請求による 1 回限りの購入。"
+          "a": "プロ版で完全な高級ツールキットをアンロック——永久カメラ接続、すべての高級LUTパック、自分だけのLUTスタイルプリセット作成、プロ用カラーグレーディングツールを含む。Google Playで一回買い切りで購入可能。"
         },
         {
           "q": "どのデバイスがサポートされていますか?",
-          "a": "Toneby は Android 10 以降で動作し、エッジツーエッジおよびダーク モードの完全なサポートを含め、最新の Android バージョン向けに最適化されています。"
+          "a": "Toneby は Android 10 以上で動作し、最新の Android バージョンに最適化されています。また、Olympus および OM System カメラとの直接接続にも対応しています。"
         }
       ],
       "cta": {
@@ -384,7 +384,7 @@ const SITE_WEB = {
         "copy": "© 2026 Toneby。All rights reserved."
       },
       "faqEyebrow": "よくある質問 // サポート",
-      "faqDesc": "Toneby のカラー グレーディング エンジン、プライバシー機能、カスタム プリセットのサポートに関するよくある質問への回答を見つけます。",
+      "faqDesc": "TonebyのPro機能、カラーエンジン、プライバシー機能、カスタムプリセット対応についてのよくある質問の回答。",
       "journalEyebrow": "ジャーナル // 読書",
       "journalTitle": "TONEBYジャーナル",
       "journalDesc": "私たちの最新コンテンツ、フィルムシミュレーションガイド、プロ編集チュートリアルをチェックして、写真のワークフローをマスターしよう。",
@@ -672,20 +672,20 @@ const SITE_WEB = {
       },
       "faq": [
         {
-          "q": "我的照片是否上传到服务器？",
+          "q": "我的照片上传到服务器了吗？",
           "a": "不会。每张照片都在您的设备上进行 100% 本地处理。 Toneby 没有帐户，没有云上传，也没有跟踪——您的图像永远不会离开您的手机。"
         },
         {
           "q": "我可以导入自己的 .cube LUT 文件吗？",
-          "a": "是的。导入标准 .cube LUT 文件，并在 LUT 相机和参考颜色工作区以及内置电影风格集合中使用它们。"
+          "a": "是的。可以导入标准的 .cube LUT 文件，并在 Fni cam和 Tone·OI 中使用，同时还能配合内置的电影风格集合。"
         },
         {
           "q": "Pro 中包含什么？",
-          "a": "Pro 解锁了完整的高级工具包 - 包括高级 LUT 包和专业调色工具。通过 Google Play 结算进行一次性购买。"
+          "a": "专业版解锁完整的高级工具包——包括永久连接相机、全部高级 LUT 套装、制作自己的专属LUT风格预设和专业调色工具。通过 Google Play 计费一次性购买。"
         },
         {
           "q": "支持哪些设备？",
-          "a": "Toneby 在 Android 10 及更高版本上运行，并针对最新的 Android 版本进行了优化，包括对边缘到边缘和深色模式的完全支持。"
+          "a": "Toneby 运行在安卓 10 及以上版本，并针对最新的安卓版本进行了优化，支持与奥林巴斯和奥之心的相机直连。"
         }
       ],
       "cta": {
@@ -699,7 +699,7 @@ const SITE_WEB = {
         "copy": "© 2026 Toneby。保留所有权利。"
       },
       "faqEyebrow": "常见问题解答 // 支持",
-      "faqDesc": "查找有关 Toneby 颜色分级引擎、隐私功能和自定义预设支持的常见问题的答案。",
+      "faqDesc": "回答关于 Toneby 的Pro功能、调色引擎、隐私功能和自定义预设支持的常见问题答案。",
       "journalEyebrow": "日记//阅读",
       "journalTitle": "TONEBY日记",
       "journalDesc": "探索我们最新的内容、胶片模拟指南和专业编辑教程，掌握你的摄影工作流程。",
