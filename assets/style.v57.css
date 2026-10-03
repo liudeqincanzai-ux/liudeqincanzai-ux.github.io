@@ -889,3 +889,8 @@ a.j-row:hover .j-title { opacity: .5; transition: opacity .2s ease; }
 .article-view .art-body blockquote { border-left: 3px solid var(--ink); margin: 28px 0; padding: 6px 0 6px 22px; color: var(--muted); font-style: italic; }
 .article-view .art-body hr { border: none; border-top: 1px solid var(--ink); margin: 40px 0; }
 .article-view .art-body a { color: inherit; text-decoration: underline; }
+
+/* v63b：文章页 footer 贴底——内容短于视口时 footer 不再悬空留白（仅文章视图激活时启用 flex，主页面零影响） */
+body.art-open { display: flex; flex-direction: column; min-height: 100vh; }
+body.art-open .article-view { flex: 1 0 auto; }
+body.art-open footer { margin-top: auto; }

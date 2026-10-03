@@ -918,12 +918,14 @@ function tryShowcase(n) {
         '<div class="art-body">' + content + '</div>' +
       '</div>';
     v.style.display = "block";
+    document.body.classList.add("art-open");
     window.scrollTo(0, 0);
   }
   function hideArticle() {
     if (!artView || artView.style.display === "none") return;
     artView.style.display = "none";
     artView.innerHTML = "";
+    document.body.classList.remove("art-open");
     var secs = document.querySelectorAll("section[data-sec]");
     for (var k = 0; k < secs.length; k++) secs[k].style.display = deletedSecs[secs[k].getAttribute("data-sec")] ? "none" : "";
   }

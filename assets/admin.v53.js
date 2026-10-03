@@ -1051,26 +1051,46 @@
       "Accept": "application/vnd.github+json"
     }, opts.headers || {});
     return fetch("https://api.github.com" + path, opts).then(function (res) {
-      if (res.status === 401) throw new Error("Token 无效，请重新粘贴");
-      if (res.status === 403) throw new Error("令牌没有主仓库(liudeqincanzai-ux.github.io)权限：请编辑「Toneby LUT 编辑器 永久」，在存储库访问中加入 liudeqincanzai-ux.github.io");
-      return res;
+      /* v62：非 2xx 一律抛错（带 GitHub 返回的 message）——旧代码不检查 res.ok，4xx 被当成功静默吞掉（data.js 连续 7 次同步失败用户却看到"同步成功"） */
+      return res.json().then(function (body) {
+        if (!res.ok) {
+          if (res.status === 401) throw new Error("Token 无效，请重新粘贴");
+          if (res.status === 403 && String(body && body.message || "").indexOf("liudeqincanzai-ux.github.io") >= 0) throw new Error("令牌没有主仓库(liudeqincanzai-ux.github.io)权限：请编辑「Toneby LUT 编辑器 永久」，在存储库访问中加入 liudeqincanzai-ux.github.io");
+          throw new Error("GitHub " + res.status + "：" + ((body && body.message) || "请求失败"));
+        }
+        return body;
+      });
     });
   }
-  function ghPutFile(path, b64, message) {
-    return ghApi("/repos/" + REPO + "/contents/" + encodeURI(path))
-      .then(function (r) { return r.json(); })
-      .then(function (info) { return info.sha; })
-      .catch(function (e) {
-        if (e.message.indexOf("令牌") >= 0 || e.message.indexOf("Token") >= 0) throw e;
-        return null;
-      })
-      .then(function (sha) {
-        return ghApi("/repos/" + REPO + "/contents/" + encodeURI(path), {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: message, content: b64, sha: sha || undefined })
+  /* v62：Git Data API 推送（blob→tree→commit→ref）——不依赖 contents API 的 GET sha（data.js 曾因该环节静默失败连续 7 次没推上），串行调用无竞态 */
+  function pushFile(path, b64, message) {
+    return ghApi("/repos/" + REPO + "/git/blobs", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ content: b64, encoding: "base64" })
+    }).then(function (blob) {
+      return ghApi("/repos/" + REPO + "/git/refs/heads/main").then(function (ref) {
+        return ghApi("/repos/" + REPO + "/git/commits/" + ref.object.sha).then(function (c) {
+          return ghApi("/repos/" + REPO + "/git/trees", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ base_tree: c.tree.sha, tree: [{ path: path, mode: "100644", type: "blob", sha: blob.sha }] })
+          }).then(function (tree) {
+            return ghApi("/repos/" + REPO + "/git/commits", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ message: message, tree: tree.sha, parents: [ref.object.sha] })
+            }).then(function (commit) {
+              return ghApi("/repos/" + REPO + "/git/refs/heads/main", {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ sha: commit.sha })
+              });
+            });
+          });
         });
       });
+    });
   }
   var statusEl = document.getElementById("syncStatus");
   var btnSync = document.getElementById("btnSync");
@@ -1094,43 +1114,45 @@
       else if (tries++ < 20) setTimeout(clickLut, 500);
     })();
     var textEnc = new TextEncoder().encode(buildDataJs());
-    var jobs = [["data.js", Promise.resolve(toB64(textEnc))]];
-    /* v61b：同步同时 bump index.html 的 data.js ?v= 参数——否则浏览器缓存旧 data.js（Pages max-age=600），删除/修改最长 10 分钟不生效 */
-    var idxJob = ghApi("/repos/" + REPO + "/contents/index.html").then(function (r) { return r.json(); }).then(function (info) {
+    /* v62：index.html 只预取+bump 生成内容（不再自行上传——旧 idxJob 与 data.js 并发 PUT 同分支有竞态，且其返回值被 reduce 二次当 b64 无效 PUT）；全部文件统一串行走 pushFile（Git Data API） */
+    var idxJob = ghApi("/repos/" + REPO + "/contents/index.html").then(function (info) {
       var html = new TextDecoder().decode(Uint8Array.from(atob(String(info.content || "").replace(/\s/g, "")), function (c) { return c.charCodeAt(0); }));
       var m = /var V = "v=(\d+)"/.exec(html);
       if (!m) return null;
       var nv = parseInt(m[1], 10) + 1;
       html = html.replace('var V = "v=' + m[1] + '"', 'var V = "v=' + nv + '"');
-      return ghPutFile("index.html", toB64(new TextEncoder().encode(html)), "官网更新: index.html v=" + nv + "（data.js 缓存刷新）");
+      return ["index.html", Promise.resolve(toB64(new TextEncoder().encode(html))), "index.html v=" + nv + "（data.js 缓存刷新）"];
     }).catch(function () { return null; });
-    jobs.push(["index.html", idxJob]);
+    var jobs = [["data.js", Promise.resolve(toB64(textEnc)), "data.js"]];
     Object.keys(pending).forEach(function (p) {
-      jobs.push([p, pending[p].arrayBuffer().then(function (buf) { return toB64(new Uint8Array(buf)); })]);
+      jobs.push([p, pending[p].arrayBuffer().then(function (buf) { return toB64(new Uint8Array(buf)); }), p]);
     });
-    var done = 0, failed = 0;
-    setStatus("同步中 0/" + jobs.length + " …");
-    jobs.reduce(function (chain, job) {
-      return chain.then(function () {
-        return job[1].then(function (b64) {
-          return ghPutFile(job[0], b64, "官网更新: " + job[0]);
-        }).then(function () {
-          done++;
-          setStatus("同步中 " + done + "/" + jobs.length + " …");
-          delete pending[job[0]];
-        }).catch(function (e) {
-          failed++;
-          setStatus("「" + job[0] + "」失败：" + e.message, true);
+    idxJob.then(function (idx) {
+      if (idx) jobs.push(idx);
+      var done = 0, failed = 0;
+      setStatus("同步中 0/" + jobs.length + " …");
+      jobs.reduce(function (chain, job) {
+        return chain.then(function () {
+          return job[1].then(function (b64) {
+            return pushFile(job[0], b64, "官网更新: " + job[2]);
+          }).then(function () {
+            done++;
+            setStatus("同步中 " + done + "/" + jobs.length + " …");
+            delete pending[job[0]];
+          }).catch(function (e) {
+            failed++;
+            setStatus("「" + job[2] + "」失败：" + e.message, true);
+          });
         });
+      }, Promise.resolve()).then(function () {
+        btnSync.disabled = false;
+        if (failed === 0) {
+          setStatus("✓ 已同步到 GitHub，网站约 1 分钟内更新");
+          toast("同步成功 ✓");
+        } else {
+          setStatus("部分失败（" + failed + " 个），可重试；失败原因见上方", true);
+        }
       });
-    }, Promise.resolve()).then(function () {
-      btnSync.disabled = false;
-      if (failed === 0) {
-        setStatus("✓ 已同步到 GitHub，网站约 1 分钟内更新");
-        toast("同步成功 ✓");
-      } else {
-        setStatus("部分失败（" + failed + " 个），可重试", true);
-      }
     });
     };
     runSync(); /* v58：翻译改为前台实时（site.js 现场翻译+本机缓存），同步不再处理翻译 */
