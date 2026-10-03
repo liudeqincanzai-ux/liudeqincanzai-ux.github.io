@@ -223,7 +223,7 @@ const SITE_WEB = {
       "date": "2026.06.06",
       "title": "HOW TO USE 3D LUT ON MOBILE & IMPORT .CUBE LUT ON PHONE",
       "href": "",
-      "content": "",
+      "content": "但是如果看见收到了放开了凯文乐福你看狼快乐<img src=\"assets/shots/art-1791015090409-571.jpg\">",
       "content_ja": "",
       "content_zh": ""
     },
