@@ -304,78 +304,77 @@
     return wrap;
   }
 
-  // ---------- v58 文章正文自由编辑器（所见即所得 + 三语 + 图片上传） ----------
+  // ---------- v59 文章正文编辑器（抽屉内嵌所见即所得 + 三语 + 图片上传） ----------
   var blobRev = {};   /* blobURL -> 最终路径，保存/切语言时把预览图换回路径 */
   var ART_LANGS = [["content", "EN"], ["content_ja", "日本語"], ["content_zh", "中文"]];
+  var artStyleDone = false;
+  function ensureArtStyle() {
+    if (artStyleDone) return;
+    artStyleDone = true;
+    var st = document.createElement("style");
+    st.textContent =
+      ".art-inline{margin:8px 0 4px;border:1px solid #333;border-radius:6px;background:#141414;overflow:hidden}" +
+      ".art-inline-tabs{display:flex;gap:6px;padding:8px 10px 0;background:#1b1b1b}" +
+      ".art-inline-tabs button{background:#2a2a2a;color:#bbb;border:none;padding:5px 12px;cursor:pointer;font-size:12px;border-radius:4px 4px 0 0}" +
+      ".art-inline-tabs button.on{background:#141414;color:#fff;font-weight:700}" +
+      ".art-inline-tools{display:flex;gap:4px;padding:8px 10px;background:#1b1b1b;border-bottom:1px solid #2a2a2a;flex-wrap:wrap}" +
+      ".art-inline-tools button{background:#242424;border:1px solid #3a3a3a;color:#ddd;padding:5px 9px;cursor:pointer;font-size:12px;border-radius:3px}" +
+      ".art-inline-tools button:hover{background:#303030}" +
+      ".art-inline-tools button.danger{color:#e06c5a;border-color:#7a3a30}" +
+      ".art-inline-page{min-height:220px;max-height:420px;overflow:auto;padding:16px;background:#fff;color:#111;font-size:14.5px;line-height:1.8;outline:none;cursor:text}" +
+      ".art-inline-page:empty:before{content:'在此输入正文…';color:#aaa}" +
+      ".art-inline-page img{max-width:100%;height:auto;display:block;margin:18px auto;border-radius:4px}" +
+      ".art-inline-page h2{font-size:20px;font-weight:800;margin:26px 0 10px;text-transform:uppercase}" +
+      ".art-inline-page h3{font-size:16.5px;font-weight:800;margin:22px 0 8px;text-transform:uppercase}" +
+      ".art-inline-page blockquote{border-left:3px solid #111;margin:16px 0;padding:2px 0 2px 14px;color:#555;font-style:italic}" +
+      ".art-inline-page hr{border:none;border-top:1px solid #111;margin:24px 0}" +
+      ".art-inline-foot{display:flex;gap:8px;padding:8px 10px;background:#1b1b1b;align-items:center}" +
+      ".art-inline-foot button{border:none;padding:6px 14px;cursor:pointer;font-size:12.5px;border-radius:3px}" +
+      ".art-inline-foot .ok{background:#4a9edd;color:#fff;font-weight:700}" +
+      ".art-inline-foot .clr{background:none;color:#e06c5a;border:1px solid #7a3a30}" +
+      ".art-inline-foot .hint{margin-left:auto;font-size:11px;color:#777}";
+    document.head.appendChild(st);
+  }
   function artHtmlFor(j, key) {
     return String(j[key] || "").replace(/src="(assets\/shots\/[^"]+)"/g, function (m, p) {
       return objUrls[p] ? 'src="' + objUrls[p] + '"' : m;
     });
   }
-  function openArticleEditor(j, onDone) {
-    closeArticleEditor();
+  function makeArtEditor(j, refresh) {
+    ensureArtStyle();
     var cur = "content";
-    var st = document.createElement("style");
-    st.id = "artEdStyle";
-    st.textContent =
-      ".art-ed-ov{position:fixed;inset:0;background:#fff;z-index:9999;display:flex;flex-direction:column;font-family:inherit}" +
-      ".art-ed-head{display:flex;align-items:center;gap:14px;padding:12px 20px;background:#111;color:#fff;flex-wrap:wrap}" +
-      ".art-ed-head .t{font-weight:700;font-size:14px;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}" +
-      ".art-ed-tabs{display:flex;gap:6px;margin-left:auto}" +
-      ".art-ed-tabs button{background:#333;color:#ccc;border:none;padding:6px 14px;cursor:pointer;font-size:12px;border-radius:3px}" +
-      ".art-ed-tabs button.on{background:#fff;color:#111;font-weight:700}" +
-      ".art-ed-done{background:#4a9edd;color:#fff;border:none;padding:7px 18px;cursor:pointer;font-size:13px;border-radius:3px;font-weight:700}" +
-      ".art-ed-tools{display:flex;gap:4px;padding:8px 20px;background:#f2f2f2;border-bottom:1px solid #ddd;flex-wrap:wrap}" +
-      ".art-ed-tools button{background:#fff;border:1px solid #ccc;padding:6px 11px;cursor:pointer;font-size:12.5px;border-radius:3px;color:#111}" +
-      ".art-ed-tools button:hover{background:#e8e8e8}" +
-      ".art-ed-tools button.danger{color:#c0392b;border-color:#c0392b}" +
-      ".art-ed-body{flex:1;overflow:auto;padding:48px 24px 80px}" +
-      ".art-ed-page{max-width:820px;margin:0 auto;outline:none;font-size:16.5px;line-height:1.85;color:#111}" +
-      ".art-ed-page img{max-width:100%;height:auto;display:block;margin:26px auto;border-radius:4px}" +
-      ".art-ed-page h2{font-size:24px;font-weight:800;margin:36px 0 12px;text-transform:uppercase}" +
-      ".art-ed-page h3{font-size:19px;font-weight:800;margin:30px 0 10px;text-transform:uppercase}" +
-      ".art-ed-page blockquote{border-left:3px solid #111;margin:22px 0;padding:4px 0 4px 20px;color:#555;font-style:italic}" +
-      ".art-ed-page hr{border:none;border-top:1px solid #111;margin:34px 0}" +
-      ".art-ed-hint{padding:6px 20px;background:#fffbe8;border-top:1px solid #e8dfa8;font-size:12px;color:#7a6b1f}";
-    document.head.appendChild(st);
-    var ov = document.createElement("div");
-    ov.className = "art-ed-ov";
-    var head = document.createElement("div");
-    head.className = "art-ed-head";
-    var t = document.createElement("span"); t.className = "t"; t.textContent = "编辑正文 · " + (j.title || "");
-    head.appendChild(t);
-    var tabs = document.createElement("div"); tabs.className = "art-ed-tabs";
-    var tabBtns = {};
-    ART_LANGS.forEach(function (L) {
-      var b = document.createElement("button");
-      b.type = "button"; b.textContent = L[1];
-      if (L[0] === cur) b.classList.add("on");
-      b.onclick = function () {
+    var saveTimer = null;
+    var box = document.createElement("div");
+    box.className = "art-inline";
+    function saveNow() {
+      var clone = page.cloneNode(true);
+      Array.prototype.forEach.call(clone.querySelectorAll("img"), function (im) {
+        var p = blobRev[im.getAttribute("src")];
+        if (p) im.setAttribute("src", p);
+      });
+      var html = clone.innerHTML.trim();
+      if (html === "<br>" || html === "<div><br></div>") html = "";
+      j[cur] = html;
+    }
+    function saveSoon() { clearTimeout(saveTimer); saveTimer = setTimeout(function () { saveNow(); saveQuiet(); }, 600); }
+    var tabs = document.createElement("div"); tabs.className = "art-inline-tabs";
+    ART_LANGS.forEach(function (L, li) {
+      var tb = document.createElement("button");
+      tb.type = "button"; tb.textContent = L[1];
+      if (li === 0) tb.classList.add("on");
+      tb.onclick = function () {
         if (cur === L[0]) return;
-        artSaveCurrent();
+        saveNow();
         cur = L[0];
-        ed.innerHTML = artHtmlFor(j, cur);
+        page.innerHTML = artHtmlFor(j, cur);
         Array.prototype.forEach.call(tabs.children, function (x) { x.classList.remove("on"); });
-        b.classList.add("on");
+        tb.classList.add("on");
       };
-      tabs.appendChild(b);
-      tabBtns[L[0]] = b;
+      tabs.appendChild(tb);
     });
-    head.appendChild(tabs);
-    var done = document.createElement("button");
-    done.type = "button"; done.className = "art-ed-done"; done.textContent = "完成 ✓";
-    done.onclick = function () {
-      artSaveCurrent();
-      saveQuiet();
-      closeArticleEditor();
-      toast("正文已保存 ✓ 同步后网站生效");
-      if (onDone) onDone();
-    };
-    head.appendChild(done);
-    ov.appendChild(head);
-
+    box.appendChild(tabs);
     var tools = document.createElement("div");
-    tools.className = "art-ed-tools";
+    tools.className = "art-inline-tools";
     function tBtn(label, fn, cls) {
       var b = document.createElement("button");
       b.type = "button"; b.innerHTML = label;
@@ -385,7 +384,7 @@
       tools.appendChild(b);
       return b;
     }
-    function cmd(c, v) { ed.focus(); document.execCommand(c, false, v || null); }
+    function cmd(c, v) { page.focus(); document.execCommand(c, false, v || null); saveSoon(); }
     tBtn("H2 标题", function () { cmd("formatBlock", "<h2>"); });
     tBtn("H3 小标题", function () { cmd("formatBlock", "<h3>"); });
     tBtn("正文段", function () { cmd("formatBlock", "<p>"); });
@@ -412,8 +411,9 @@
           var bu = URL.createObjectURL(out);
           objUrls[path] = bu; blobRev[bu] = path;
           pending[path] = out;
-          ed.focus();
+          page.focus();
           document.execCommand("insertHTML", false, '<img src="' + bu + '">');
+          saveSoon();
           toast("图片已插入 ✓ 同步时上传");
         });
         fi.value = "";
@@ -421,54 +421,55 @@
       fi.click();
     });
     tBtn("清除格式", function () { cmd("removeFormat"); });
-    tBtn("✕ 清空本页正文", function () {
-      if (confirm("清空当前语言的正文？")) { j[cur] = ""; ed.innerHTML = ""; }
-    }, "danger");
-    ov.appendChild(tools);
-
-    var ed = document.createElement("div");
-    ed.className = "art-ed-body";
+    box.appendChild(tools);
     var page = document.createElement("div");
-    page.className = "art-ed-page";
+    page.className = "art-inline-page";
     page.contentEditable = "true";
     page.innerHTML = artHtmlFor(j, cur);
-    ed.appendChild(page);
-    ov.appendChild(ed);
-
-    var hint = document.createElement("div");
-    hint.className = "art-ed-hint";
-    hint.textContent = "像写文档一样直接排版：图片、标题、文字随意穿插。图片会上传到网站 photos 同步链路；「完成」保存并回到板块编辑。";
-    ov.appendChild(hint);
-    document.body.appendChild(ov);
-
-    function artSaveCurrent() {
-      var clone = page.cloneNode(true);
-      Array.prototype.forEach.call(clone.querySelectorAll("img"), function (im) {
-        var p = blobRev[im.getAttribute("src")];
-        if (p) im.setAttribute("src", p);
-      });
-      var html = clone.innerHTML.trim();
-      if (html === "<br>" || html === "<div><br></div>") html = "";
-      j[cur] = html;
-    }
-    ov.__artSave = artSaveCurrent;
-  }
-  function closeArticleEditor() {
-    var ov = document.querySelector(".art-ed-ov");
-    if (ov) ov.parentNode.removeChild(ov);
-    var st = document.getElementById("artEdStyle");
-    if (st) st.parentNode.removeChild(st);
+    page.addEventListener("input", saveSoon);
+    box.appendChild(page);
+    var foot = document.createElement("div");
+    foot.className = "art-inline-foot";
+    var done = document.createElement("button");
+    done.type = "button"; done.className = "ok"; done.textContent = "完成并收起 ✓";
+    done.onclick = function () { saveNow(); saveQuiet(); box.__close(); };
+    foot.appendChild(done);
+    var clr = document.createElement("button");
+    clr.type = "button"; clr.className = "clr"; clr.textContent = "✕ 清空本语言正文";
+    clr.onclick = function () {
+      if (confirm("清空当前语言的正文？")) { j[cur] = ""; page.innerHTML = ""; saveQuiet(); refresh(); }
+    };
+    foot.appendChild(clr);
+    var hint = document.createElement("span");
+    hint.className = "hint";
+    hint.textContent = "自动保存中 · 图片随「同步」上传";
+    foot.appendChild(hint);
+    box.appendChild(foot);
+    box.__close = function () {
+      clearTimeout(saveTimer);
+      if (box.parentNode) box.parentNode.removeChild(box);
+      refresh();
+    };
+    return box;
   }
   function artEntryRow(j, refresh) {
     var wrap = document.createElement("div");
-    var has = ART_LANGS.some(function (L) { return (j[L[0]] || "").trim(); });
+    function hasContent() { return ART_LANGS.some(function (L) { return (j[L[0]] || "").trim(); }); }
     var tag = document.createElement("div");
-    tag.style.cssText = "font-size:11.5px;color:" + (has ? "#2e7d32" : "#999") + ";margin:2px 0 6px;";
-    tag.textContent = has ? "✓ 站内文章页正文：已写（前台点击打开文章页）" : "正文：未写（写了正文后，前台点击打开站内文章页）";
+    tag.style.cssText = "font-size:11.5px;color:#999;margin:2px 0 6px;";
+    tag.textContent = hasContent() ? "✓ 站内文章页正文：已写（前台点击打开文章页，无需填链接框）" : "正文：未写（写正文后前台点击自动打开站内文章页）";
     wrap.appendChild(tag);
     var b = document.createElement("button");
-    b.type = "button"; b.className = "pickbtn"; b.textContent = has ? "编辑正文（自由排版）" : "写正文（自由排版）";
-    b.onclick = function () { openArticleEditor(j, refresh); };
+    b.type = "button"; b.className = "pickbtn";
+    b.textContent = hasContent() ? "编辑正文（在下方直接排版）" : "写正文（在下方直接排版）";
+    var ed = null;
+    b.onclick = function () {
+      if (ed && ed.parentNode) { ed.__close(); return; }
+      ed = makeArtEditor(j, refresh);
+      wrap.parentNode.insertBefore(ed, wrap.nextSibling);
+      b.textContent = "收起正文编辑器";
+      tag.textContent = "↓ 在下方编辑区直接排版（自动保存）";
+    };
     wrap.appendChild(b);
     return wrap;
   }
