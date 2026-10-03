@@ -18,10 +18,25 @@
     }
     return (over === undefined) ? base : over;
   }
+  /* v61b：用户保存数据加载专用——数组以保存数据为准（长度跟随 overlay）：后台删除的板块/条目不再从 data.js base 复活；翻译合并仍用上面的逐下标版 */
+  function mergeDeepUser(base, over) {
+    if (Array.isArray(base)) {
+      if (!over || !Array.isArray(over)) return JSON.parse(JSON.stringify(base));
+      var uarr = [];
+      over.forEach(function (item, i) { uarr[i] = (i < base.length) ? mergeDeepUser(base[i], item) : item; });
+      return uarr;
+    }
+    if (base !== null && typeof base === "object") {
+      var uout = (over !== null && typeof over === "object" && !Array.isArray(over)) ? over : {};
+      Object.keys(base).forEach(function (k) { uout[k] = mergeDeepUser(base[k], uout[k]); });
+      return uout;
+    }
+    return (over === undefined) ? base : over;
+  }
   var DATA;
   try {
     var s = JSON.parse(localStorage.getItem("lut_web_edits_v1"));
-    DATA = mergeDeep(SITE_WEB, (s && s.site) ? s.site : null);
+    DATA = mergeDeepUser(SITE_WEB, (s && s.site) ? s.site : null);
   } catch (e) { DATA = SITE_WEB; }
   if (!DATA) return;
   /* v60 预存翻译：三语文案内置于 data.js，切语言 = 本地合并，瞬时、无网络 */

@@ -32,8 +32,9 @@
   function mergeDeep(base, over) {
     if (Array.isArray(base)) {
       if (!over || !Array.isArray(over)) return JSON.parse(JSON.stringify(base));
-      var arr = JSON.parse(JSON.stringify(base));
-      over.forEach(function (item, i) { if (i < arr.length) arr[i] = mergeDeep(arr[i], item); else arr[i] = item; });
+      /* v61b：数组以保存的覆盖数据为准（短则截断=删除生效，长则追加）——旧写法 base 做种子按下标合并，删除的板块/条目重载后从 base 复活 */
+      var arr = [];
+      over.forEach(function (item, i) { arr[i] = (i < base.length) ? mergeDeep(base[i], item) : item; });
       return arr;
     }
     if (base !== null && typeof base === "object") {
@@ -1094,6 +1095,16 @@
     })();
     var textEnc = new TextEncoder().encode(buildDataJs());
     var jobs = [["data.js", Promise.resolve(toB64(textEnc))]];
+    /* v61b：同步同时 bump index.html 的 data.js ?v= 参数——否则浏览器缓存旧 data.js（Pages max-age=600），删除/修改最长 10 分钟不生效 */
+    var idxJob = ghApi("/repos/" + REPO + "/contents/index.html").then(function (r) { return r.json(); }).then(function (info) {
+      var html = new TextDecoder().decode(Uint8Array.from(atob(String(info.content || "").replace(/\s/g, "")), function (c) { return c.charCodeAt(0); }));
+      var m = /var V = "v=(\d+)"/.exec(html);
+      if (!m) return null;
+      var nv = parseInt(m[1], 10) + 1;
+      html = html.replace('var V = "v=' + m[1] + '"', 'var V = "v=' + nv + '"');
+      return ghPutFile("index.html", toB64(new TextEncoder().encode(html)), "官网更新: index.html v=" + nv + "（data.js 缓存刷新）");
+    }).catch(function () { return null; });
+    jobs.push(["index.html", idxJob]);
     Object.keys(pending).forEach(function (p) {
       jobs.push([p, pending[p].arrayBuffer().then(function (buf) { return toB64(new Uint8Array(buf)); })]);
     });
