@@ -30,9 +30,9 @@ const SITE_WEB = {
     ]
   },
   "hero": {
-    "meta": "REFERENCE COLOR STUDIO // EST. 2026",
+    "meta": "Toneby, a professional color processing tool // EST. 2026",
     "title": "TONEBY: FILM COLOR<br>GRADING CAMERA.",
-    "intro": "Turn your phone into a film camera. Fni Cam by Toneby brings the authentic feel of film to your smartphone, featuring real 3D LUTs, film grain, and real-time LUT processing. It also supports integration with Olympus cameras and OM system cameras, allowing you to import images directly from your camera into the Toneby workspace for editing and color grading. You can apply dual LUTs, curves, color grading, film grain, glow effects, cropping, and more—adjusting up to 50 photos at once. The app even lets you match the color tone of any reference image—all processed entirely on your device.",
+    "intro": "Transform your phone into a film camera with Fni Cam by Toneby, which brings an authentic film aesthetic to your smartphone through genuine 3D LUTs, film grain effects, and real-time LUT processing. The app also integrates with Olympus and OM System cameras, allowing you to import photos directly into the Toneby workspace for editing and color grading. You can utilize features such as dual LUTs, curve adjustments, color grading, film grain, halation effects, and cropping, with support for batch processing up to 50 photos; additionally, it enables you to match the color tone of any reference image. All processing is performed locally on the device.",
     "playUrl": "https://play.google.com/store/apps/details?id=com.ahs.referencetonematch",
     "playLabel": "GET IT ON",
     "playStore": "GOOGLE PLAY",
@@ -72,9 +72,9 @@ const SITE_WEB = {
         "g": 2
       }
     ],
-    "eyebrow": "OFFLINE-FIRST // LOCAL RENDERING ENGINE // EST. 2026",
+    "eyebrow": "Fully offline // Local rendering engine // Starting in 2026",
     "big": "TONEBY",
-    "sub": "REFERENCE COLOR STUDIO // EST. 2026"
+    "sub": "Toneby, a professional color processing tool // EST. 2026"
   },
   "numbers": [
     {
@@ -255,24 +255,24 @@ const SITE_WEB = {
         ]
       },
       "hero": {
-        "meta": "リファレンスカラースタジオ // EST. 2026年",
+        "meta": "Toneby、プロフェッショナル向けカラー処理ツール // 2026年始動",
         "title": "TONEBY: フィルムカラー<br>グレーディングカメラ。",
-        "intro": "あなたの携帯電話を基準色のフィルムカメラに変身させます。 Toneby は、本格的な 3D LUT、フィルムグレイン、リアルタイム LUT カメラを使用して、あらゆる参照写真のトーンを正確にマッチングします。すべてデバイス上で処理されます。",
-        "playLabel": "さあ始めましょう",
-        "playStore": "Google プレイ",
+        "intro": "Tonebyの「Fni Cam」は、お使いのスマートフォンを本格的なフィルムカメラへと変身させ、リアルな3D LUT、フィルムグレイン（粒子感）、リアルタイムLUT処理機能によって、本物のフィルムのような質感を再現します。また、オリンパスやOM Systemのカメラとの連携にも対応しており、カメラ内の写真を直接Tonebyのワークスペースに読み込んで編集やカラーグレーディングを行うことが可能です。デュアルLUT、トーンカーブ調整、カラーグレーディング、フィルムグレイン、ハレーション効果、トリミングなどの機能を備え、最大50枚の写真を一括処理できるほか、任意の参考画像のトーンを再現する機能も搭載しています。すべての処理はデバイス上でローカルに行われます。",
+        "playLabel": "今すぐ入手",
+        "playStore": "GOOGLE PLAY",
         "groups": [
           {
-            "label": "フィルムカラーエンジン"
+            "label": "ワンタッチで素早くカメラに接続します。"
           },
           {
-            "label": "ローカルプライバシー"
+            "label": "色調を統一した写真を一括で書き出す。"
           },
           {
-            "label": "LUTカメラなど"
+            "label": "Fni Cam - フィルムのような質感のカラーカメラ"
           }
         ],
-        "eyebrow": "オフラインファースト // ローカル レンダリング エンジン // EST. 2026年",
-        "sub": "リファレンスカラースタジオ // EST. 2026年"
+        "eyebrow": "完全オフライン // ローカルレンダリングエンジン // 2026年始動",
+        "sub": "Toneby、プロフェッショナル向けカラー処理ツール // 2026年始動"
       },
       "numbers": [
         {
@@ -567,24 +567,24 @@ const SITE_WEB = {
         ]
       },
       "hero": {
-        "meta": "参考色彩工作室 // EST。 2026年",
+        "meta": "Toneby，专业色彩处理工具 // 始于 2026 年",
         "title": "TONEBY：胶片色彩<br>分级相机。",
-        "intro": "将您的手机变成参考彩色胶片相机。 Toneby 将任何参考照片的精确色调与真实的 3D LUT、胶片颗粒和实时 LUT 相机相匹配 - 完全在您的设备上处理",
-        "playLabel": "穿上它",
-        "playStore": "谷歌游戏",
+        "intro": "将您的手机变为胶片相机，Toneby 推出的 Fni Cam 为您的智能手机带来地道的胶片质感，具备真实的 3D LUT、胶片颗粒效果以及实时 LUT 处理功能。该应用还支持与奥林巴斯及 OM System 相机联动，可直接将相机中的照片导入 Toneby 工作区进行编辑与调色，您可以使用双重 LUT、曲线调整、调色、胶片颗粒、光晕效果及裁剪等功能，并支持批量处理多达 50 张照片，此外，还能让您匹配任意参考图的色调。所有处理均在设备上本地完成。",
+        "playLabel": "立即获取",
+        "playStore": "GOOGLE PLAY",
         "groups": [
           {
-            "label": "胶片色彩引擎"
+            "label": "一键快速连接到相机。"
           },
           {
-            "label": "本地隐私"
+            "label": "批量导出色调统一的照片。"
           },
           {
-            "label": "LUT 相机及更多"
+            "label": "Fni Cam - 胶片级彩色相机"
           }
         ],
-        "eyebrow": "离线优先 // 本地渲染引擎 // EST。 2026年",
-        "sub": "参考色彩工作室 // EST。 2026年"
+        "eyebrow": "完全离线 // 本地渲染引擎 // 始于 2026 年",
+        "sub": "Toneby，专业色彩处理工具 // 始于 2026 年"
       },
       "numbers": [
         {
