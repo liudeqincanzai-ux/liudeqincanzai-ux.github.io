@@ -842,6 +842,16 @@ function tryShowcase(n) {
       if (sec && cursor) { cursor.insertAdjacentElement("afterend", sec); cursor = sec; }
     });
   }
+  /* v64：删除板块——不在 sections 清单里的静态板块隐藏（nav 是 header 标签不受影响） */
+  var deletedSecs = {};
+  (function () {
+    var on = {};
+    (DATA.sections || []).forEach(function (s) { on[s] = 1; });
+    Array.prototype.forEach.call(document.querySelectorAll("section[data-sec]"), function (sec) {
+      var sid2 = sec.getAttribute("data-sec");
+      if (!on[sid2]) { deletedSecs[sid2] = 1; sec.style.display = "none"; }
+    });
+  })();
 
   // ---------- v63 站内文章详情页（#article/<sid>/<i> hash 路由，同页视图切换） ----------
   var artView = null;
@@ -900,7 +910,7 @@ function tryShowcase(n) {
     artView.style.display = "none";
     artView.innerHTML = "";
     var secs = document.querySelectorAll("section[data-sec]");
-    for (var k = 0; k < secs.length; k++) secs[k].style.display = "";
+    for (var k = 0; k < secs.length; k++) secs[k].style.display = deletedSecs[secs[k].getAttribute("data-sec")] ? "none" : "";
   }
   function onHashArt() {
     var m = /^#article\/([\w-]+)\/(\d+)$/.exec(location.hash || "");

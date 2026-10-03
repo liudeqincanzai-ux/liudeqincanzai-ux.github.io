@@ -565,10 +565,22 @@
       var ord = document.createElement("span");
       ord.className = "ord";
       [["↑", function () { if (i > 0) { var t = DATA.sections[i - 1]; DATA.sections[i - 1] = DATA.sections[i]; DATA.sections[i] = t; afterOrder(); } }],
-       ["↓", function () { if (i < DATA.sections.length - 1) { var t = DATA.sections[i + 1]; DATA.sections[i + 1] = DATA.sections[i]; DATA.sections[i] = t; afterOrder(); } }]
+       ["↓", function () { if (i < DATA.sections.length - 1) { var t = DATA.sections[i + 1]; DATA.sections[i + 1] = DATA.sections[i]; DATA.sections[i] = t; afterOrder(); } }],
+       ["✕", function () {
+          var nm = (meta ? meta.name : baseId) + (baseId !== id ? " " + id.slice(dashI + 1) : "");
+          if (!confirm("确定删除板块「" + nm + "」吗？\n\n删除后将从前台移除；该板块里填写的内容不会恢复（重新添加是空白板块）。")) return;
+          DATA.sections.splice(i, 1);
+          if (dashI > 0 && DATA[id]) delete DATA[id];
+          if (currentSec === id) { currentSec = null; drawer.classList.remove("open"); }
+          saveQuiet();
+          renderSecList();
+          pvRefreshSoon();
+          toast("板块已删除 ✓ 同步后前台生效");
+        }]
       ].forEach(function (d) {
         var ob = document.createElement("button");
         ob.type = "button"; ob.textContent = d[0]; ob.onclick = d[1];
+        if (d[0] === "✕") { ob.style.color = "#e06c5a"; ob.title = "删除板块"; }
         ord.appendChild(ob);
       });
       btn.appendChild(ord);
