@@ -211,8 +211,7 @@ const SITE_WEB = {
     "compare",
     "gallery",
     "faq",
-    "cta",
-    "compare-2"
+    "cta"
   ],
   "faqEyebrow": "FAQ // SUPPORT",
   "faqDesc": "Answer common questions about Toneby's Pro features, color grading engine, privacy features, and support for custom presets.",
@@ -751,12 +750,5 @@ const SITE_WEB = {
         {}
       ]
     }
-  },
-  "compare-2": [
-    {
-      "before": "assets/shots/商店资讯图_01.jpg",
-      "after": "assets/shots/商店资讯图_02.jpg",
-      "caption": ""
-    }
-  ]
+  }
 };
