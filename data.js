@@ -182,7 +182,10 @@ const SITE_WEB = {
     }
   ],
   "cta": {
-    "title": "UPGRADE YOUR COLOR WORKFLOW."
+    "title": "UPGRADE YOUR COLOR WORKFLOW.",
+    "playUrl": "https://play.google.com/store/apps/details?id=com.ahs.referencetonematch",
+    "playLabel": "GET IT ON",
+    "playStore": "GOOGLE PLAY"
   },
   "footer": {
     "brand": "TONEBY",
@@ -368,7 +371,8 @@ const SITE_WEB = {
         }
       ],
       "cta": {
-        "title": "カラーワークフローをアップグレードしましょう。"
+        "title": "カラーワークフローをアップグレードしましょう。",
+        "playLabel": "今すぐ入手"
       },
       "footer": {
         "privacyLabel": "プライバシーポリシー",
