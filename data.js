@@ -1,6 +1,4 @@
-// 由统一后台同步生成
-const SITE_WEB = {
-
+window.SITE_WEB = {
   "siteTitle": "Toneby",
   "galleryTitle": "LUT Gallery",
   "faqTitle": "Frequently Asked Questions",
