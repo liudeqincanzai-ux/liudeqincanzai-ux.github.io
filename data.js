@@ -368,11 +368,12 @@ const SITE_WEB = {
         }
       ],
       "cta": {
-        "title": "カラーワークフローをアップグレードします。"
+        "title": "カラーワークフローをアップグレードしましょう。"
       },
       "footer": {
         "privacyLabel": "プライバシーポリシー",
-        "termsLabel": "利用規約"
+        "termsLabel": "利用規約",
+        "copy": "© 2026 Toneby。All rights reserved."
       },
       "faqEyebrow": "よくある質問 // サポート",
       "faqDesc": "Toneby のカラー グレーディング エンジン、プライバシー機能、カスタム プリセットのサポートに関するよくある質問への回答を見つけます。",
@@ -684,7 +685,8 @@ const SITE_WEB = {
       },
       "footer": {
         "privacyLabel": "隐私政策",
-        "termsLabel": "服务条款"
+        "termsLabel": "服务条款",
+        "copy": "© 2026 Toneby。保留所有权利。"
       },
       "faqEyebrow": "常见问题解答 // 支持",
       "faqDesc": "查找有关 Toneby 颜色分级引擎、隐私功能和自定义预设支持的常见问题的答案。",
