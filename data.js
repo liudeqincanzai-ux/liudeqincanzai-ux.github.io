@@ -372,7 +372,8 @@ const SITE_WEB = {
       ],
       "cta": {
         "title": "カラーワークフローをアップグレードしましょう。",
-        "playLabel": "今すぐ入手"
+        "playLabel": "今すぐ入手",
+        "playStore": "GOOGLE PLAY"
       },
       "footer": {
         "privacyLabel": "プライバシーポリシー",
@@ -685,7 +686,9 @@ const SITE_WEB = {
         }
       ],
       "cta": {
-        "title": "升级您的色彩工作流程。"
+        "title": "升级您的色彩工作流程。",
+        "playLabel": "立即获取",
+        "playStore": "GOOGLE PLAY"
       },
       "footer": {
         "privacyLabel": "隐私政策",
