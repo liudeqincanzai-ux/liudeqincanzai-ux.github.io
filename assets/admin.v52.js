@@ -158,6 +158,99 @@
     wrap.appendChild(input);
     return wrap;
   }
+  /* ---- v61 三语字段：英文主输入框下方直接跟 日本語/中文 两个输入框 ---- */
+  var trPaths = [];
+  function trGet(lang, ks) {
+    if (!DATA.translations || !DATA.translations[lang]) return "";
+    var c = DATA.translations[lang];
+    for (var i = 0; i < ks.length; i++) { c = c ? c[ks[i]] : undefined; }
+    return typeof c === "string" ? c : "";
+  }
+  function trSet(lang, ks, v) {
+    if (!DATA.translations) DATA.translations = { ja: {}, "zh-CN": {} };
+    if (!DATA.translations[lang]) DATA.translations[lang] = {};
+    var c = DATA.translations[lang];
+    for (var i = 0; i < ks.length - 1; i++) {
+      var k = ks[i], nk = ks[i + 1];
+      if (c[k] === undefined || c[k] === null || typeof c[k] !== "object") c[k] = typeof nk === "number" ? [] : {};
+      c = c[k];
+    }
+    var last = ks[ks.length - 1];
+    if (v && v.trim()) c[last] = v; else delete c[last];
+    saveQuiet();
+  }
+  function trOneText(text, lang) {
+    var p = Promise.resolve(null);
+    if (lang === "zh-CN") {
+      p = fetch("https://transmart.qq.com/api/imt", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ header: { fn: "auto_translation", session: "", client_key: "browser-web" }, source: { text_list: [text], options: "auto2zh_CN" } }) }).then(function (r) { return r.json(); }).then(function (j) {
+        return (j && j.header && j.header.ret_code === "succ" && j.auto_translation && j.auto_translation[0]) ? j.auto_translation[0] : null;
+      }).catch(function () { return null; });
+    } else {
+      p = fetch("https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=" + lang + "&dt=t&q=" + encodeURIComponent(text)).then(function (r) { return r.json(); }).then(function (j) {
+        var out = "";
+        if (j && j[0]) j[0].forEach(function (seg) { if (seg && seg[0]) out += seg[0]; });
+        if (out.trim()) return out.trim();
+        return fetch("https://api.mymemory.translated.net/get?q=" + encodeURIComponent(text) + "&langpair=Autodetect|" + lang + "&de=liudeqincanzai%40gmail.com").then(function (r2) { return r2.json(); }).then(function (j2) {
+          var t = j2 && j2.responseData && j2.responseData.translatedText;
+          if (!t || /MYMEMORY WARNING|QUERY LENGTH LIMIT/i.test(t)) return null;
+          return String(t).replace(/トーンビー/g, "TONEBY").replace(/通比/g, "TONEBY");
+        });
+      }).catch(function () { return null; });
+    }
+    return Promise.race([p, new Promise(function (res) { setTimeout(function () { res(null); }, 16000); })]);
+  }
+  function fieldTr(label, hint, path, rows) {
+    var ks = Array.isArray(path) ? path : path.split(".");
+    trPaths.push(ks);
+    function getEn() { var c = DATA; for (var i = 0; i < ks.length; i++) c = c ? c[ks[i]] : undefined; return typeof c === "string" ? c : ""; }
+    var wrap = document.createElement("div");
+    wrap.appendChild(field(label, hint, getEn(), function (v) {
+      var c = DATA;
+      for (var i = 0; i < ks.length - 1; i++) c = c[ks[i]];
+      c[ks[ks.length - 1]] = v;
+    }, rows));
+    if (!DATA.translations) DATA.translations = { ja: {}, "zh-CN": {} };
+    [["ja", "日本語"], ["zh-CN", "中文"]].forEach(function (pair) {
+      var row = document.createElement("div");
+      row.style.cssText = "display:flex;align-items:flex-start;gap:6px;margin-top:4px";
+      var lb = document.createElement("span");
+      lb.style.cssText = "color:#888;font-size:11px;white-space:nowrap;width:46px;padding-top:" + (rows ? "6px" : "5px");
+      lb.textContent = pair[1];
+      var inp;
+      if (rows) { inp = document.createElement("textarea"); inp.rows = Math.max(2, rows - 1); }
+      else { inp = document.createElement("input"); inp.type = "text"; }
+      inp.value = trGet(pair[0], ks);
+      inp.style.cssText = "flex:1;background:#161616;border:1px solid #444;color:#eee;border-radius:4px;padding:5px 8px;font-size:12px;font-family:inherit";
+      inp.oninput = function () { trSet(pair[0], ks, inp.value); pvRefreshSoon(); };
+      row.appendChild(lb);
+      row.appendChild(inp);
+      wrap.appendChild(row);
+    });
+    return wrap;
+  }
+  function fillTrBlanks() {
+    var todo = [];
+    trPaths.forEach(function (ks) {
+      ["ja", "zh-CN"].forEach(function (lang) {
+        if (!trGet(lang, ks)) todo.push({ lang: lang, ks: ks, text: (function () { var c = DATA; for (var i = 0; i < ks.length; i++) c = c ? c[ks[i]] : undefined; return typeof c === "string" ? c : ""; })() });
+      });
+    });
+    if (!todo.length) { toast("本板块没有留空的翻译"); return; }
+    var done = 0;
+    toast("翻译中 0/" + todo.length + " …");
+    var idx = 0;
+    function worker() {
+      if (idx >= todo.length) { toast("填空完成 ✓ 记得点保存并同步官网"); return; }
+      var it = todo[idx++];
+      trOneText(it.text, it.lang).then(function (t) {
+        done++;
+        toast("翻译中 " + done + "/" + todo.length + " …");
+        if (t) trSet(it.lang, it.ks, t);
+        worker();
+      });
+    }
+    worker();
+  }
   function shrinkImage(file, cb) {
     var url = URL.createObjectURL(file);
     var im = new Image();
@@ -420,16 +513,16 @@
       root.appendChild(field("网站标识（左上角）", "", DATA.nav.brand, function (v) { DATA.nav.brand = v; }));
       root.appendChild(imagePicker(DATA.nav.logoSrc || "", function (p) { DATA.nav.logoSrc = p; saveQuiet(); pvRefreshSoon(); toast("图标已更换 ✓"); }));
       root.appendChild(addBtn("恢复默认黑色 T 图标", function () { DATA.nav.logoSrc = ""; saveQuiet(); renderDrawer("hero"); pvRefreshSoon(); toast("已恢复默认图标"); }));
-      root.appendChild(field("下载按钮文字", "", DATA.nav.downloadLabel, function (v) { DATA.nav.downloadLabel = v; }));
+      root.appendChild(fieldTr("下载按钮文字", "", ["nav", "downloadLabel"]));
       root.appendChild(h2("HERO 主视觉"));
-      root.appendChild(field("小标（等宽字）", "", DATA.hero.meta, function (v) { DATA.hero.meta = v; }));
-      root.appendChild(field("顶部眉行小字", "", DATA.hero.eyebrow || "", function (v) { DATA.hero.eyebrow = v; }));
+      root.appendChild(fieldTr("小标（等宽字）", "", ["hero", "meta"]));
+      root.appendChild(fieldTr("顶部眉行小字", "", ["hero", "eyebrow"]));
       root.appendChild(field("大字标题", "建议 TONEBY", DATA.hero.big || "", function (v) { DATA.hero.big = v; }));
-      root.appendChild(field("大字下方小字", "", DATA.hero.sub || "", function (v) { DATA.hero.sub = v; }));
-      root.appendChild(field("介绍段落", "", DATA.hero.intro, function (v) { DATA.hero.intro = v; }, 4));
+      root.appendChild(fieldTr("大字下方小字", "", ["hero", "sub"]));
+      root.appendChild(fieldTr("介绍段落", "", ["hero", "intro"], 4));
       var r2 = document.createElement("div"); r2.className = "row2";
-      r2.appendChild(field("下载按钮小字", "", DATA.hero.playLabel, function (v) { DATA.hero.playLabel = v; }));
-      r2.appendChild(field("下载按钮商店名", "", DATA.hero.playStore, function (v) { DATA.hero.playStore = v; }));
+      r2.appendChild(fieldTr("下载按钮小字", "", ["hero", "playLabel"]));
+      r2.appendChild(fieldTr("下载按钮商店名", "", ["hero", "playStore"]));
       root.appendChild(r2);
       root.appendChild(field("Google Play 链接", "", DATA.hero.playUrl, function (v) { DATA.hero.playUrl = v; }));
       root.appendChild(h2("轮播截图"));
@@ -470,7 +563,7 @@
       (DATA.hero.groups || []).forEach(function (g, i) {
         var r = document.createElement("div"); r.className = "row2";
         r.appendChild(field("编号 " + (i + 1), "如 — 01", g.no, function (v) { g.no = v; }));
-        r.appendChild(field("标签文字 " + (i + 1), "", g.label, function (v) { g.label = v; }));
+        r.appendChild(fieldTr("标签文字 " + (i + 1), "", ["hero", "groups", i, "label"]));
         root.appendChild(r);
       });
     },
@@ -479,16 +572,16 @@
       (DATA.numbers || []).forEach(function (n, i) {
         var cd = card("数字块 " + (i + 1));
         cd.appendChild(field("编号", "如 01", n.no, function (v) { n.no = v; }));
-        cd.appendChild(field("标题", "", n.title, function (v) { n.title = v; }));
-        cd.appendChild(field("描述", "", n.desc, function (v) { n.desc = v; }, 2));
+        cd.appendChild(fieldTr("标题", "", ["numbers", i, "title"]));
+        cd.appendChild(fieldTr("描述", "", ["numbers", i, "desc"], 2));
         root.appendChild(cd);
       });
     },
     features: function (root) {
       root.appendChild(fsSlider("features"));
-      root.appendChild(field("小标", "", DATA.intro2.tag, function (v) { DATA.intro2.tag = v; }));
-      root.appendChild(field("标题", "", DATA.intro2.title, function (v) { DATA.intro2.title = v; }));
-      root.appendChild(field("描述", "", DATA.intro2.desc, function (v) { DATA.intro2.desc = v; }, 3));
+      root.appendChild(fieldTr("小标", "", ["intro2", "tag"]));
+      root.appendChild(fieldTr("标题", "", ["intro2", "title"]));
+      root.appendChild(fieldTr("描述", "", ["intro2", "desc"], 3));
     },
     modules: function (root) {
       root.appendChild(fsSlider("modules"));
@@ -496,8 +589,8 @@
         var cd = card("模块 " + (i + 1));
         cd.appendChild(field("MODULE 编号", "如 MODULE01（清空则不显示）", m.mod, function (v) { m.mod = v; }));
         cd.appendChild(field("图注小字（FIG）", "如 FIG. 01 // 05", m.fig || "", function (v) { m.fig = v; }));
-        cd.appendChild(field("标题", "", m.title, function (v) { m.title = v; }));
-        cd.appendChild(field("描述", "", m.desc, function (v) { m.desc = v; }, 3));
+        cd.appendChild(fieldTr("标题", "", ["modules", i, "title"]));
+        cd.appendChild(fieldTr("描述", "", ["modules", i, "desc"], 3));
         cd.appendChild(imagePicker(m.src, function (p) { m.src = p; saveQuiet(); pvRefreshSoon(); }));
         root.appendChild(cd);
       });
@@ -510,7 +603,7 @@
         cd.appendChild(imagePicker(c.before || "", function (p) { c.before = p; saveQuiet(); pvRefreshSoon(); }));
         cd.appendChild(field("右侧图（对比后）路径", "", c.after || "", function (v) { c.after = v; }));
         cd.appendChild(imagePicker(c.after || "", function (p) { c.after = p; saveQuiet(); pvRefreshSoon(); }));
-        cd.appendChild(field("说明文字（可空）", "", c.caption || "", function (v) { c.caption = v; }));
+        cd.appendChild(fieldTr("说明文字（可空）", "", ["compare", i, "caption"]));
         cd.appendChild(addBtn("删除此对比板块", function () { DATA.compare.splice(i, 1); saveQuiet(); renderDrawer("compare"); pvRefreshSoon(); }));
         root.appendChild(cd);
       });
@@ -518,15 +611,15 @@
     },
     gallery: function (root) {
       root.appendChild(fsSlider("gallery"));
-      root.appendChild(field("画廊区块标题", "", DATA.galleryTitle || "LUT Gallery", function (v) { DATA.galleryTitle = v; }));
-      root.appendChild(field("画廊描述", "", (DATA.gallery && DATA.gallery.desc) || "", function (v) { if (!DATA.gallery) DATA.gallery = {}; DATA.gallery.desc = v; }, 3));
+      root.appendChild(fieldTr("画廊区块标题", "", ["galleryTitle"]));
+      root.appendChild(fieldTr("画廊描述", "", ["gallery", "desc"], 3));
       root.appendChild(field("画廊分组下拉里的说明文字", "展示组来自 LUT 展示编辑", "", function () {}, 1)).style.display = "none";
     },
     journal: function (root) {
       root.appendChild(fsSlider("journal"));
-      root.appendChild(field("眉行小字", "左上角", DATA.journalEyebrow || "", function (v) { DATA.journalEyebrow = v; }));
-      root.appendChild(field("大字标题", "", DATA.journalTitle || "", function (v) { DATA.journalTitle = v; }));
-      root.appendChild(field("描述", "", DATA.journalDesc || "", function (v) { DATA.journalDesc = v; }, 3));
+      root.appendChild(fieldTr("眉行小字", "左上角", ["journalEyebrow"]));
+      root.appendChild(fieldTr("大字标题", "", ["journalTitle"]));
+      root.appendChild(fieldTr("描述", "", ["journalDesc"], 3));
       (DATA.journal || []).forEach(function (j, i) {
         var cd = card("文章 " + (i + 1));
         opsBtns(cd.querySelector(".item-head"), [
@@ -535,7 +628,7 @@
           ["删除", function () { DATA.journal.splice(i, 1); saveQuiet(); renderDrawer("journal"); pvRefreshSoon(); }, 1]
         ]);
         cd.appendChild(field("日期", "如 2026.06.06（可空）", j.date || "", function (v) { j.date = v; }));
-        cd.appendChild(field("标题", "", j.title || "", function (v) { j.title = v; }, 2));
+        cd.appendChild(fieldTr("标题", "", ["journal", i, "title"], 2));
         cd.appendChild(field("链接", "可空=不可点；#faq 站内锚点，https:// 外链", j.href || "", function (v) { j.href = v; }));
         root.appendChild(cd);
       });
@@ -543,8 +636,8 @@
     },
     faq: function (root) {
       root.appendChild(fsSlider("faq"));
-      root.appendChild(field("眉行小字", "", DATA.faqEyebrow || "", function (v) { DATA.faqEyebrow = v; }));
-      root.appendChild(field("板块描述", "", DATA.faqDesc || "", function (v) { DATA.faqDesc = v; }, 3));
+      root.appendChild(fieldTr("眉行小字", "", ["faqEyebrow"]));
+      root.appendChild(fieldTr("板块描述", "", ["faqDesc"], 3));
       (DATA.faq || []).forEach(function (f, i) {
         var cd = card("问题 " + (i + 1));
         opsBtns(cd.querySelector(".item-head"), [
@@ -552,21 +645,21 @@
           ["↓", function () { if (i < DATA.faq.length - 1) { var t = DATA.faq[i + 1]; DATA.faq[i + 1] = DATA.faq[i]; DATA.faq[i] = t; saveQuiet(); renderDrawer("faq"); pvRefreshSoon(); } }],
           ["删除", function () { DATA.faq.splice(i, 1); saveQuiet(); renderDrawer("faq"); pvRefreshSoon(); }, 1]
         ]);
-        cd.appendChild(field("问题", "", f.q, function (v) { f.q = v; }));
-        cd.appendChild(field("回答", "", f.a, function (v) { f.a = v; }, 3));
+        cd.appendChild(fieldTr("问题", "", ["faq", i, "q"]));
+        cd.appendChild(fieldTr("回答", "", ["faq", i, "a"], 3));
         root.appendChild(cd);
       });
       root.appendChild(addBtn("＋ 添加一条 FAQ", function () { DATA.faq.push({ q: "新问题？", a: "回答内容" }); saveQuiet(); renderDrawer("faq"); pvRefreshSoon(); }));
     },
     cta: function (root) {
       root.appendChild(fsSlider("cta"));
-      root.appendChild(field("CTA 标语", "", DATA.cta.title, function (v) { DATA.cta.title = v; }));
+      root.appendChild(fieldTr("CTA 标语", "", ["cta", "title"]));
       root.appendChild(field("页脚品牌名", "", DATA.footer.brand, function (v) { DATA.footer.brand = v; }));
       var r3 = document.createElement("div"); r3.className = "row2";
-      r3.appendChild(field("隐私政策链接文字", "", DATA.footer.privacyLabel, function (v) { DATA.footer.privacyLabel = v; }));
-      r3.appendChild(field("用户协议链接文字", "", DATA.footer.termsLabel, function (v) { DATA.footer.termsLabel = v; }));
+      r3.appendChild(fieldTr("隐私政策链接文字", "", ["footer", "privacyLabel"]));
+      r3.appendChild(fieldTr("用户协议链接文字", "", ["footer", "termsLabel"]));
       root.appendChild(r3);
-      root.appendChild(field("版权行", "", DATA.footer.copy, function (v) { DATA.footer.copy = v; }));
+      root.appendChild(fieldTr("版权行", "", ["footer", "copy"]));
     },
     settings: function (root) {
       root.appendChild(h2("站点与标题"));
@@ -582,123 +675,13 @@
       root.appendChild(field("令牌", "官网同步与 LUT 同步共用", "", function (v) {
         if (v && v.trim()) { setToken(v); toast("Token 已保存 ✓"); }
       }));
-      root.appendChild(h2("多语言翻译（日语 / 简体中文）"));
-      root.appendChild((function () {
-        var tip = document.createElement("div");
-        tip.style.cssText = "color:#999;font-size:12px;margin:4px 0 10px";
-        tip.textContent = "三语文案随官网数据一起保存和同步。留空的句子，网站上自动显示英文。改完点「自动翻译填空」可让接口帮你填草稿，再手动修正。";
-        return tip;
-      })());
-      /* --- 翻译管理列表（英/日/中 对照） --- */
-      if (!DATA.translations) DATA.translations = { ja: {}, "zh-CN": {} };
-      if (!DATA.translations.ja) DATA.translations.ja = {};
-      if (!DATA.translations["zh-CN"]) DATA.translations["zh-CN"] = {};
-      var TR_SKIP = { src:1, href:1, url:1, logoSrc:1, playUrl:1, downloadHref:1, privacyHref:1, termsHref:1,
-        sections:1, no:1, cap:1, date:1, brand:1, siteTitle:1, privacyContent:1, termsContent:1,
-        privacyTitle:1, termsTitle:1, uiFontScale:1, autoTranslate:1, translations:1, g:1,
-        before:1, after:1, linkUrl:1, img:1, images:1, shots:1, slides:1, poster:1, thumb:1, icon:1, iconSrc:1, name:1 };
-      var trJobs = [];
-      (function collectTr(obj, path) {
-        if (!obj || typeof obj !== "object") return;
-        Object.keys(obj).forEach(function (k) {
-          if (TR_SKIP[k]) return;
-          var v = obj[k], p = path.concat(k);
-          if (Array.isArray(v)) { v.forEach(function (item, i) { collectTr(item, p.concat(i)); }); return; }
-          if (v && typeof v === "object") { collectTr(v, p); return; }
-          if (typeof v === "string" && v.trim() && !/^toneby[™\s.!]*$/i.test(v.trim())) trJobs.push({ path: p, text: v });
-        });
-      })(DATA, []);
-      function trGet(lang, path) { var c = DATA.translations[lang]; for (var i = 0; i < path.length; i++) { c = c && c[path[i]]; } return typeof c === "string" ? c : ""; }
-      function trSet(lang, path, v) {
-        if (!DATA.translations[lang]) DATA.translations[lang] = {};
-        var c = DATA.translations[lang];
-        for (var i = 0; i < path.length - 1; i++) {
-          var k = path[i], nk = path[i + 1];
-          if (c[k] === undefined || c[k] === null || typeof c[k] !== "object") c[k] = typeof nk === "number" ? [] : {};
-          c = c[k];
-        }
-        if (v) c[path[path.length - 1]] = v; else delete c[path[path.length - 1]];
-      }
-      var trInputs = [];
-      var trList = document.createElement("div");
-      trList.style.cssText = "display:flex;flex-direction:column;gap:10px";
-      trJobs.forEach(function (job) {
-        var wrap = document.createElement("div");
-        wrap.style.cssText = "border:1px solid #333;border-radius:6px;padding:8px";
-        var en = document.createElement("div");
-        en.style.cssText = "color:#aaa;font-size:11px;margin-bottom:5px;word-break:break-word";
-        en.textContent = "EN: " + job.text;
-        wrap.appendChild(en);
-        [["ja", "日本語"], ["zh-CN", "中文"]].forEach(function (pair) {
-          var row = document.createElement("div");
-          row.style.cssText = "display:flex;align-items:center;gap:6px;margin-top:4px";
-          var lb = document.createElement("span");
-          lb.style.cssText = "color:#888;font-size:11px;white-space:nowrap;width:44px";
-          lb.textContent = pair[1];
-          var inp = document.createElement("input");
-          inp.type = "text";
-          inp.value = trGet(pair[0], job.path);
-          inp.style.cssText = "flex:1;background:#1a1a1a;border:1px solid #444;color:#eee;border-radius:4px;padding:5px 8px;font-size:12px";
-          inp.oninput = function () { trSet(pair[0], job.path, inp.value.trim()); saveQuiet(); };
-          row.appendChild(lb); row.appendChild(inp);
-          wrap.appendChild(row);
-          trInputs.push({ lang: pair[0], path: job.path, input: inp });
-        });
-        trList.appendChild(wrap);
-      });
-      root.appendChild(trList);
-      root.appendChild(addBtn("自动翻译填空（只翻留空的句子）", function () {
-        var todo = trInputs.filter(function (x) { return !x.input.value.trim(); });
-        if (!todo.length) { toast("没有留空的句子"); return; }
-        toast("翻译中 0/" + todo.length + " …");
-        var done = 0, fail = 0;
-        var idx = 0;
-        function worker() {
-          if (idx >= todo.length) {
-            toast(fail > 0 ? (fail + " 条翻译失败，请检查网络或稍后重试") : "填空完成 ✓ 记得点保存并同步");
-            return;
-          }
-          var item = todo[idx++];
-          var text = "";
-          trJobs.forEach(function (j) { if (j.path.join(".") === item.path.join(".")) text = j.text; });
-          function finish(t) {
-            if (t) { item.input.value = t; trSet(item.lang, item.path, t); saveQuiet(); } else fail++;
-            done++;
-            toast("翻译中 " + done + "/" + (done + todo.length - idx) + " …");
-            worker();
-          }
-          if (item.lang === "zh-CN") {
-            fetch("https://transmart.qq.com/api/imt", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ header: { fn: "auto_translation", session: "", client_key: "browser-web" }, source: { text_list: [text], options: "auto2zh_CN" } }) }).then(function (r) { return r.json(); }).then(function (j) {
-              finish(j && j.header && j.header.ret_code === "succ" && j.auto_translation && j.auto_translation[0] ? j.auto_translation[0] : null);
-            }).catch(function () { finish(null); });
-          } else {
-            var gtx = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=ja&dt=t&q=" + encodeURIComponent(text);
-            var mm = "https://api.mymemory.translated.net/get?q=" + encodeURIComponent(text) + "&langpair=Autodetect|ja&de=liudeqincanzai%40gmail.com";
-            fetch(gtx).then(function (r) { return r.json(); }).then(function (j) {
-              var out = "";
-              if (j && j[0]) j[0].forEach(function (seg) { if (seg && seg[0]) out += seg[0]; });
-              if (out.trim()) return out.trim();
-              return fetch(mm).then(function (r2) { return r2.json(); }).then(function (j2) {
-                var t = j2 && j2.responseData && j2.responseData.translatedText;
-                return (t && t.trim()) ? t : null;
-              });
-            }).then(function (t) { finish(t ? String(t).replace(/トーンビー/g, "TONEBY").replace(/通比/g, "TONEBY") : null); }).catch(function () { finish(null); });
-          }
-        }
-        for (var w = 0; w < 4; w++) worker();
-      }));
-      root.appendChild(addBtn("清空全部翻译（恢复全英文）", function () {
-        if (!confirm("确定清空日语和中文翻译？网站上这两种语言将显示英文。")) return;
-        DATA.translations = { ja: {}, "zh-CN": {} };
-        saveQuiet();
-        toast("已清空，保存并同步后生效");
-        renderDrawer("settings");
-      }));
+
     }
   };
 
   function renderDrawer(id) {
     drawerBody.textContent = "";
+    trPaths = [];
     var meta = SECTIONS_META[id];
     drawerTitle.textContent = meta ? "编辑 · " + meta.name : "编辑";
     var fn = DRAWERS[id];
@@ -710,6 +693,7 @@
         drawerBody.appendChild(eb);
       }
     }
+    if (trPaths.length) drawerBody.appendChild(addBtn("自动翻译填空（翻译本板块留空的日语/中文）", fillTrBlanks));
     drawerBody.scrollTop = 0;
   }
   function selectSection(id) {
