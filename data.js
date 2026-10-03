@@ -39,11 +39,11 @@ const SITE_WEB = {
     "groups": [
       {
         "no": "— 01",
-        "label": "Quickly connect to the camera with a single touch."
+        "label": "Quickly connect to the camera with a single touch"
       },
       {
         "no": "— 02",
-        "label": "Batch-export photos with consistent tones."
+        "label": "Batch-export photos with consistent tones"
       },
       {
         "no": "— 03",
@@ -79,7 +79,7 @@ const SITE_WEB = {
   "numbers": [
     {
       "no": "01",
-      "title": "Fni Cam - Film-Grade Color Camera",
+      "title": "Fni Cam - Film-Grade Color Camera.",
       "desc": "Real 3D LUTs, film grain, halos and glow, color palettes, color temperature and tint, etc.—what you see in real-time preview matches the final result. What you see is what you get."
     },
     {
@@ -262,10 +262,10 @@ const SITE_WEB = {
         "playStore": "GOOGLE PLAY",
         "groups": [
           {
-            "label": "ワンタッチで素早くカメラに接続します。"
+            "label": "ワンタッチで素早くカメラに接続します"
           },
           {
-            "label": "色調を統一した写真を一括で書き出す。"
+            "label": "色調を統一した写真を一括で書き出す"
           },
           {
             "label": "Fni Cam - フィルムのような質感のカラーカメラ"
@@ -276,7 +276,7 @@ const SITE_WEB = {
       },
       "numbers": [
         {
-          "title": "Fni Cam - フィルムのような質感のカラーカメラ",
+          "title": "Fni Cam - フィルムのような質感のカラーカメラ。",
           "desc": "リアルな3D LUT、フィルムグレイン、ハロー・グロー効果、カラーグレーディング・プリセット、色温度・色調調整などを搭載。リアルタイムのプレビュー画面と最終的な映像が完全に一致し、まさに「見たままの仕上がり」を実現します。"
         },
         {
@@ -574,10 +574,10 @@ const SITE_WEB = {
         "playStore": "GOOGLE PLAY",
         "groups": [
           {
-            "label": "一键快速连接到相机。"
+            "label": "一键快速连接到相机"
           },
           {
-            "label": "批量导出色调统一的照片。"
+            "label": "批量导出色调统一的照片"
           },
           {
             "label": "Fni Cam - 胶片级彩色相机"
@@ -588,7 +588,7 @@ const SITE_WEB = {
       },
       "numbers": [
         {
-          "title": "Fni Cam - 胶片级彩色相机",
+          "title": "Fni Cam - 胶片级彩色相机。",
           "desc": "包含真实的 3D LUT、胶片颗粒、光晕与辉光效果、调色预设、色温与色调调节等——实时预览画面与最终成片完全一致，真正实现“所见即所得”。"
         },
         {
