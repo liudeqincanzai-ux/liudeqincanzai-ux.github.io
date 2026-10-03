@@ -599,9 +599,12 @@
     },
     features: function (root, sid) {
       root.appendChild(fsSlider(sid));
-      root.appendChild(fieldTr("小标", "", [sid, "tag"]));
-      root.appendChild(fieldTr("标题", "", [sid, "title"]));
-      root.appendChild(fieldTr("描述", "", [sid, "desc"], 3));
+      /* 兼容两形态：原版数据在顶层 DATA.intro2；实例（features-N）是嵌套对象 */
+      var inst = !!DATA[sid];
+      function P(k) { return inst ? [sid, k] : ["intro2", k]; }
+      root.appendChild(fieldTr("小标", "", P("tag")));
+      root.appendChild(fieldTr("标题", "", P("title")));
+      root.appendChild(fieldTr("描述", "", P("desc"), 3));
     },
     modules: function (root, sid) {
       root.appendChild(fsSlider(sid));
@@ -633,47 +636,55 @@
     },
     gallery: function (root, sid) {
       root.appendChild(fsSlider(sid));
-      root.appendChild(fieldTr("画廊区块标题", "", [sid, "galleryTitle"]));
-      root.appendChild(fieldTr("画廊描述", "", [sid, "gallery", "desc"], 3));
+      /* 兼容两形态：原版 galleryTitle 在顶层、描述在 DATA.gallery.desc；实例（gallery-N）两者都在嵌套对象内 */
+      var inst = !!(DATA[sid] && DATA[sid].galleryTitle !== undefined);
+      root.appendChild(fieldTr("画廊区块标题", "", inst ? [sid, "galleryTitle"] : ["galleryTitle"]));
+      root.appendChild(fieldTr("画廊描述", "", inst ? [sid, "gallery", "desc"] : ["gallery", "desc"], 3));
       root.appendChild(field("画廊分组下拉里的说明文字", "展示组来自 LUT 展示编辑", "", function () {}, 1)).style.display = "none";
     },
     journal: function (root, sid) {
       root.appendChild(fsSlider(sid));
-      var J = DATA[sid] || {};
-      root.appendChild(fieldTr("眉行小字", "左上角", [sid, "journalEyebrow"]));
-      root.appendChild(fieldTr("大字标题", "", [sid, "journalTitle"]));
-      root.appendChild(fieldTr("描述", "", [sid, "journalDesc"], 3));
-      (J.journal || []).forEach(function (j, i) {
+      /* 兼容两形态：原版字段在顶层（journalEyebrow 等）+ 顶层数组 DATA.journal；实例（journal-N）是嵌套对象 */
+      var J = DATA[sid];
+      var inst = !!(J && typeof J === "object" && !Array.isArray(J));
+      root.appendChild(fieldTr("眉行小字", "左上角", inst ? [sid, "journalEyebrow"] : ["journalEyebrow"]));
+      root.appendChild(fieldTr("大字标题", "", inst ? [sid, "journalTitle"] : ["journalTitle"]));
+      root.appendChild(fieldTr("描述", "", inst ? [sid, "journalDesc"] : ["journalDesc"], 3));
+      var list = inst ? (J.journal || (J.journal = [])) : (Array.isArray(J) ? J : (DATA.journal = DATA.journal || []));
+      list.forEach(function (j, i) {
         var cd = card("文章 " + (i + 1));
         opsBtns(cd.querySelector(".item-head"), [
-          ["↑", function () { if (i > 0) { var t = J.journal[i - 1]; J.journal[i - 1] = J.journal[i]; J.journal[i] = t; saveQuiet(); renderDrawer(sid); pvRefreshSoon(); } }],
-          ["↓", function () { if (i < DATA.journal.length - 1) { var t = J.journal[i + 1]; J.journal[i + 1] = J.journal[i]; J.journal[i] = t; saveQuiet(); renderDrawer(sid); pvRefreshSoon(); } }],
-          ["删除", function () { J.journal.splice(i, 1); saveQuiet(); renderDrawer(sid); pvRefreshSoon(); }, 1]
+          ["↑", function () { if (i > 0) { var t = list[i - 1]; list[i - 1] = list[i]; list[i] = t; saveQuiet(); renderDrawer(sid); pvRefreshSoon(); } }],
+          ["↓", function () { if (i < list.length - 1) { var t = list[i + 1]; list[i + 1] = list[i]; list[i] = t; saveQuiet(); renderDrawer(sid); pvRefreshSoon(); } }],
+          ["删除", function () { list.splice(i, 1); saveQuiet(); renderDrawer(sid); pvRefreshSoon(); }, 1]
         ]);
         cd.appendChild(field("日期", "如 2026.06.06（可空）", j.date || "", function (v) { j.date = v; }));
-        cd.appendChild(fieldTr("标题", "", [sid, i, "title"], 2));
+        cd.appendChild(fieldTr("标题", "", inst ? [sid, "journal", i, "title"] : ["journal", i, "title"], 2));
         cd.appendChild(field("链接", "可空=不可点；#faq 站内锚点，https:// 外链", j.href || "", function (v) { j.href = v; }));
         root.appendChild(cd);
       });
-      root.appendChild(addBtn("＋ 添加一篇文章", function () { J.journal.push({ date: "2026.06.06", title: "NEW ARTICLE TITLE", href: "" }); saveQuiet(); renderDrawer(sid); pvRefreshSoon(); }));
+      root.appendChild(addBtn("＋ 添加一篇文章", function () { list.push({ date: "2026.06.06", title: "NEW ARTICLE TITLE", href: "" }); saveQuiet(); renderDrawer(sid); pvRefreshSoon(); }));
     },
     faq: function (root, sid) {
       root.appendChild(fsSlider(sid));
-      var F = DATA[sid] || {};
-      root.appendChild(fieldTr("眉行小字", "", [sid, "faqEyebrow"]));
-      root.appendChild(fieldTr("板块描述", "", [sid, "faqDesc"], 3));
-      (F.faq || []).forEach(function (f, i) {
+      /* 兼容两形态：原版字段在顶层（faqEyebrow 等）+ 顶层数组 DATA.faq；实例（faq-N）是嵌套对象 */
+      var F = DATA[sid];
+      var inst = !!(F && typeof F === "object" && !Array.isArray(F));
+      root.appendChild(fieldTr("眉行小字", "", inst ? [sid, "faqEyebrow"] : ["faqEyebrow"]));
+      root.appendChild(fieldTr("板块描述", "", inst ? [sid, "faqDesc"] : ["faqDesc"], 3));
+      var list = inst ? (F.faq || (F.faq = [])) : (Array.isArray(F) ? F : (DATA.faq = DATA.faq || []));
+      list.forEach(function (f, i) {
         var cd = card("问题 " + (i + 1));
         opsBtns(cd.querySelector(".item-head"), [
-          ["↑", function () { if (i > 0) { var t = F.faq[i - 1]; F.faq[i - 1] = F.faq[i]; F.faq[i] = t; saveQuiet(); renderDrawer(sid); pvRefreshSoon(); } }],
-          ["↓", function () { if (i < DATA.faq.length - 1) { var t = F.faq[i + 1]; F.faq[i + 1] = F.faq[i]; F.faq[i] = t; saveQuiet(); renderDrawer(sid); pvRefreshSoon(); } }],
-          ["删除", function () { F.faq.splice(i, 1); saveQuiet(); renderDrawer(sid); pvRefreshSoon(); }, 1]
+          ["↑", function () { if (i > 0) { var t = list[i - 1]; list[i - 1] = list[i]; list[i] = t; saveQuiet(); renderDrawer(sid); pvRefreshSoon(); } }],
+          ["↓", function () { if (i < list.length - 1) { var t = list[i + 1]; list[i + 1] = list[i]; list[i] = t; saveQuiet(); renderDrawer(sid); pvRefreshSoon(); } }],
+          ["删除", function () { list.splice(i, 1); saveQuiet(); renderDrawer(sid); pvRefreshSoon(); }, 1]
         ]);
-        cd.appendChild(fieldTr("问题", "", [sid, i, "q"]));
-        cd.appendChild(fieldTr("回答", "", [sid, i, "a"], 3));
+        cd.appendChild(fieldTr("问题", "", inst ? [sid, "faq", i, "q"] : ["faq", i, "q"]));
+        cd.appendChild(fieldTr("回答", "", inst ? [sid, "faq", i, "a"] : ["faq", i, "a"], 3));
         root.appendChild(cd);
       });
-      root.appendChild(addBtn("＋ 添加一条 FAQ", function () { F.faq.push({ q: "新问题？", a: "回答内容" }); saveQuiet(); renderDrawer(sid); pvRefreshSoon(); }));
+      root.appendChild(addBtn("＋ 添加一条 FAQ", function () { list.push({ q: "新问题？", a: "回答内容" }); saveQuiet(); renderDrawer(sid); pvRefreshSoon(); }));
     },
     cta: function (root, sid) {
       root.appendChild(fsSlider(sid));
