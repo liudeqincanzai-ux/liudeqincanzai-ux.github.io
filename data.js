@@ -217,7 +217,7 @@ const SITE_WEB = {
   "faqDesc": "Find answers to common questions about Toneby’s color grading engine, privacy features, and custom presets support.",
   "journalEyebrow": "JOURNAL // READS",
   "journalTitle": "TONEBY JOURNAL",
-  "journalDesc": "Explore our latest articles, film simulation guides, and professional editing tutorials to master your photography workflow.",
+  "journalDesc": "Explore our latest content, film simulation guides, and pro editing tutorials to get a handle on your photography workflow.",
   "journal": [
     {
       "date": "2026.06.06",
@@ -384,7 +384,7 @@ const SITE_WEB = {
       "faqDesc": "Toneby のカラー グレーディング エンジン、プライバシー機能、カスタム プリセットのサポートに関するよくある質問への回答を見つけます。",
       "journalEyebrow": "ジャーナル // 読書",
       "journalTitle": "TONEBYジャーナル",
-      "journalDesc": "最新の記事、フィルム シミュレーション ガイド、プロフェッショナルな編集チュートリアルを参照して、写真ワークフローをマスターしてください。",
+      "journalDesc": "私たちの最新コンテンツ、フィルムシミュレーションガイド、プロ編集チュートリアルをチェックして、写真のワークフローをマスターしよう。",
       "journal": [
         {
           "title": "モバイルで 3D LUT を使用し、電話に .CUBE LUT をインポートする方法"
@@ -699,7 +699,7 @@ const SITE_WEB = {
       "faqDesc": "查找有关 Toneby 颜色分级引擎、隐私功能和自定义预设支持的常见问题的答案。",
       "journalEyebrow": "日记//阅读",
       "journalTitle": "TONEBY日记",
-      "journalDesc": "探索我们的最新文章、胶片模拟指南和专业编辑教程，以掌握您的摄影工作流程。",
+      "journalDesc": "探索我们最新的内容、胶片模拟指南和专业编辑教程，掌握你的摄影工作流程。",
       "journal": [
         {
           "title": "如何在手机上使用 3D LUT 并在手机上导入 .CUBE LUT"
