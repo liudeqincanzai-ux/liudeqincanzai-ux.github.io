@@ -220,12 +220,12 @@ const SITE_WEB = {
   "journalDesc": "Explore our latest content, film simulation guides, and pro editing tutorials to get a handle on your photography workflow.",
   "journal": [
     {
-      "date": "2026.06.06",
+      "date": "2026.10.05",
       "title": "Currently supported models and tutorials for connecting the camera",
       "href": "",
-      "content": "<h3>目前已经支持的机型：</h3><p>OM-D E-M1、OM-D E-M1 Mark II、OM-D E-M1 Mark III、OM-D E-M1X、OM-D E-M5、OM-D E-M5 Mark II、OM-D E-M5 Mark III、OM-D E-M10、OM-D E-M10 Mark II、OM-D E-M10 Mark III、OM-D E-M10 Mark IIIs、OM-D E-M10 Mark IV、PEN-F、PEN E-P1、PEN E-P2、PEN E-P3、PEN E-PL1、PEN E-PL2、PEN E-PL3、PEN E-PM1、PEN E-PM2、PEN E-P5、PEN E-PL5、PEN E-PL6、PEN E-PL7、PEN E-PL8、PEN E-PL9、PEN E-PL10、PEN E-P7、Tough TG-2、Tough TG-3、Tough TG-4、Tough TG-5、Tough TG-6、Stylus Tough TG-870、Stylus Tough TG-880、Stylus 1、Stylus 1s、Stylus SH-1、Stylus SH-2、Stylus SH-3、Stylus Tough TG-860、Stylus XZ-2、OM-1、OM-1 Mark II、OM-5、OM-5 Mark II、Tough TG-7、OM-3；</p><div><br></div><h3>链接使用教程：</h3><div><br></div>",
-      "content_ja": "",
-      "content_zh": ""
+      "content": "<h3>Currently supported models：</h3><p>OM-D E-M1、OM-D E-M1 Mark II、OM-D E-M1 Mark III、OM-D E-M1X、OM-D E-M5、OM-D E-M5 Mark II、OM-D E-M5 Mark III、OM-D E-M10、OM-D E-M10 Mark II、OM-D E-M10 Mark III、OM-D E-M10 Mark IIIs、OM-D E-M10 Mark IV、PEN-F、PEN E-P1、PEN E-P2、PEN E-P3、PEN E-PL1、PEN E-PL2、PEN E-PL3、PEN E-PM1、PEN E-PM2、PEN E-P5、PEN E-PL5、PEN E-PL6、PEN E-PL7、PEN E-PL8、PEN E-PL9、PEN E-PL10、PEN E-P7、Tough TG-2、Tough TG-3、Tough TG-4、Tough TG-5、Tough TG-6、Stylus Tough TG-870、Stylus Tough TG-880、Stylus 1、Stylus 1s、Stylus SH-1、Stylus SH-2、Stylus SH-3、Stylus Tough TG-860、Stylus XZ-2、OM-1、OM-1 Mark II、OM-5、OM-5 Mark II、Tough TG-7、OM-3；</p><div><span style=\"font-size: 16.5px; font-weight: 800; text-transform: uppercase;\"><br></span></div><div><span style=\"font-size: 16.5px; text-transform: uppercase;\"><b>Camera Connection Tutorial</b></span><span style=\"font-size: 16.5px; font-weight: 800; text-transform: uppercase;\">：</span></div><div><div>1. Turn on the camera WiFi and go to the connection page;</div><div>2. Connect your phone to the camera WiFi (for some phones, if you can’t connect, try turning off other networks first. Don’t use a VPN during the connection process.)；</div><div>3. Open the app, go to the Tone·OI page, tap the OI.camera button, and click 'Connect' in the pop-up window to connect to the camera. Once connected, you can freely choose photos to import, adjust colors, and edit.</div></div>",
+      "content_ja": "<h3>現在サポートされている機種：</h3><p>OM-D E-M1、OM-D E-M1 Mark II、OM-D E-M1 Mark III、OM-D E-M1X、OM-D E-M5、OM-D E-M5 Mark II、OM-D E-M5 Mark III、OM-D E-M10、OM-D E-M10 Mark II、OM-D E-M10 Mark III、OM-D E-M10 Mark IIIs、OM-D E-M10 Mark IV、PEN-F、PEN E-P1、PEN E-P2、PEN E-P3、PEN E-PL1、PEN E-PL2、PEN E-PL3、PEN E-PM1、PEN E-PM2、PEN E-P5、PEN E-PL5、PEN E-PL6、PEN E-PL7、PEN E-PL8、PEN E-PL9、PEN E-PL10、PEN E-P7、Tough TG-2、Tough TG-3、Tough TG-4、Tough TG-5、Tough TG-6、Stylus Tough TG-870、Stylus Tough TG-880、Stylus 1、Stylus 1s、Stylus SH-1、Stylus SH-2、Stylus SH-3、Stylus Tough TG-860、Stylus XZ-2、OM-1、OM-1 Mark II、OM-5、OM-5 Mark II、Tough TG-7、OM-3；</p><div><br></div><h3>カメラ接続の使い方：</h3><div><div>1. カメラのWiFiをオンにして、接続ページに入る；</div><div>2. スマホでカメラのWiFiに接続する（機種によっては、接続できない場合は一度ネットワークをオフにして再試行してみてください。接続中はVPNをオンにしないでください。）</div><div>3. アプリを開き、ト一ン·OI ページに入って、OI.cameraボタンをクリックし、出てきたウィンドウで「接続」をクリックすればカメラと接続できます。接続に成功したら、自由に写真を選んでインポート、カラー調整や編集ができます。</div></div>",
+      "content_zh": "<h3>目前已经支持的机型：</h3><p>OM-D E-M1、OM-D E-M1 Mark II、OM-D E-M1 Mark III、OM-D E-M1X、OM-D E-M5、OM-D E-M5 Mark II、OM-D E-M5 Mark III、OM-D E-M10、OM-D E-M10 Mark II、OM-D E-M10 Mark III、OM-D E-M10 Mark IIIs、OM-D E-M10 Mark IV、PEN-F、PEN E-P1、PEN E-P2、PEN E-P3、PEN E-PL1、PEN E-PL2、PEN E-PL3、PEN E-PM1、PEN E-PM2、PEN E-P5、PEN E-PL5、PEN E-PL6、PEN E-PL7、PEN E-PL8、PEN E-PL9、PEN E-PL10、PEN E-P7、Tough TG-2、Tough TG-3、Tough TG-4、Tough TG-5、Tough TG-6、Stylus Tough TG-870、Stylus Tough TG-880、Stylus 1、Stylus 1s、Stylus SH-1、Stylus SH-2、Stylus SH-3、Stylus Tough TG-860、Stylus XZ-2、OM-1、OM-1 Mark II、OM-5、OM-5 Mark II、Tough TG-7、OM-3；</p><div><br></div><h3>连接相机使用教程：</h3><div>1.打开相机WiFi，进入连接页面；</div><div>2.手机连接相机WiFi（部分手机连接相机时，如果连不上，可以先尝试关闭网络后再试。连接过程中请勿开启 VPN。）；<br></div><div>3.打开 App，进入 仿·调·OI 页面，点击 OI.camera 按钮，在弹出的窗口中点击“连接”即可连接相机。连接成功后，即可自由选取照片进行导入、调色和编辑。</div>"
     },
     {
       "date": "2026.06.06",
@@ -240,7 +240,8 @@ const SITE_WEB = {
   ],
   "uiFontScale": {
     "hero": 1.05,
-    "features": 1.4
+    "features": 1.4,
+    "cta": 1.3
   },
   "translations": {
     "ja": {
