@@ -892,7 +892,7 @@ function tryShowcase(n) {
         '<h1 class="art-h1">' + escArt(j.title) + '</h1>' +
         '<div class="art-body">' + content + '</div>' +
       '</div>';
-    v.style.display = "";
+    v.style.display = "block";
     window.scrollTo(0, 0);
   }
   function hideArticle() {
