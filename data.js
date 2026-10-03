@@ -137,7 +137,7 @@ const SITE_WEB = {
   ],
   "gallery": {
     "title": "LUT Gallery",
-    "desc": "Explore the full film-style collection — G200T, 5207T, 5219T, D55T and more. Every look ships inside the app, ready for your photos and your camera.",
+    "desc": "All built-in style LUTs are showcased here, allowing you to preview the color characteristics of each one at any time. Explore the complete cinematic-quality series—including G200T, 5207T, 5219T, D55T, E100T, CLASSIC NEGATIVE, and more.",
     "cards": [
       {
         "name": "G200T",
@@ -326,7 +326,7 @@ const SITE_WEB = {
       ],
       "gallery": {
         "title": "LUTギャラリー",
-        "desc": "G200T、5207T、5219T、D55T など、フィルム スタイルの完全なコレクションをご覧ください。すべてのルックはアプリ内に組み込まれており、写真やカメラをすぐに使用できます。",
+        "desc": "アプリに内蔵されているすべてのスタイル用LUTをこちらでご紹介しています。各LUTの色彩や雰囲気をいつでもご確認いただけます。G200T、5207T、5219T、D55T、E100T、CLASSIC NEGATIVEなど、本格的なシネマティック・ルックのシリーズをぜひお試しください。",
         "cards": [
           {
             "name": "G200T",
@@ -639,7 +639,7 @@ const SITE_WEB = {
       ],
       "gallery": {
         "title": "LUT画廊",
-        "desc": "探索完整的电影风格系列 - G200T、5207T、5219T、D55T 等。每个外观都内置在应用程序中，为您的照片和相机做好准备。",
+        "desc": "所有风格App内置LUT均已经在这里展示，随时可查看每个LUT的风格色彩。探索完整的电影质感系列——G200T、5207T、5219T、D55T 、E100T、CLASSIC NEGATIVE等。",
         "cards": [
           {
             "name": "G200T",
