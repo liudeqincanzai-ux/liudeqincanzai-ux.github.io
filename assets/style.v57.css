@@ -865,3 +865,27 @@ a.j-row:hover .j-title { opacity: .5; transition: opacity .2s ease; }
   .gp-opt:last-child { border-bottom: 0; }
   .gp-opt:hover, .gp-opt.on { background: var(--ink); color: #fff; }
 }
+
+/* ---------- v63 站内文章详情页 ---------- */
+.article-view { display: none; padding: 36px 0 110px; }
+.article-view .art-top { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--ink); padding-bottom: 18px; }
+.article-view .art-back { font-family: var(--mono); font-size: 12px; letter-spacing: 2px; background: none; border: none; cursor: pointer; padding: 0; color: var(--ink); text-transform: uppercase; }
+.article-view .art-back:hover { opacity: .5; }
+.article-view .art-brand { font-family: var(--mono); font-size: 11px; letter-spacing: 2px; color: var(--faint); text-transform: uppercase; }
+.article-view .art-crumb { margin-top: 52px; font-family: var(--mono); font-size: 10.5px; letter-spacing: 1.5px; color: var(--faint); text-transform: uppercase; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.article-view .art-crumb .art-sep { margin: 0 6px; }
+.article-view .art-crumb .art-crumb-title { color: var(--muted); }
+.article-view .art-meta { margin-top: 30px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+.article-view .art-tag { background: #f2d5d0; color: #b0563f; font-family: var(--mono); font-size: 10px; letter-spacing: 1.5px; padding: 3px 9px; }
+.article-view .art-sub { font-family: var(--mono); font-size: 10.5px; letter-spacing: 1.5px; color: var(--faint); text-transform: uppercase; }
+.article-view .art-rt { margin-left: auto; }
+.article-view .art-h1 { font-size: clamp(30px, 4.4vw, 52px); font-weight: 800; line-height: 1.08; letter-spacing: .5px; max-width: 820px; margin: 26px 0 0; text-transform: uppercase; }
+.article-view .art-body { max-width: 820px; margin: 46px auto 0; font-size: 16.5px; line-height: 1.85; color: var(--ink); }
+.article-view .art-body img { max-width: 100%; height: auto; display: block; margin: 34px auto; border-radius: 4px; }
+.article-view .art-body h2 { font-size: 24px; font-weight: 800; letter-spacing: .5px; margin: 46px 0 14px; text-transform: uppercase; }
+.article-view .art-body h3 { font-size: 19px; font-weight: 800; margin: 36px 0 12px; text-transform: uppercase; }
+.article-view .art-body p { margin: 0 0 20px; }
+.article-view .art-body ul, .article-view .art-body ol { margin: 0 0 20px; padding-left: 26px; }
+.article-view .art-body blockquote { border-left: 3px solid var(--ink); margin: 28px 0; padding: 6px 0 6px 22px; color: var(--muted); font-style: italic; }
+.article-view .art-body hr { border: none; border-top: 1px solid var(--ink); margin: 40px 0; }
+.article-view .art-body a { color: inherit; text-decoration: underline; }

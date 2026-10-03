@@ -304,6 +304,175 @@
     return wrap;
   }
 
+  // ---------- v58 文章正文自由编辑器（所见即所得 + 三语 + 图片上传） ----------
+  var blobRev = {};   /* blobURL -> 最终路径，保存/切语言时把预览图换回路径 */
+  var ART_LANGS = [["content", "EN"], ["content_ja", "日本語"], ["content_zh", "中文"]];
+  function artHtmlFor(j, key) {
+    return String(j[key] || "").replace(/src="(assets\/shots\/[^"]+)"/g, function (m, p) {
+      return objUrls[p] ? 'src="' + objUrls[p] + '"' : m;
+    });
+  }
+  function openArticleEditor(j, onDone) {
+    closeArticleEditor();
+    var cur = "content";
+    var st = document.createElement("style");
+    st.id = "artEdStyle";
+    st.textContent =
+      ".art-ed-ov{position:fixed;inset:0;background:#fff;z-index:9999;display:flex;flex-direction:column;font-family:inherit}" +
+      ".art-ed-head{display:flex;align-items:center;gap:14px;padding:12px 20px;background:#111;color:#fff;flex-wrap:wrap}" +
+      ".art-ed-head .t{font-weight:700;font-size:14px;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}" +
+      ".art-ed-tabs{display:flex;gap:6px;margin-left:auto}" +
+      ".art-ed-tabs button{background:#333;color:#ccc;border:none;padding:6px 14px;cursor:pointer;font-size:12px;border-radius:3px}" +
+      ".art-ed-tabs button.on{background:#fff;color:#111;font-weight:700}" +
+      ".art-ed-done{background:#4a9edd;color:#fff;border:none;padding:7px 18px;cursor:pointer;font-size:13px;border-radius:3px;font-weight:700}" +
+      ".art-ed-tools{display:flex;gap:4px;padding:8px 20px;background:#f2f2f2;border-bottom:1px solid #ddd;flex-wrap:wrap}" +
+      ".art-ed-tools button{background:#fff;border:1px solid #ccc;padding:6px 11px;cursor:pointer;font-size:12.5px;border-radius:3px;color:#111}" +
+      ".art-ed-tools button:hover{background:#e8e8e8}" +
+      ".art-ed-tools button.danger{color:#c0392b;border-color:#c0392b}" +
+      ".art-ed-body{flex:1;overflow:auto;padding:48px 24px 80px}" +
+      ".art-ed-page{max-width:820px;margin:0 auto;outline:none;font-size:16.5px;line-height:1.85;color:#111}" +
+      ".art-ed-page img{max-width:100%;height:auto;display:block;margin:26px auto;border-radius:4px}" +
+      ".art-ed-page h2{font-size:24px;font-weight:800;margin:36px 0 12px;text-transform:uppercase}" +
+      ".art-ed-page h3{font-size:19px;font-weight:800;margin:30px 0 10px;text-transform:uppercase}" +
+      ".art-ed-page blockquote{border-left:3px solid #111;margin:22px 0;padding:4px 0 4px 20px;color:#555;font-style:italic}" +
+      ".art-ed-page hr{border:none;border-top:1px solid #111;margin:34px 0}" +
+      ".art-ed-hint{padding:6px 20px;background:#fffbe8;border-top:1px solid #e8dfa8;font-size:12px;color:#7a6b1f}";
+    document.head.appendChild(st);
+    var ov = document.createElement("div");
+    ov.className = "art-ed-ov";
+    var head = document.createElement("div");
+    head.className = "art-ed-head";
+    var t = document.createElement("span"); t.className = "t"; t.textContent = "编辑正文 · " + (j.title || "");
+    head.appendChild(t);
+    var tabs = document.createElement("div"); tabs.className = "art-ed-tabs";
+    var tabBtns = {};
+    ART_LANGS.forEach(function (L) {
+      var b = document.createElement("button");
+      b.type = "button"; b.textContent = L[1];
+      if (L[0] === cur) b.classList.add("on");
+      b.onclick = function () {
+        if (cur === L[0]) return;
+        artSaveCurrent();
+        cur = L[0];
+        ed.innerHTML = artHtmlFor(j, cur);
+        Array.prototype.forEach.call(tabs.children, function (x) { x.classList.remove("on"); });
+        b.classList.add("on");
+      };
+      tabs.appendChild(b);
+      tabBtns[L[0]] = b;
+    });
+    head.appendChild(tabs);
+    var done = document.createElement("button");
+    done.type = "button"; done.className = "art-ed-done"; done.textContent = "完成 ✓";
+    done.onclick = function () {
+      artSaveCurrent();
+      saveQuiet();
+      closeArticleEditor();
+      toast("正文已保存 ✓ 同步后网站生效");
+      if (onDone) onDone();
+    };
+    head.appendChild(done);
+    ov.appendChild(head);
+
+    var tools = document.createElement("div");
+    tools.className = "art-ed-tools";
+    function tBtn(label, fn, cls) {
+      var b = document.createElement("button");
+      b.type = "button"; b.innerHTML = label;
+      if (cls) b.className = cls;
+      b.onmousedown = function (e) { e.preventDefault(); };
+      b.onclick = fn;
+      tools.appendChild(b);
+      return b;
+    }
+    function cmd(c, v) { ed.focus(); document.execCommand(c, false, v || null); }
+    tBtn("H2 标题", function () { cmd("formatBlock", "<h2>"); });
+    tBtn("H3 小标题", function () { cmd("formatBlock", "<h3>"); });
+    tBtn("正文段", function () { cmd("formatBlock", "<p>"); });
+    tBtn("<b>B</b> 加粗", function () { cmd("bold"); });
+    tBtn("<i>I</i> 斜体", function () { cmd("italic"); });
+    tBtn("• 列表", function () { cmd("insertUnorderedList"); });
+    tBtn("1. 列表", function () { cmd("insertOrderedList"); });
+    tBtn("❝ 引用", function () { cmd("formatBlock", "<blockquote>"); });
+    tBtn("― 分隔线", function () { cmd("insertHorizontalRule"); });
+    tBtn("居中", function () { cmd("justifyCenter"); });
+    tBtn("居左", function () { cmd("justifyLeft"); });
+    tBtn("🔗 链接", function () {
+      var u = prompt("链接地址（https:// 开头）");
+      if (u && u.trim()) cmd("createLink", u.trim());
+    });
+    tBtn("🖼 图片", function () {
+      var fi = document.createElement("input");
+      fi.type = "file"; fi.accept = "image/*";
+      fi.onchange = function () {
+        var f = fi.files && fi.files[0];
+        if (!f) return;
+        shrinkImage(f, function (out) {
+          var path = "assets/shots/art-" + Date.now() + "-" + Math.floor(Math.random() * 1000) + ".jpg";
+          var bu = URL.createObjectURL(out);
+          objUrls[path] = bu; blobRev[bu] = path;
+          pending[path] = out;
+          ed.focus();
+          document.execCommand("insertHTML", false, '<img src="' + bu + '">');
+          toast("图片已插入 ✓ 同步时上传");
+        });
+        fi.value = "";
+      };
+      fi.click();
+    });
+    tBtn("清除格式", function () { cmd("removeFormat"); });
+    tBtn("✕ 清空本页正文", function () {
+      if (confirm("清空当前语言的正文？")) { j[cur] = ""; ed.innerHTML = ""; }
+    }, "danger");
+    ov.appendChild(tools);
+
+    var ed = document.createElement("div");
+    ed.className = "art-ed-body";
+    var page = document.createElement("div");
+    page.className = "art-ed-page";
+    page.contentEditable = "true";
+    page.innerHTML = artHtmlFor(j, cur);
+    ed.appendChild(page);
+    ov.appendChild(ed);
+
+    var hint = document.createElement("div");
+    hint.className = "art-ed-hint";
+    hint.textContent = "像写文档一样直接排版：图片、标题、文字随意穿插。图片会上传到网站 photos 同步链路；「完成」保存并回到板块编辑。";
+    ov.appendChild(hint);
+    document.body.appendChild(ov);
+
+    function artSaveCurrent() {
+      var clone = page.cloneNode(true);
+      Array.prototype.forEach.call(clone.querySelectorAll("img"), function (im) {
+        var p = blobRev[im.getAttribute("src")];
+        if (p) im.setAttribute("src", p);
+      });
+      var html = clone.innerHTML.trim();
+      if (html === "<br>" || html === "<div><br></div>") html = "";
+      j[cur] = html;
+    }
+    ov.__artSave = artSaveCurrent;
+  }
+  function closeArticleEditor() {
+    var ov = document.querySelector(".art-ed-ov");
+    if (ov) ov.parentNode.removeChild(ov);
+    var st = document.getElementById("artEdStyle");
+    if (st) st.parentNode.removeChild(st);
+  }
+  function artEntryRow(j, refresh) {
+    var wrap = document.createElement("div");
+    var has = ART_LANGS.some(function (L) { return (j[L[0]] || "").trim(); });
+    var tag = document.createElement("div");
+    tag.style.cssText = "font-size:11.5px;color:" + (has ? "#2e7d32" : "#999") + ";margin:2px 0 6px;";
+    tag.textContent = has ? "✓ 站内文章页正文：已写（前台点击打开文章页）" : "正文：未写（写了正文后，前台点击打开站内文章页）";
+    wrap.appendChild(tag);
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "pickbtn"; b.textContent = has ? "编辑正文（自由排版）" : "写正文（自由排版）";
+    b.onclick = function () { openArticleEditor(j, refresh); };
+    wrap.appendChild(b);
+    return wrap;
+  }
+
   // ---------- 标签页 ----------
   var btnWeb = document.getElementById("btnWeb");
   var btnLut = document.getElementById("btnLut");
@@ -660,10 +829,11 @@
         ]);
         cd.appendChild(field("日期", "如 2026.06.06（可空）", j.date || "", function (v) { j.date = v; }));
         cd.appendChild(fieldTr("标题", "", inst ? [sid, "journal", i, "title"] : ["journal", i, "title"], 2));
-        cd.appendChild(field("链接", "可空=不可点；#faq 站内锚点，https:// 外链", j.href || "", function (v) { j.href = v; }));
+        cd.appendChild(field("链接", "可空=不可点；#faq 站内锚点，https:// 外链；写了正文则优先打开站内文章页", j.href || "", function (v) { j.href = v; }));
+        cd.appendChild(artEntryRow(j, function () { renderDrawer(sid); }));
         root.appendChild(cd);
       });
-      root.appendChild(addBtn("＋ 添加一篇文章", function () { list.push({ date: "2026.06.06", title: "NEW ARTICLE TITLE", href: "" }); saveQuiet(); renderDrawer(sid); pvRefreshSoon(); }));
+      root.appendChild(addBtn("＋ 添加一篇文章", function () { list.push({ date: "2026.06.06", title: "NEW ARTICLE TITLE", href: "", content: "" }); saveQuiet(); renderDrawer(sid); pvRefreshSoon(); }));
     },
     faq: function (root, sid) {
       root.appendChild(fsSlider(sid));
