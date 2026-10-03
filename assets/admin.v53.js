@@ -671,6 +671,7 @@
       var F = DATA[sid];
       var inst = !!(F && typeof F === "object" && !Array.isArray(F));
       root.appendChild(fieldTr("眉行小字", "", inst ? [sid, "faqEyebrow"] : ["faqEyebrow"]));
+      root.appendChild(fieldTr("大字标题", "FAQ / SUPPORT 下方的大标题", inst ? [sid, "faqTitle"] : ["faqTitle"], 2));
       root.appendChild(fieldTr("板块描述", "", inst ? [sid, "faqDesc"] : ["faqDesc"], 3));
       var list = inst ? (F.faq || (F.faq = [])) : (Array.isArray(F) ? F : (DATA.faq = DATA.faq || []));
       list.forEach(function (f, i) {
