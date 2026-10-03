@@ -689,6 +689,15 @@
     cta: function (root, sid) {
       root.appendChild(fsSlider(sid));
       root.appendChild(fieldTr("CTA 标语", "", [sid, "title"]));
+      /* v62：下载按钮编辑（原版/实例路径恰好兼容——字段都在板块对象内）；链接留空=前台自动用首屏的 Google Play 链接 */
+      var r0 = document.createElement("div"); r0.className = "row2";
+      r0.appendChild(fieldTr("按钮上方小字", "留空=GET IT ON", [sid, "playLabel"]));
+      r0.appendChild(fieldTr("商店名", "留空=GOOGLE PLAY", [sid, "playStore"]));
+      root.appendChild(r0);
+      root.appendChild(field("下载链接", "留空=自动用首屏按钮的 Google Play 链接；填 https:// 开头网址", DATA[sid] && DATA[sid].playUrl || "", function (v) {
+        if (!DATA[sid]) DATA[sid] = {};
+        DATA[sid].playUrl = v.trim();
+      }));
       root.appendChild(field("页脚品牌名", "", DATA.footer.brand, function (v) { DATA.footer.brand = v; }));
       var r3 = document.createElement("div"); r3.className = "row2";
       r3.appendChild(fieldTr("隐私政策链接文字", "", ["footer", "privacyLabel"]));
