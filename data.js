@@ -1,4 +1,5 @@
-window.SITE_WEB = {
+// 由统一后台同步生成
+const SITE_WEB = {
   "siteTitle": "Toneby",
   "galleryTitle": "LUT Gallery",
   "faqTitle": "Frequently Asked Questions",
@@ -31,29 +32,29 @@ window.SITE_WEB = {
   "hero": {
     "meta": "REFERENCE COLOR STUDIO // EST. 2026",
     "title": "TONEBY: FILM COLOR<br>GRADING CAMERA.",
-    "intro": "Transform your phone into a reference-color film camera. Toneby matches the exact tones of any reference photo with authentic 3D LUTs, film grain and a real-time LUT camera — processed entirely on your device",
+    "intro": "Turn your phone into a film camera. Fni Cam by Toneby brings the authentic feel of film to your smartphone, featuring real 3D LUTs, film grain, and real-time LUT processing. It also supports integration with Olympus cameras and OM system cameras, allowing you to import images directly from your camera into the Toneby workspace for editing and color grading. You can apply dual LUTs, curves, color grading, film grain, glow effects, cropping, and more—adjusting up to 50 photos at once. The app even lets you match the color tone of any reference image—all processed entirely on your device.",
     "playUrl": "https://play.google.com/store/apps/details?id=com.ahs.referencetonematch",
     "playLabel": "GET IT ON",
     "playStore": "GOOGLE PLAY",
     "groups": [
       {
         "no": "— 01",
-        "label": "FILM COLOR ENGINE"
+        "label": "Quickly connect to the camera with a single touch."
       },
       {
         "no": "— 02",
-        "label": "LOCAL PRIVACY"
+        "label": "Batch-export photos with consistent tones."
       },
       {
         "no": "— 03",
-        "label": "LUT CAMERA & MORE"
+        "label": "Fni Cam - Film-Grade Color Camera"
       }
     ],
     "slides": [
       {
         "src": "assets/shots/画板 3.jpg",
         "cap": "",
-        "g": 1
+        "g": 0
       },
       {
         "src": "assets/shots/画板 1.jpg",
@@ -68,7 +69,7 @@ window.SITE_WEB = {
       {
         "src": "assets/shots/画板 4.jpg",
         "cap": "",
-        "g": 3
+        "g": 2
       }
     ],
     "eyebrow": "OFFLINE-FIRST // LOCAL RENDERING ENGINE // EST. 2026",
@@ -78,24 +79,24 @@ window.SITE_WEB = {
   "numbers": [
     {
       "no": "01",
-      "title": "FILM COLOR ENGINE",
-      "desc": "Match the exact tones of any reference photo. Authentic 3D LUTs, film grain, halation and bloom — rendered locally with GLSL precision, down to the curve."
+      "title": "Fni Cam - Film-Grade Color Camera",
+      "desc": "Real 3D LUTs, film grain, halos and glow, color palettes, color temperature and tint, etc.—what you see in real-time preview matches the final result. What you see is what you get."
     },
     {
       "no": "02",
-      "title": "PRIVACY-FIRST ARCHITECTURE",
-      "desc": "Every photo is processed 100% on your device. Zero uploads, zero accounts, zero tracking. What happens on your phone stays on your phone."
+      "title": "Quickly connect to the camera with a single touch.",
+      "desc": "Connecting to the camera takes just one step: simply connect to the camera's Wi-Fi. As long as the connection remains active, you can connect at any time to import photos into the app for color grading, editing, and more."
     },
     {
       "no": "03",
-      "title": "LUT CAMERA & MORE",
-      "desc": "Shoot with real-time film LUTs, import your own .cube files, and finish with multi-ratio grid collages. One studio, complete workflow."
+      "title": "Quickly batch-export a set of photos with consistent tones.",
+      "desc": "The app supports simultaneous editing and color grading for up to 50 photos, allowing you to quickly unify the color tone across all of them with a single tap. All operations are performed locally; no data is uploaded to the network."
     }
   ],
   "intro2": {
     "tag": "SYSTEM // FEATURES",
-    "title": "Professional film color grading, in your pocket.",
-    "desc": "A lightweight, 100% offline alternative to VSCO presets and Lightroom Mobile profiles — built for creators who demand reference-accurate color and absolute privacy."
+    "title": "Professional-grade cinematic color grading tools, right in the palm of your hand.",
+    "desc": "A lightweight, fully offline mobile tool for film-style color grading—featuring a LUT workshop and direct camera connectivity—designed for creators who prioritize exceptional color, rapid workflows, and absolute privacy."
   },
   "modules": [
     {
@@ -232,10 +233,163 @@ window.SITE_WEB = {
     }
   ],
   "uiFontScale": {
-    "hero": 1.05
+    "hero": 1.05,
+    "features": 1.4
   },
   "translations": {
     "ja": {
+      "galleryTitle": "LUTギャラリー",
+      "faqTitle": "よくある質問",
+      "nav": {
+        "downloadLabel": "ダウンロード",
+        "links": [
+          {
+            "label": "特徴"
+          },
+          {
+            "label": "ルットギャラリー"
+          },
+          {
+            "label": "よくある質問"
+          }
+        ]
+      },
+      "hero": {
+        "meta": "リファレンスカラースタジオ // EST. 2026年",
+        "title": "TONEBY: フィルムカラー<br>グレーディングカメラ。",
+        "intro": "あなたの携帯電話を基準色のフィルムカメラに変身させます。 Toneby は、本格的な 3D LUT、フィルムグレイン、リアルタイム LUT カメラを使用して、あらゆる参照写真のトーンを正確にマッチングします。すべてデバイス上で処理されます。",
+        "playLabel": "さあ始めましょう",
+        "playStore": "Google プレイ",
+        "groups": [
+          {
+            "label": "フィルムカラーエンジン"
+          },
+          {
+            "label": "ローカルプライバシー"
+          },
+          {
+            "label": "LUTカメラなど"
+          }
+        ],
+        "eyebrow": "オフラインファースト // ローカル レンダリング エンジン // EST. 2026年",
+        "sub": "リファレンスカラースタジオ // EST. 2026年"
+      },
+      "numbers": [
+        {
+          "title": "フィルムカラーエンジン",
+          "desc": "参考写真のトーンを正確に一致させます。本物の 3D LUT、フィルム グレイン、ハレーション、ブルームは、曲線に至るまで GLSL の精度でローカルにレンダリングされます。"
+        },
+        {
+          "title": "プライバシー最優先のアーキテクチャ",
+          "desc": "すべての写真はデバイス上で 100% 処理されます。アップロードゼロ、アカウントゼロ、追跡ゼロ。携帯電話で起こったことは携帯電話に残ります。"
+        },
+        {
+          "title": "LUTカメラなど",
+          "desc": "リアルタイム フィルム LUT で撮影し、独自の .cube ファイルをインポートして、マルチ比率のグリッド コラージュで仕上げます。 1 つのスタジオで完全なワークフロー。"
+        }
+      ],
+      "intro2": {
+        "tag": "システム // 機能",
+        "title": "プロ仕様の映画用カラーグレーディングツールを、その手に。",
+        "desc": "軽量かつ完全オフラインで動作する、フィルム調のスマホ向けカラーグレーディングツールです。LUTワークショップやカメラとの直接接続に対応し、究極の色彩、迅速な制作、そして徹底したプライバシー保護を求めるクリエイターのために開発されました。"
+      },
+      "modules": [
+        {
+          "mod": "モジュール01",
+          "title": "ワンタッチでカメラに素早く接続。",
+          "desc": "任意の参考写真を選択し、ワンタップでそのトーンを自分のショットに合わせます。ギャラリースタイルの家は、個展のように仕事に集中できます。"
+        },
+        {
+          "fig": "イチジク。 02 // 05",
+          "mod": "モジュール02",
+          "title": "パワフル。それでいてシンプル。",
+          "desc": "マッチ強度、ローカル調整、デュアル LUT レイヤー、チャンネルごとのカーブなど、必要なパラメーターはすべて揃っており、不要なものはありません。写真間で設定をコピー、貼り付け、同期します。"
+        },
+        {
+          "fig": "イチジク。 03 // 05",
+          "mod": "モジュール03",
+          "title": "フィルムグレインとHSLラボ",
+          "desc": "ISO でシミュレートされた 100 ～ 3200 の粒子。白黒およびカラー染料モードに加え、色相ごとの色相、彩度、輝度の制御も可能です。 Analog texture, digital precision."
+        },
+        {
+          "fig": "イチジク。 04 // 05",
+          "mod": "モジュール04",
+          "title": "思いのままにエクスポートしましょう。",
+          "desc": "JPG、PNG、または WebP。フル解像度またはクイック共有サイズ。品質を完全に制御 — 外観がロックされているときにセット全体をバッチエクスポートします。"
+        },
+        {
+          "fig": "イチジク。 05 // 05",
+          "mod": "モジュール05",
+          "title": "設定と EXIF コントロール。",
+          "desc": "ライトモードとダークモード、4 つの言語、共有時にどの EXIF データ (GPS、カメラ、撮影設定) を埋め込むかを完全に制御できます。"
+        }
+      ],
+      "gallery": {
+        "title": "LUTギャラリー",
+        "desc": "G200T、5207T、5219T、D55T など、フィルム スタイルの完全なコレクションをご覧ください。すべてのルックはアプリ内に組み込まれており、写真やカメラをすぐに使用できます。",
+        "cards": [
+          {
+            "name": "G200T",
+            "sub": "ゴールド200フィルム"
+          },
+          {
+            "sub": "シネマビジョン3"
+          },
+          {
+            "sub": "シネマビジョン3"
+          },
+          {
+            "name": "D55T",
+            "sub": "昼光色 5500K"
+          },
+          {
+            "name": "GS800T",
+            "sub": "グレースケール"
+          }
+        ],
+        "linkLabel": "フル LUT ギャラリーを開く →"
+      },
+      "faq": [
+        {
+          "q": "私の写真はサーバーにアップロードされますか?",
+          "a": "いいえ。すべての写真はデバイス上で 100% ローカルに処理されます。 Toneby にはアカウント、クラウド アップロード、追跡はありません。画像が携帯電話から離れることはありません。"
+        },
+        {
+          "q": "自分の .cube LUT ファイルをインポートできますか?",
+          "a": "はい。標準の .cube LUT ファイルをインポートし、内蔵のフィルム スタイル コレクションとともに LUT カメラと基準カラー ワークスペースで使用します。"
+        },
+        {
+          "q": "プロには何が含まれますか?",
+          "a": "Pro では、プレミアム LUT パックやプロ グレーディング ツールを含む高度なツールキットのロックが解除されます。 Google Play 請求による 1 回限りの購入。"
+        },
+        {
+          "q": "どのデバイスがサポートされていますか?",
+          "a": "Toneby は Android 10 以降で動作し、エッジツーエッジおよびダーク モードの完全なサポートを含め、最新の Android バージョン向けに最適化されています。"
+        }
+      ],
+      "cta": {
+        "title": "カラーワークフローをアップグレードします。"
+      },
+      "footer": {
+        "privacyLabel": "プライバシーポリシー",
+        "termsLabel": "利用規約"
+      },
+      "faqEyebrow": "よくある質問 // サポート",
+      "faqDesc": "Toneby のカラー グレーディング エンジン、プライバシー機能、カスタム プリセットのサポートに関するよくある質問への回答を見つけます。",
+      "journalEyebrow": "ジャーナル // 読書",
+      "journalTitle": "TONEBYジャーナル",
+      "journalDesc": "最新の記事、フィルム シミュレーション ガイド、プロフェッショナルな編集チュートリアルを参照して、写真ワークフローをマスターしてください。",
+      "journal": [
+        {
+          "title": "モバイルで 3D LUT を使用し、電話に .CUBE LUT をインポートする方法"
+        },
+        {
+          "title": "品質を損なうことなく高品質の写真をソーシャルメディアに投稿する方法"
+        },
+        {
+          "title": "プロフェッショナルなExifデータの境界線を写真に追加する方法"
+        }
+      ],
       "showcase": [
         {
           "luts": [
@@ -393,196 +547,9 @@ window.SITE_WEB = {
           ]
         },
         {}
-      ],
-      "galleryTitle": "LUTギャラリー",
-      "faqTitle": "よくある質問",
-      "nav": {
-        "downloadLabel": "ダウンロード",
-        "links": [
-          {
-            "label": "特徴"
-          },
-          {
-            "label": "ルットギャラリー"
-          },
-          {
-            "label": "よくある質問"
-          }
-        ]
-      },
-      "hero": {
-        "meta": "リファレンスカラースタジオ // EST. 2026年",
-        "title": "TONEBY: フィルムカラー<br>グレーディングカメラ。",
-        "intro": "あなたの携帯電話を基準色のフィルムカメラに変身させます。 Toneby は、本格的な 3D LUT、フィルムグレイン、リアルタイム LUT カメラを使用して、あらゆる参照写真のトーンを正確にマッチングします。すべてデバイス上で処理されます。",
-        "playLabel": "さあ始めましょう",
-        "playStore": "Google プレイ",
-        "groups": [
-          {
-            "label": "フィルムカラーエンジン"
-          },
-          {
-            "label": "ローカルプライバシー"
-          },
-          {
-            "label": "LUTカメラなど"
-          }
-        ],
-        "eyebrow": "オフラインファースト // ローカル レンダリング エンジン // EST. 2026年",
-        "sub": "リファレンスカラースタジオ // EST. 2026年"
-      },
-      "numbers": [
-        {
-          "title": "フィルムカラーエンジン",
-          "desc": "参考写真のトーンを正確に一致させます。本物の 3D LUT、フィルム グレイン、ハレーション、ブルームは、曲線に至るまで GLSL の精度でローカルにレンダリングされます。"
-        },
-        {
-          "title": "プライバシー最優先のアーキテクチャ",
-          "desc": "すべての写真はデバイス上で 100% 処理されます。アップロードゼロ、アカウントゼロ、追跡ゼロ。携帯電話で起こったことは携帯電話に残ります。"
-        },
-        {
-          "title": "LUTカメラなど",
-          "desc": "リアルタイム フィルム LUT で撮影し、独自の .cube ファイルをインポートして、マルチ比率のグリッド コラージュで仕上げます。 1 つのスタジオで完全なワークフロー。"
-        }
-      ],
-      "intro2": {
-        "tag": "システム // 機能",
-        "title": "プロのフィルムカラーグレーディングをポケットに。",
-        "desc": "VSCO プリセットや Lightroom Mobile プロファイルに代わる、軽量で完全なオフラインの代替品。基準精度の色と絶対的なプライバシーを求めるクリエイター向けに構築されています。"
-      },
-      "modules": [
-        {
-          "mod": "モジュール01",
-          "title": "ワンタッチでカメラに素早く接続。",
-          "desc": "任意の参考写真を選択し、ワンタップでそのトーンを自分のショットに合わせます。ギャラリースタイルの家は、個展のように仕事に集中できます。"
-        },
-        {
-          "fig": "イチジク。 02 // 05",
-          "mod": "モジュール02",
-          "title": "パワフル。それでいてシンプル。",
-          "desc": "マッチ強度、ローカル調整、デュアル LUT レイヤー、チャンネルごとのカーブなど、必要なパラメーターはすべて揃っており、不要なものはありません。写真間で設定をコピー、貼り付け、同期します。"
-        },
-        {
-          "fig": "イチジク。 03 // 05",
-          "mod": "モジュール03",
-          "title": "フィルムグレインとHSLラボ",
-          "desc": "ISO でシミュレートされた 100 ～ 3200 の粒子。白黒およびカラー染料モードに加え、色相ごとの色相、彩度、輝度の制御も可能です。 Analog texture, digital precision."
-        },
-        {
-          "fig": "イチジク。 04 // 05",
-          "mod": "モジュール04",
-          "title": "思いのままにエクスポートしましょう。",
-          "desc": "JPG、PNG、または WebP。フル解像度またはクイック共有サイズ。品質を完全に制御 — 外観がロックされているときにセット全体をバッチエクスポートします。"
-        },
-        {
-          "fig": "イチジク。 05 // 05",
-          "mod": "モジュール05",
-          "title": "設定と EXIF コントロール。",
-          "desc": "ライトモードとダークモード、4 つの言語、共有時にどの EXIF データ (GPS、カメラ、撮影設定) を埋め込むかを完全に制御できます。"
-        }
-      ],
-      "gallery": {
-        "title": "LUTギャラリー",
-        "desc": "G200T、5207T、5219T、D55T など、フィルム スタイルの完全なコレクションをご覧ください。すべてのルックはアプリ内に組み込まれており、写真やカメラをすぐに使用できます。",
-        "cards": [
-          {
-            "name": "G200T",
-            "sub": "ゴールド200フィルム"
-          },
-          {
-            "sub": "シネマビジョン3"
-          },
-          {
-            "sub": "シネマビジョン3"
-          },
-          {
-            "name": "D55T",
-            "sub": "昼光色 5500K"
-          },
-          {
-            "name": "GS800T",
-            "sub": "グレースケール"
-          }
-        ],
-        "linkLabel": "フル LUT ギャラリーを開く →"
-      },
-      "faq": [
-        {
-          "q": "私の写真はサーバーにアップロードされますか?",
-          "a": "いいえ。すべての写真はデバイス上で 100% ローカルに処理されます。 Toneby にはアカウント、クラウド アップロード、追跡はありません。画像が携帯電話から離れることはありません。"
-        },
-        {
-          "q": "自分の .cube LUT ファイルをインポートできますか?",
-          "a": "はい。標準の .cube LUT ファイルをインポートし、内蔵のフィルム スタイル コレクションとともに LUT カメラと基準カラー ワークスペースで使用します。"
-        },
-        {
-          "q": "プロには何が含まれますか?",
-          "a": "Pro では、プレミアム LUT パックやプロ グレーディング ツールを含む高度なツールキットのロックが解除されます。 Google Play 請求による 1 回限りの購入。"
-        },
-        {
-          "q": "どのデバイスがサポートされていますか?",
-          "a": "Toneby は Android 10 以降で動作し、エッジツーエッジおよびダーク モードの完全なサポートを含め、最新の Android バージョン向けに最適化されています。"
-        }
-      ],
-      "cta": {
-        "title": "カラーワークフローをアップグレードします。"
-      },
-      "footer": {
-        "privacyLabel": "プライバシーポリシー",
-        "termsLabel": "利用規約"
-      },
-      "faqEyebrow": "よくある質問 // サポート",
-      "faqDesc": "Toneby のカラー グレーディング エンジン、プライバシー機能、カスタム プリセットのサポートに関するよくある質問への回答を見つけます。",
-      "journalEyebrow": "ジャーナル // 読書",
-      "journalTitle": "TONEBYジャーナル",
-      "journalDesc": "最新の記事、フィルム シミュレーション ガイド、プロフェッショナルな編集チュートリアルを参照して、写真ワークフローをマスターしてください。",
-      "journal": [
-        {
-          "title": "モバイルで 3D LUT を使用し、電話に .CUBE LUT をインポートする方法"
-        },
-        {
-          "title": "品質を損なうことなく高品質の写真をソーシャルメディアに投稿する方法"
-        },
-        {
-          "title": "プロフェッショナルなExifデータの境界線を写真に追加する方法"
-        }
       ]
     },
     "zh-CN": {
-      "showcase": [
-        {
-          "luts": [
-            {
-              "title": "GRF -理光负片风格",
-              "desc": "理光GR系列的色彩分级风格，以底片美学为特征。"
-            },
-            {
-              "title": "GRF II -理光第二代负片",
-              "desc": "理光负片（第二代配方）-可在编辑器中编辑的示例文本。"
-            }
-          ]
-        },
-        {},
-        null,
-        {},
-        {},
-        {},
-        {},
-        {
-          "luts": [
-            {
-              "title": "5207T"
-            },
-            {
-              "title": "小行星5207B"
-            }
-          ]
-        },
-        {},
-        {},
-        {},
-        {},
-        {}
-      ],
       "galleryTitle": "LUT画廊",
       "faqTitle": "常见问题解答",
       "nav": {
@@ -635,8 +602,8 @@ window.SITE_WEB = {
       ],
       "intro2": {
         "tag": "系统 // 特点",
-        "title": "专业的胶片色彩分级，就在你的口袋里。",
-        "desc": "VSCO 预设和 Lightroom Mobile 配置文件的轻量级、100% 离线替代方案 - 专为需要参考准确颜色和绝对隐私的创作者而设计。"
+        "title": "专业级电影调色工具，尽在掌中。",
+        "desc": "一款轻量级、完全离线的手机胶片调色工具——支持 LUT 工坊与相机直连，专为追求极致色彩、快速出片与绝对隐私的创作者打造。"
       },
       "modules": [
         {
@@ -734,6 +701,41 @@ window.SITE_WEB = {
         {
           "title": "如何为您的照片添加专业的 EXIF 数据边框"
         }
+      ],
+      "showcase": [
+        {
+          "luts": [
+            {
+              "title": "GRF -理光负片风格",
+              "desc": "理光GR系列的色彩分级风格，以底片美学为特征。"
+            },
+            {
+              "title": "GRF II -理光第二代负片",
+              "desc": "理光负片（第二代配方）-可在编辑器中编辑的示例文本。"
+            }
+          ]
+        },
+        {},
+        null,
+        {},
+        {},
+        {},
+        {},
+        {
+          "luts": [
+            {
+              "title": "5207T"
+            },
+            {
+              "title": "小行星5207B"
+            }
+          ]
+        },
+        {},
+        {},
+        {},
+        {},
+        {}
       ]
     }
   }
