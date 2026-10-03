@@ -221,7 +221,7 @@ const SITE_WEB = {
   "journal": [
     {
       "date": "2026.06.06",
-      "title": "HOW TO USE 3D LUT ON MOBILE & IMPORT .CUBE LUT ON PHONE",
+      "title": "Currently supported models and tutorials for connecting the camera",
       "href": "",
       "content": "<h3>目前已经支持的机型：</h3><p>OM-D E-M1、OM-D E-M1 Mark II、OM-D E-M1 Mark III、OM-D E-M1X、OM-D E-M5、OM-D E-M5 Mark II、OM-D E-M5 Mark III、OM-D E-M10、OM-D E-M10 Mark II、OM-D E-M10 Mark III、OM-D E-M10 Mark IIIs、OM-D E-M10 Mark IV、PEN-F、PEN E-P1、PEN E-P2、PEN E-P3、PEN E-PL1、PEN E-PL2、PEN E-PL3、PEN E-PM1、PEN E-PM2、PEN E-P5、PEN E-PL5、PEN E-PL6、PEN E-PL7、PEN E-PL8、PEN E-PL9、PEN E-PL10、PEN E-P7、Tough TG-2、Tough TG-3、Tough TG-4、Tough TG-5、Tough TG-6、Stylus Tough TG-870、Stylus Tough TG-880、Stylus 1、Stylus 1s、Stylus SH-1、Stylus SH-2、Stylus SH-3、Stylus Tough TG-860、Stylus XZ-2、OM-1、OM-1 Mark II、OM-5、OM-5 Mark II、Tough TG-7、OM-3；</p><div><br></div><h3>链接使用教程：</h3><div><br></div>",
       "content_ja": "",
@@ -390,7 +390,7 @@ const SITE_WEB = {
       "journalDesc": "私たちの最新コンテンツ、フィルムシミュレーションガイド、プロ編集チュートリアルをチェックして、写真のワークフローをマスターしよう。",
       "journal": [
         {
-          "title": "モバイルで 3D LUT を使用し、電話に .CUBE LUT をインポートする方法"
+          "title": "現在すでにサポートされている機種とカメラ接続の使い方"
         },
         {
           "title": "品質を損なうことなく高品質の写真をソーシャルメディアに投稿する方法"
@@ -705,7 +705,7 @@ const SITE_WEB = {
       "journalDesc": "探索我们最新的内容、胶片模拟指南和专业编辑教程，掌握你的摄影工作流程。",
       "journal": [
         {
-          "title": "如何在手机上使用 3D LUT 并在手机上导入 .CUBE LUT"
+          "title": "目前已经支持的机型以及连接相机使用教程"
         },
         {
           "title": "如何在社交媒体上发布高质量照片而不造成质量损失"
