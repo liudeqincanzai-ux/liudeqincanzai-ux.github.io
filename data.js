@@ -95,7 +95,7 @@ const SITE_WEB = {
   ],
   "intro2": {
     "tag": "SYSTEM // FEATURES",
-    "title": "Professional-grade cinematic color grading tools, right in the palm of your hand.",
+    "title": "PROFESSIONAL-GRADE CINEMATIC COLOR GRADING TOOLS, RIGHT IN THE PALM OF YOUR HAND.",
     "desc": "A lightweight, fully offline mobile tool for film-style color grading—featuring a LUT workshop and direct camera connectivity—designed for creators who prioritize exceptional color, rapid workflows, and absolute privacy."
   },
   "modules": [
