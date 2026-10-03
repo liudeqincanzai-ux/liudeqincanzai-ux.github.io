@@ -229,7 +229,7 @@ const SITE_WEB = {
     },
     {
       "date": "2026.06.06",
-      "title": "HOW TO POST HIGH-QUALITY PHOTOS ON SOCIAL MEDIA WITHOUT QUALITY LOSS",
+      "title": "The features and advantages of Fni cam, and why you should choose to use Fni cam?",
       "href": ""
     },
     {
@@ -394,7 +394,7 @@ const SITE_WEB = {
           "title": "現在すでにサポートされている機種とカメラ接続の使い方"
         },
         {
-          "title": "品質を損なうことなく高品質の写真をソーシャルメディアに投稿する方法"
+          "title": "Fni camの特徴とメリット、なぜFni camを使うべきなのか？"
         },
         {
           "title": "プロフェッショナルなExifデータの境界線を写真に追加する方法"
@@ -709,7 +709,7 @@ const SITE_WEB = {
           "title": "目前已经支持的机型以及连接相机使用教程"
         },
         {
-          "title": "如何在社交媒体上发布高质量照片而不造成质量损失"
+          "title": "Fni cam的特点以及优势，为什么要选择使用Fni cam？"
         },
         {
           "title": "如何为您的照片添加专业的 EXIF 数据边框"
