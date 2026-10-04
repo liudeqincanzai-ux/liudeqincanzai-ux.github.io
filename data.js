@@ -107,28 +107,28 @@ const SITE_WEB = {
       "src": "assets/shots/商店资讯图_01.jpg"
     },
     {
-      "fig": "FIG. 02 // 05",
+      "fig": "",
       "mod": "MODULE02",
       "title": "Powerful. Yet simple.",
       "desc": "Match strength, local adjustment, dual LUT layers and per-channel curves — every parameter you need, nothing you don't. Copy, paste and sync settings across photos.",
       "src": "assets/shots/商店资讯图_02.jpg"
     },
     {
-      "fig": "FIG. 03 // 05",
+      "fig": "",
       "mod": "MODULE03",
       "title": "Film grain & HSL lab.",
       "desc": "ISO-simulated grain from 100 to 3200 with black-and-white and color-dye modes, plus per-hue hue, saturation and luminance control. Analog texture, digital precision.",
       "src": "assets/shots/商店资讯图_03.jpg"
     },
     {
-      "fig": "FIG. 04 // 05",
+      "fig": "",
       "mod": "MODULE04",
       "title": "Export your way.",
       "desc": "JPG, PNG or WebP. Full resolution or quick-share sizes. Full control over quality — batch export the whole set when the look is locked.",
       "src": "assets/shots/商店资讯图_04.jpg"
     },
     {
-      "fig": "FIG. 05 // 05",
+      "fig": "",
       "mod": "MODULE05",
       "title": "Settings & EXIF control.",
       "desc": "Light and dark modes, four languages, and full control over which EXIF data — GPS, camera, shooting settings — stays embedded when you share.",
