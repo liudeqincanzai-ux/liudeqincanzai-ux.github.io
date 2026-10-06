@@ -104,28 +104,28 @@ const SITE_WEB = {
       "mod": "MODULE01",
       "title": "Quickly connect to the camera with one touch.",
       "desc": "Pick any reference photo and one tap matches its tones onto your shot. A gallery-style home keeps your work focused — like a private exhibition.",
-      "src": "assets/shots/商店资讯图_01.jpg"
+      "src": "assets/shots/画板 2.jpg"
     },
     {
       "fig": "",
       "mod": "MODULE02",
       "title": "Powerful. Yet simple.",
       "desc": "Match strength, local adjustment, dual LUT layers and per-channel curves — every parameter you need, nothing you don't. Copy, paste and sync settings across photos.",
-      "src": "assets/shots/商店资讯图_02.jpg"
+      "src": "assets/shots/画板 4.jpg"
     },
     {
       "fig": "",
       "mod": "MODULE03",
       "title": "Film grain & HSL lab.",
       "desc": "ISO-simulated grain from 100 to 3200 with black-and-white and color-dye modes, plus per-hue hue, saturation and luminance control. Analog texture, digital precision.",
-      "src": "assets/shots/商店资讯图_03.jpg"
+      "src": "assets/shots/画板 3.jpg"
     },
     {
       "fig": "",
       "mod": "MODULE04",
       "title": "Export your way.",
       "desc": "JPG, PNG or WebP. Full resolution or quick-share sizes. Full control over quality — batch export the whole set when the look is locked.",
-      "src": "assets/shots/商店资讯图_04.jpg"
+      "src": "assets/shots/画板 1.jpg"
     },
     {
       "fig": "",
