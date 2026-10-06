@@ -6,7 +6,7 @@
   <title>统一后台 · Toneby</title>
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="assets/admin.v28.css">
-  <link rel="stylesheet" href="assets/admin.v46.css">
+  <link rel="stylesheet" href="assets/admin.v46.css?v=2">
 </head>
 <body>
   <div id="errBanner"></div>
@@ -27,6 +27,7 @@
       <span class="bar-title">统一后台</span>
       <span class="bar-actions">
         <span id="syncStatus" class="sync-status"></span>
+        <span id="dirtyBadge" class="dirty-badge" style="display:none">● 有未同步的修改</span>
         <button id="btnWeb" type="button" class="tab active">官网编辑</button>
         <button id="btnLut" type="button" class="tab">LUT 展示编辑</button>
         <button id="btnSync" type="button" class="primary">保存并同步官网</button>
@@ -89,6 +90,6 @@
   })();
   </script>
   <script src="data.js?v=54"></script>
-  <script src="assets/admin.v53.js?v=63"></script>
+  <script src="assets/admin.v53.js?v=64"></script>
 </body>
 </html>

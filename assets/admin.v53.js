@@ -57,9 +57,22 @@
     var fqi = DATA.sections.indexOf("faq");
     DATA.sections.splice(fqi < 0 ? DATA.sections.length : fqi, 0, "journal");
   }
+  /* 未同步修改跟踪：任何编辑(saveQuiet)置红标，同步全部成功后清除；关页前拦截提醒 */
+  var DIRTY = false;
+  function updateDirty() {
+    var b = document.getElementById("dirtyBadge");
+    if (b) b.style.display = DIRTY ? "" : "none";
+  }
   function saveQuiet() {
     try { localStorage.setItem(SAVE_KEY, JSON.stringify({ site: DATA })); } catch (e) {}
+    if (!DIRTY) { DIRTY = true; updateDirty(); }
   }
+  window.addEventListener("beforeunload", function (e) {
+    if (!DIRTY) return;
+    e.preventDefault();
+    e.returnValue = "有未同步的修改，还没点「保存并同步官网」，确定离开？";
+    return e.returnValue;
+  });
 
   // ---------- 密码门 ----------
   var passInput = document.getElementById("gatePass");
@@ -1152,6 +1165,7 @@
       }, Promise.resolve()).then(function () {
         btnSync.disabled = false;
         if (failed === 0) {
+          DIRTY = false; updateDirty();
           setStatus("✓ 已同步到 GitHub，网站约 1 分钟内更新");
           toast("同步成功 ✓");
         } else {

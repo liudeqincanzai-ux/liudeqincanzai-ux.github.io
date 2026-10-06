@@ -7,7 +7,7 @@
       var arr = JSON.parse(JSON.stringify(base));
       over.forEach(function (item, i) {
         if (i < arr.length) arr[i] = mergeDeep(arr[i], item);
-        else arr[i] = item;
+        /* 超出 base 长度的 overlay 项丢弃：翻译快照里残留的已删条目不得复活（删文章后预览又出现的根因） */
       });
       return arr;
     }
