@@ -116,8 +116,8 @@ const SITE_WEB = {
     {
       "fig": "",
       "mod": "MODULE03",
-      "title": "Film grain & HSL lab.",
-      "desc": "ISO-simulated grain from 100 to 3200 with black-and-white and color-dye modes, plus per-hue hue, saturation and luminance control. Analog texture, digital precision.",
+      "title": "Batch color grading for multiple photos, professional editing done all at once",
+      "desc": "Built-in professional color grading and editing features let you freely import up to 50 photos for editing and color adjustment. Here, you can tweak parameters like dual LUT, curves, color grading, cropping, borders, HSL, film grain, glow, and more. With the real-time rendering engine, it won’t lag even with multiple images.",
       "src": "assets/shots/画板 3.jpg"
     },
     {
@@ -318,8 +318,8 @@ const SITE_WEB = {
         {
           "fig": "イチジク。 03 // 05",
           "mod": "モジュール03",
-          "title": "フィルムグレインとHSLラボ",
-          "desc": "ISO でシミュレートされた 100 ～ 3200 の粒子。白黒およびカラー染料モードに加え、色相ごとの色相、彩度、輝度の制御も可能です。 Analog texture, digital precision."
+          "title": "複数画像の一括カラー調整、プロ級の編集が一気にできる",
+          "desc": "内蔵のプロフェッショナルな色調整と編集機能があり、最大50枚の写真を自由にインポートして編集や色調整ができます。ここでは、デュアルLUT、カーブ、カラーグレーディング、トリミング、フレーム、HSL、フィルム粒子、グローなどのパラメータを調整でき、リアルタイムレンダリングエンジンで、複数の写真でも止まることなく操作できます。"
         },
         {
           "fig": "イチジク。 04 // 05",
@@ -633,8 +633,8 @@ const SITE_WEB = {
         {
           "fig": "如图。 03 // 05",
           "mod": "模块03",
-          "title": "胶片颗粒和 HSL 实验室。",
-          "desc": "ISO 模拟颗粒从 100 到 3200，具有黑白和彩色染色模式，以及按色调、饱和度和亮度控制。模拟纹理，数字精度。"
+          "title": "多图批量调色，专业编辑一气呵成",
+          "desc": "内置专业调色与编辑功能，可自由导入最多50张照片进行编辑和调色，在这里，你可以使用双lut、曲线、颜色分级、裁剪、边框、HSL、胶片颗粒、辉光等参数调节，实时渲染引擎，即使多张图片也不会卡顿。"
         },
         {
           "fig": "如图。 04 // 05",
