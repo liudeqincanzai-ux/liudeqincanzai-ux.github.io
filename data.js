@@ -109,8 +109,8 @@ const SITE_WEB = {
     {
       "fig": "",
       "mod": "MODULE02",
-      "title": "Powerful. Yet simple.",
-      "desc": "Match strength, local adjustment, dual LUT layers and per-channel curves — every parameter you need, nothing you don't. Copy, paste and sync settings across photos.",
+      "title": "A simple interface, efficient operation, taking photos should be this easy.",
+      "desc": "When using Fni cam, you can freely choose which LUT to pair for shooting. Here, what you see is what you get, and you can also long-press the orange selection box to save your favorite or commonly used LUTs, keeping them at the top of the list forever.",
       "src": "assets/shots/画板 4.jpg"
     },
     {
@@ -312,8 +312,8 @@ const SITE_WEB = {
         {
           "fig": "イチジク。 02 // 05",
           "mod": "モジュール02",
-          "title": "パワフル。それでいてシンプル。",
-          "desc": "マッチ強度、ローカル調整、デュアル LUT レイヤー、チャンネルごとのカーブなど、必要なパラメーターはすべて揃っており、不要なものはありません。写真間で設定をコピー、貼り付け、同期します。"
+          "title": "シンプルな画面で効率的な操作、写真は本来こんなに簡単でいいはず。",
+          "desc": "Fni camを使うと、写真を撮る時に自由にlutを組み合わせて選べます。ここでは、見たままの通りに撮れるし、オレンジ色の選択枠を長押ししてお気に入りやよく使うlutを保存すれば、これらのlutが常にリストの前に表示されます。"
         },
         {
           "fig": "イチジク。 03 // 05",
@@ -627,8 +627,8 @@ const SITE_WEB = {
         {
           "fig": "如图。 02 // 05",
           "mod": "模块02",
-          "title": "强大的。但又简单。",
-          "desc": "匹配强度、局部调整、双 LUT 层和每通道曲线 — 您需要的所有参数，没有您不需要的参数。跨照片复制、粘贴和同步设置。"
+          "title": "简洁界面，高效操作，拍照本该如此简单。",
+          "desc": "使用Fni cam时可以自由选择搭配lut来拍照，在这里，所见即所得，也可以长按橙色选中框收藏自己喜欢或者常用的lut，让这些lut永远在列表前面"
         },
         {
           "fig": "如图。 03 // 05",
