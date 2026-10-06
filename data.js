@@ -100,31 +100,31 @@ const SITE_WEB = {
   },
   "modules": [
     {
-      "fig": "",
+      "fig": "  ",
       "mod": "MODULE01",
       "title": "Quickly connect to the camera with one touch.",
       "desc": "Your Olympus and OM system cameras can connect to Toneby via WiFi, and then you can import the photos from your camera into the app for editing and color grading. Here, you can import up to 50 photos at a time and apply the same color adjustments to them, keeping the LUTs and other settings consistent.",
       "src": "assets/shots/画板 2.jpg"
     },
     {
-      "fig": "",
+      "fig": "  ",
       "mod": "MODULE02",
       "title": "A simple interface, efficient operation, taking photos should be this easy.",
       "desc": "When using Fni cam, you can freely choose which LUT to pair for shooting. Here, what you see is what you get, and you can also long-press the orange selection box to save your favorite or commonly used LUTs, keeping them at the top of the list forever.",
       "src": "assets/shots/画板 4.jpg"
     },
     {
-      "fig": "",
+      "fig": "  ",
       "mod": "MODULE03",
       "title": "Batch color grading for multiple photos, professional editing done all at once.",
       "desc": "Built-in professional color grading and editing features let you freely import up to 50 photos for editing and color adjustment. Here, you can tweak parameters like dual LUT, curves, color grading, cropping, borders, HSL, film grain, glow, and more. With the real-time rendering engine, it won’t lag even with multiple images.",
       "src": "assets/shots/画板 3.jpg"
     },
     {
-      "fig": "",
+      "fig": "  ",
       "mod": "MODULE04",
-      "title": "Export your way.",
-      "desc": "JPG, PNG or WebP. Full resolution or quick-share sizes. Full control over quality — batch export the whole set when the look is locked.",
+      "title": "LUT Workshop: freely choose, customize, import, and export to create your own colors.",
+      "desc": "It comes with a variety of built-in LUT styles that you can freely choose from. You can tweak different styles here to find the one that suits you and save it as your own exclusive LUT. You can also export these LUTs for use on other devices, or import your own LUTs (.cube) for photography or color grading.",
       "src": "assets/shots/画板 1.jpg"
     },
     {
@@ -324,8 +324,8 @@ const SITE_WEB = {
         {
           "fig": "イチジク。 04 // 05",
           "mod": "モジュール04",
-          "title": "思いのままにエクスポートしましょう。",
-          "desc": "JPG、PNG、または WebP。フル解像度またはクイック共有サイズ。品質を完全に制御 — 外観がロックされているときにセット全体をバッチエクスポートします。"
+          "title": "LUT工房：自由に選んだり、カスタマイズしたり、インポート・エクスポートして、自分だけの色を作ろう。",
+          "desc": "内蔵で様々なスタイルのLUTがあり、自由に選んで使えます。ここでいろんなスタイルを試して自分に合ったものを見つけて、自分専用のLUTとして保存することもできますし、これらのLUTを他のデバイスにエクスポートすることもできます。また、自分のLUT（.cube）をインポートして写真を撮ったり色調整したりすることも可能です。"
         },
         {
           "fig": "イチジク。 05 // 05",
@@ -639,8 +639,8 @@ const SITE_WEB = {
         {
           "fig": "如图。 04 // 05",
           "mod": "模块04",
-          "title": "按您的方式导出。",
-          "desc": "JPG、PNG 或 WebP。全分辨率或快速共享尺寸。完全控制质量 - 当外观锁定时批量导出整套。"
+          "title": "LUT 工坊：自由选用、定制、导入、导出，打造专属色彩。",
+          "desc": "内置多种风格lut，可以自由选择使用，可以在这里调试各种风格找到合适自己的将其保存为自己的专属lut，也可以将这些lut导出给其他设备使用，还可以导入自己的lut（.cube）来拍照或者调色。"
         },
         {
           "fig": "如图。 05 // 05",
