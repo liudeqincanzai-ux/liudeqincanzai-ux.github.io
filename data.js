@@ -103,7 +103,7 @@ const SITE_WEB = {
       "fig": "",
       "mod": "MODULE01",
       "title": "Quickly connect to the camera with one touch.",
-      "desc": "Pick any reference photo and one tap matches its tones onto your shot. A gallery-style home keeps your work focused — like a private exhibition.",
+      "desc": "Your Olympus and OM system cameras can connect to Toneby via WiFi, and then you can import the photos from your camera into the app for editing and color grading. Here, you can import up to 50 photos at a time and apply the same color adjustments to them, keeping the LUTs and other settings consistent.",
       "src": "assets/shots/画板 2.jpg"
     },
     {
@@ -307,7 +307,7 @@ const SITE_WEB = {
         {
           "mod": "モジュール01",
           "title": "ワンタッチでカメラに素早く接続。",
-          "desc": "任意の参考写真を選択し、ワンタップでそのトーンを自分のショットに合わせます。ギャラリースタイルの家は、個展のように仕事に集中できます。"
+          "desc": "お使いの Olympus および OM System カメラは WiFi 経由で Toneby に接続でき、カメラからアプリへ写真をインポートして編集やカラーグレーディングを行うことができます。一度に最大 50 枚の写真をインポートし、それらに同じ色調整を適用できるため、LUT やその他の設定を統一したまま保つことができます。"
         },
         {
           "fig": "イチジク。 02 // 05",
@@ -622,7 +622,7 @@ const SITE_WEB = {
         {
           "mod": "模块01",
           "title": "一键快速连接相机。",
-          "desc": "选择任何参考照片，然后轻轻一按即可将其色调与您的照片相匹配。画廊风格的住宅可以让您的工作集中精力——就像私人展览一样。"
+          "desc": "你的奥林巴斯和OM系统相机可以通过WiFi连接到Toneby，然后你可以把相机里的照片导入到应用里进行编辑和调色。在这里，你一次最多可以导入50张照片，并对它们应用相同的颜色调整，用LUTs和其他设置保持一致。"
         },
         {
           "fig": "如图。 02 // 05",
