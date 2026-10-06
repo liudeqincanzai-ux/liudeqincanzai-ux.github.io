@@ -290,7 +290,10 @@
       var f = fi.files && fi.files[0];
       if (!f) return;
       shrinkImage(f, function (out) {
-        var path = "assets/shots/" + out.name;
+        /* 唯一文件名：不用上传文件原名，防止与仓库已有资产重名覆盖（曾把轮播图覆盖） */
+        var ext = (out.name.match(/\.([^.]+)$/) || [, "jpg"])[1].toLowerCase();
+        var base = out.name.replace(/\.[^.]+$/, "").replace(/[\\/:*?"<>|#%&{}$!'@+`=]/g, "_") || "img";
+        var path = "assets/shots/" + base + "-" + Date.now() + "-" + Math.floor(Math.random() * 1000) + "." + ext;
         objUrls[path] = URL.createObjectURL(out);
         pending[path] = out;
         img.src = objUrls[path];
@@ -749,7 +752,9 @@
         if (!left) return;
         files.forEach(function (f) {
           shrinkImage(f, function (out) {
-            var path = "assets/shots/" + out.name;
+            var ext = (out.name.match(/\.([^.]+)$/) || [, "jpg"])[1].toLowerCase();
+            var base = out.name.replace(/\.[^.]+$/, "").replace(/[\\/:*?"<>|#%&{}$!'@+`=]/g, "_") || "shot";
+            var path = "assets/shots/" + base + "-" + Date.now() + "-" + Math.floor(Math.random() * 1000) + "." + ext;
             objUrls[path] = URL.createObjectURL(out);
             pending[path] = out;
             H.slides.push({ src: path, cap: "", g: 0 });
