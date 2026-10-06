@@ -52,22 +52,22 @@ const SITE_WEB = {
     ],
     "slides": [
       {
-        "src": "assets/shots/画板 3.jpg",
+        "src": "assets/shots/1 (4)-1791260926573-29.jpg",
         "cap": "",
         "g": 0
       },
       {
-        "src": "assets/shots/画板 1.jpg",
+        "src": "assets/shots/1 (5)-1791260940388-236.jpg",
         "cap": "",
         "g": 2
       },
       {
-        "src": "assets/shots/画板 2.jpg",
+        "src": "assets/shots/1 (2)-1791260946859-550.jpg",
         "cap": "",
         "g": 2
       },
       {
-        "src": "assets/shots/画板 4.jpg",
+        "src": "assets/shots/1 (3)-1791260950575-56.jpg",
         "cap": "",
         "g": 2
       }
