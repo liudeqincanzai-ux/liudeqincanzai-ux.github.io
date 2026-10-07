@@ -111,7 +111,7 @@ const SITE_WEB = {
       "mod": "MODULE02",
       "title": "A simple interface, efficient operation, taking photos should be this easy.",
       "desc": "When using Fni cam, you can freely choose which LUT to pair for shooting. Here, what you see is what you get, and you can also long-press the orange selection box to save your favorite or commonly used LUTs, keeping them at the top of the list forever.",
-      "src": "assets/shots/画板 4.jpg"
+      "src": "assets/shots/画板 4-1791375104445-437.jpg"
     },
     {
       "fig": "  ",
