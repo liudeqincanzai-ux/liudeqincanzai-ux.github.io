@@ -111,7 +111,7 @@ const SITE_WEB = {
       "mod": "MODULE02",
       "title": "A simple interface, efficient operation, taking photos should be this easy.",
       "desc": "When using Fni cam, you can freely choose which LUT to pair for shooting. Here, what you see is what you get, and you can also long-press the orange selection box to save your favorite or commonly used LUTs, keeping them at the top of the list forever.",
-      "src": "assets/shots/画板 4-1791375185372-402.jpg"
+      "src": "assets/shots/画板 4-1793505886446-354.jpg"
     },
     {
       "fig": "  ",
@@ -130,9 +130,9 @@ const SITE_WEB = {
     {
       "fig": "",
       "mod": "MODULE05",
-      "title": "Settings & EXIF control.",
-      "desc": "Light and dark modes, four languages, and full control over which EXIF data — GPS, camera, shooting settings — stays embedded when you share.",
-      "src": "assets/shots/商店资讯图_05.jpg"
+      "title": "A new design blueprint and a more intuitive way to interact",
+      "desc": "Several built-in stylized LUTs are freely available to use, with redesigned LUT bases. LUTs imported by users also have new bases, and you can zoom in on photos to check details when using LUTs.",
+      "src": "assets/shots/画板 5-1793505902905-995.jpg"
     }
   ],
   "gallery": {
@@ -325,8 +325,8 @@ const SITE_WEB = {
         {
           "fig": "イチジク。 05 // 05",
           "mod": "モジュール05",
-          "title": "設定と EXIF コントロール。",
-          "desc": "ライトモードとダークモード、4 つの言語、共有時にどの EXIF データ (GPS、カメラ、撮影設定) を埋め込むかを完全に制御できます。"
+          "title": "新しいデザインのベース図と、より直感的なインタラクション方式",
+          "desc": "内蔵の複数のスタイライズされたLUTを自由に使用でき、再設計されたLUTのベースマップと、ユーザーがインポートしたLUTにも新しいベースマップがデザインされています。また、LUTを使用する際に写真を拡大して細部を確認することもできます。"
         }
       ],
       "gallery": {
@@ -640,8 +640,8 @@ const SITE_WEB = {
         {
           "fig": "如图。 05 // 05",
           "mod": "模块05",
-          "title": "设置和 EXIF 控制。",
-          "desc": "浅色和深色模式、四种语言，并完全控制共享时嵌入的 EXIF 数据（GPS、相机、拍摄设置）。"
+          "title": "新的设计底图以及更直观的交互方式",
+          "desc": "内置多款风格化lut可自由使用，重新设计的lut底图，以及用户导入的lut也设计了新的底图，同时在使用lut时可以放大照片查看细节。"
         }
       ],
       "gallery": {
