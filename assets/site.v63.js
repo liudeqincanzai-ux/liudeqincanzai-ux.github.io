@@ -189,11 +189,19 @@
   }
 
   /* 鸿蒙应用市场按钮：与 Google Play 按钮同款（同一 .store-btn 样式），仅图标不同；链接为空时不设 href=点了无反应 */
+  // 华为 AppGallery 官方图标（红→粉渐变圆角方块 + 白色袋弧与 HUAWEI 字标）
+  var AG_SEQ = 0;
+  var AG_INNER = '<path d="M8 4h.565A3.439 3.439 0 0 0 12 7.435 3.439 3.439 0 0 0 15.435 4H16c0 2.206-1.794 4-4 4S8 6.206 8 4zm6.468 8h.52l.713 2.16.696-2.158h.66l-1.092 3.14h-.532l-.714-2.063-.714 2.063h-.528l-1.095-3.14h.678l.694 2.158zm6.236 0h.629v3.138h-.629zM2.666 12h.638v1.267h1.439V12h.637v3.142h-.637v-1.276h-1.44v1.276h-.637zm5.668 0h.637v1.772c0 .9-.496 1.417-1.36 1.417-.856 0-1.347-.507-1.347-1.39v-1.797H6.9v1.775c0 .524.255.805.719.805.46 0 .714-.273.714-.784zm2.344 0h.563l1.378 3.14h-.668l-.282-.654H10.23l-.286.654h-.651zm6.893.002h2.312v.572H18.2v.643h1.16v.573H18.2v.777h1.744v.573H17.57zm-6.623.793-.48 1.124h.964z" fill="#ffffff"/>';
+
   function hosBtn(d) {
     var a = el("a", "store-btn");
     var u = (d.hosUrl || "").trim();
     if (u) { a.href = u; a.target = "_blank"; a.rel = "noopener"; }
-    a.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.4 2.6h11.2c2.1 0 3.8 1.7 3.8 3.8v11.2c0 2.1-1.7 3.8-3.8 3.8H6.4c-2.1 0-3.8-1.7-3.8-3.8V6.4c0-2.1 1.7-3.8 3.8-3.8zm5.6 3.5-4.3 9.9h2.2l.9-2.2h3.5l.9 2.2h2.2L13.1 6.1h-1.1zm-.5 5.9 1.1-2.6 1.1 2.6h-2.2z"/></svg>' +
+    var gid = "agGrad" + (++AG_SEQ);
+    a.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" style="flex:0 0 auto">' +
+      '<defs><linearGradient id="' + gid + '" x1="0" y1="0" x2="1" y2="1">' +
+      '<stop offset="0" stop-color="#FF5A3C"/><stop offset="1" stop-color="#E8235C"/></linearGradient></defs>' +
+      '<rect width="24" height="24" rx="5.6" fill="url(#' + gid + ')"/>' + AG_INNER + '</svg>' +
       '<span>' + (d.hosLabel || "GET IT ON") + '<small>' + (d.hosStore || "HUAWEI APPGALLERY") + '</small></span>';
     return a;
   }
