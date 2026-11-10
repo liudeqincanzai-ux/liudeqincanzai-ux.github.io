@@ -47,7 +47,7 @@
       DATA = mergeDeep(DATA, DATA.translations[curLang]);
     }
   } catch (e0) {}
-  var TR_SKIP = { src:1, href:1, url:1, logoSrc:1, playUrl:1, downloadHref:1, privacyHref:1, termsHref:1,
+  var TR_SKIP = { src:1, href:1, url:1, logoSrc:1, playUrl:1, hosUrl:1, downloadHref:1, privacyHref:1, termsHref:1,
     sections:1, no:1, cap:1, date:1, brand:1, siteTitle:1, privacyContent:1, termsContent:1,
     privacyTitle:1, termsTitle:1, uiFontScale:1, autoTranslate:1, translations:1, g:1,
     before:1, after:1, linkUrl:1, img:1, images:1, shots:1, slides:1, poster:1, thumb:1, icon:1, iconSrc:1, name:1 };
@@ -188,6 +188,16 @@
     return a;
   }
 
+  /* 鸿蒙应用市场按钮：与 Google Play 按钮同款（同一 .store-btn 样式），仅图标不同；链接为空时不设 href=点了无反应 */
+  function hosBtn(d) {
+    var a = el("a", "store-btn");
+    var u = (d.hosUrl || "").trim();
+    if (u) { a.href = u; a.target = "_blank"; a.rel = "noopener"; }
+    a.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.4 2.6h11.2c2.1 0 3.8 1.7 3.8 3.8v11.2c0 2.1-1.7 3.8-3.8 3.8H6.4c-2.1 0-3.8-1.7-3.8-3.8V6.4c0-2.1 1.7-3.8 3.8-3.8zm5.6 3.5-4.3 9.9h2.2l.9-2.2h3.5l.9 2.2h2.2L13.1 6.1h-1.1zm-.5 5.9 1.1-2.6 1.1 2.6h-2.2z"/></svg>' +
+      '<span>' + (d.hosLabel || "GET IT ON") + '<small>' + (d.hosStore || "HUAWEI APPGALLERY") + '</small></span>';
+    return a;
+  }
+
   // ---------- 导航 ----------
   var brand = document.getElementById("navBrand");
   var logoHtml = DATA.nav.logoSrc ? ('<img class="logo-img" src="' + DATA.nav.logoSrc + '" alt="">') : '<span class="mark">T</span>';
@@ -242,7 +252,7 @@
     qset(root, suf, "heroBig", d.big || "");
     qset(root, suf, "heroSub", d.sub || "");
     qset(root, suf, "heroIntro", d.intro);
-    var hb = q("heroBtns"); if (hb) { hb.textContent = ""; hb.appendChild(storeBtn(d)); }
+    var hb = q("heroBtns"); if (hb) { hb.textContent = ""; hb.appendChild(storeBtn(d)); hb.appendChild(hosBtn(d)); }
 
     var slides = (d.slides || []).map(function (s) { return { src: s.src, cap: s.cap, g: s.g || 0 }; });
     var N = slides.length;
@@ -748,7 +758,7 @@ function tryShowcase(n) {
   function renderCta(root, d, suf) {
     if (!root) return;
     qset(root, suf, "ctaTitle", d.title);
-    var cb = root.querySelector("#ctaBtns" + suf); if (cb) { cb.textContent = ""; cb.appendChild(storeBtn(d)); }
+    var cb = root.querySelector("#ctaBtns" + suf); if (cb) { cb.textContent = ""; cb.appendChild(storeBtn(d)); cb.appendChild(hosBtn(d)); }
   }
   set("footBrand", DATA.footer.brand);
   var fl2 = document.getElementById("footLinks"); if (fl2) fl2.textContent = "";

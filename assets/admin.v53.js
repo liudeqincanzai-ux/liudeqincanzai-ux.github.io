@@ -743,6 +743,11 @@
       r2.appendChild(fieldTr("下载按钮商店名", "", [sid, "playStore"]));
       root.appendChild(r2);
       root.appendChild(field("Google Play 链接", "", H.playUrl, function (v) { H.playUrl = v; }));
+      var r2b = document.createElement("div"); r2b.className = "row2";
+      r2b.appendChild(fieldTr("鸿蒙按钮小字", "留空=GET IT ON", [sid, "hosLabel"]));
+      r2b.appendChild(fieldTr("鸿蒙商店名", "留空=HUAWEI APPGALLERY", [sid, "hosStore"]));
+      root.appendChild(r2b);
+      root.appendChild(field("鸿蒙应用市场链接", "留空=按钮照常显示但点击无效；填 https:// 开头网址", H.hosUrl || "", function (v) { H.hosUrl = v.trim(); }));
       root.appendChild(h2("轮播截图"));
       (H.slides || []).forEach(function (s, i) {
         var cd = card("截图 " + (i + 1));
@@ -901,6 +906,14 @@
         if (!DATA[sid]) DATA[sid] = {};
         DATA[sid].playUrl = v.trim();
       }));
+      var r1 = document.createElement("div"); r1.className = "row2";
+      r1.appendChild(fieldTr("鸿蒙按钮小字", "留空=GET IT ON", [sid, "hosLabel"]));
+      r1.appendChild(fieldTr("鸿蒙商店名", "留空=HUAWEI APPGALLERY", [sid, "hosStore"]));
+      root.appendChild(r1);
+      root.appendChild(field("鸿蒙应用市场链接", "留空=按钮照常显示但点击无效；填 https:// 开头网址", (DATA[sid] && DATA[sid].hosUrl) || "", function (v) {
+        if (!DATA[sid]) DATA[sid] = {};
+        DATA[sid].hosUrl = v.trim();
+      }));
       root.appendChild(field("页脚品牌名", "", DATA.footer.brand, function (v) { DATA.footer.brand = v; }));
       var r3 = document.createElement("div"); r3.className = "row2";
       r3.appendChild(fieldTr("隐私政策链接文字", "", ["footer", "privacyLabel"]));
@@ -975,7 +988,7 @@
   }; });
 
   // ---------- 自动翻译（MyMemory 免费 API；句级缓存；同步时生成日语/简体中文） ----------
-  var TR_SKIP = { src:1, href:1, url:1, logoSrc:1, playUrl:1, downloadHref:1, privacyHref:1, termsHref:1,
+  var TR_SKIP = { src:1, href:1, url:1, logoSrc:1, playUrl:1, hosUrl:1, downloadHref:1, privacyHref:1, termsHref:1,
     sections:1, no:1, cap:1, date:1, brand:1, siteTitle:1, privacyContent:1, termsContent:1,
     privacyTitle:1, termsTitle:1, uiFontScale:1, autoTranslate:1, translations:1, g:1,
     /* 图片/资源路径与链接键，绝不能翻译（v57 修复） */

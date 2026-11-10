@@ -36,6 +36,9 @@ const SITE_WEB = {
     "playUrl": "https://play.google.com/store/apps/details?id=com.ahs.referencetonematch",
     "playLabel": "GET IT ON",
     "playStore": "GOOGLE PLAY",
+    "hosUrl": "",
+    "hosLabel": "GET IT ON",
+    "hosStore": "HUAWEI APPGALLERY",
     "groups": [
       {
         "no": "— 01",
@@ -185,7 +188,10 @@ const SITE_WEB = {
     "title": "UPGRADE YOUR COLOR WORKFLOW.",
     "playUrl": "https://play.google.com/store/apps/details?id=com.ahs.referencetonematch",
     "playLabel": "GET IT ON",
-    "playStore": "GOOGLE PLAY"
+    "playStore": "GOOGLE PLAY",
+    "hosUrl": "",
+    "hosLabel": "GET IT ON",
+    "hosStore": "HUAWEI APPGALLERY"
   },
   "footer": {
     "brand": "TONEBY",
