@@ -36,9 +36,6 @@ const SITE_WEB = {
     "playUrl": "https://play.google.com/store/apps/details?id=com.ahs.referencetonematch",
     "playLabel": "GET IT ON",
     "playStore": "GOOGLE PLAY",
-    "hosUrl": "",
-    "hosLabel": "GET IT ON",
-    "hosStore": "HUAWEI APPGALLERY",
     "groups": [
       {
         "no": "— 01",
@@ -70,14 +67,17 @@ const SITE_WEB = {
         "g": 2
       },
       {
-        "src": "assets/shots/1 (3)-1791260950575-56.jpg",
+        "src": "assets/shots/1 (4)-1794976539981-580.jpg",
         "cap": "",
         "g": 2
       }
     ],
     "eyebrow": "Fully offline // Local rendering engine // Starting in 2026",
     "big": "TONEBY",
-    "sub": "Toneby, a professional color processing tool // EST. 2026"
+    "sub": "Toneby, a professional color processing tool // EST. 2026",
+    "hosUrl": "",
+    "hosLabel": "GET IT ON",
+    "hosStore": "HUAWEI APPGALLERY"
   },
   "numbers": [
     {
